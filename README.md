@@ -8,8 +8,8 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: in progress.** The catalog, data shapes, error contract, and `Result`
-> helpers are published. The parser, identity, format-window, diff, and render
+> **Status: in progress.** The catalog, parser, data shapes, error contract, and
+> `Result` helpers are published. Identity, format-window, diff, and render
 > functions land next. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
@@ -116,6 +116,9 @@ runtime.
 - **Archetype aliases and sprite slugs** are derived from
   [Limitless TCG](https://limitlesstcg.com), attributed here, and limited to the
   factual labels and identifiers.
+- **Test fixtures** are harvested from public Limitless decklists with
+  `scripts/harvest-limitless.mjs`; each one records its source list id in
+  `src/__tests__/fixtures/decklists/manifest.json`.
 - No card text, images, or prices are included.
 - Pokémon and Pokémon TCG are trademarks of Nintendo, Creatures, and GAME FREAK.
   This project is not affiliated with or endorsed by them.

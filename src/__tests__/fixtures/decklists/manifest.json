@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Dragapult-Dusknoir-30537",
+    "source": "https://limitlesstcg.com/decks/list/30537",
+    "aliasId": null,
+    "label": "Dragapult Dusknoir",
+    "listId": "30537",
+    "lang": "en",
+    "total": 60,
+    "missingCatalogRefs": [],
+    "splitPrintings": false,
+    "promo": false,
+    "basicEnergy": true
+  },
+  {
+    "name": "Dragapult-Dusknoir-30537.de",
+    "source": "https://limitlesstcg.com/decks/list/30537?lang=de",
+    "aliasId": null,
+    "label": "Dragapult Dusknoir",
+    "listId": "30537",
+    "lang": "de",
+    "total": 60,
+    "missingCatalogRefs": [],
+    "splitPrintings": false,
+    "promo": false,
+    "basicEnergy": true
+  },
+  {
+    "name": "Festival-Lead-30526",
+    "source": "https://limitlesstcg.com/decks/list/30526",
+    "aliasId": null,
+    "label": "Festival Lead",
+    "listId": "30526",
+    "lang": "en",
+    "total": 60,
+    "missingCatalogRefs": [],
+    "splitPrintings": true,
+    "promo": true,
+    "basicEnergy": true
+  },
+  {
+    "name": "Seaking-Festival-Lead-30519",
+    "source": "https://limitlesstcg.com/decks/list/30519",
+    "aliasId": null,
+    "label": "Seaking Festival Lead",
+    "listId": "30519",
+    "lang": "en",
+    "total": 60,
+    "missingCatalogRefs": [],
+    "splitPrintings": true,
+    "promo": false,
+    "basicEnergy": true
+  }
+]

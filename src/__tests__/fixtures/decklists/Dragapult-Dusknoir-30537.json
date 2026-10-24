@@ -1,0 +1,242 @@
+{
+  "source": "https://limitlesstcg.com/decks/list/30537",
+  "aliasId": null,
+  "label": "Dragapult Dusknoir",
+  "pageLabel": "Dragapult Dusknoir",
+  "listId": "30537",
+  "lang": "en",
+  "sections": [
+    {
+      "section": "pokemon",
+      "count": 23
+    },
+    {
+      "section": "trainer",
+      "count": 29
+    },
+    {
+      "section": "energy",
+      "count": 8
+    }
+  ],
+  "total": 60,
+  "cards": [
+    {
+      "setCode": "TWM",
+      "number": "128",
+      "count": 4,
+      "name": "Dreepy",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "129",
+      "count": 4,
+      "name": "Drakloak",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "130",
+      "count": 3,
+      "name": "Dragapult ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "35",
+      "count": 2,
+      "name": "Duskull",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "36",
+      "count": 2,
+      "name": "Dusclops",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "37",
+      "count": 1,
+      "name": "Dusknoir",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "16",
+      "count": 2,
+      "name": "Budew",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "95",
+      "count": 1,
+      "name": "Munkidori",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PFL",
+      "number": "14",
+      "count": 1,
+      "name": "Moltres",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "DRI",
+      "number": "10",
+      "count": 1,
+      "name": "Shaymin",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "142",
+      "count": 1,
+      "name": "Fezandipiti ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "62",
+      "count": 1,
+      "name": "Meowth ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "119",
+      "count": 4,
+      "name": "Lillie's Determination",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "114",
+      "count": 3,
+      "name": "Boss's Orders",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "SCR",
+      "number": "133",
+      "count": 2,
+      "name": "Crispin",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "76",
+      "count": 1,
+      "name": "Judge",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "84",
+      "count": 1,
+      "name": "Rosa's Encouragement",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "81",
+      "count": 4,
+      "name": "Poké Pad",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TEF",
+      "number": "144",
+      "count": 4,
+      "name": "Buddy-Buddy Poffin",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "131",
+      "count": 3,
+      "name": "Ultra Ball",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "196",
+      "count": 3,
+      "name": "Night Stretcher",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "CRI",
+      "number": "82",
+      "count": 1,
+      "name": "Special Red Card",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "165",
+      "count": 1,
+      "name": "Unfair Stamp",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "DRI",
+      "number": "180",
+      "count": 2,
+      "name": "Team Rocket's Watchtower",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEE",
+      "number": "13",
+      "count": 3,
+      "name": "Psychic Energy",
+      "section": "energy",
+      "basicEnergy": true
+    },
+    {
+      "setCode": "MEE",
+      "number": "10",
+      "count": 3,
+      "name": "Fire Energy",
+      "section": "energy",
+      "basicEnergy": true
+    },
+    {
+      "setCode": "MEE",
+      "number": "15",
+      "count": 2,
+      "name": "Darkness Energy",
+      "section": "energy",
+      "basicEnergy": true
+    }
+  ],
+  "missingCatalogRefs": []
+}

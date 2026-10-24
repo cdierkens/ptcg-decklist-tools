@@ -1,0 +1,10 @@
+Pokémon: 4
+4 Glurak ex OBF 125
+
+Trainer: 4
+4 Ultra Ball SVI 196
+
+Energie: 8
+8 Basis-Feuer-Energie SVE 2
+
+Karten gesamt: 16

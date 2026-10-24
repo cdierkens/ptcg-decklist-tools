@@ -1,0 +1,242 @@
+{
+  "source": "https://limitlesstcg.com/decks/list/30526",
+  "aliasId": null,
+  "label": "Festival Lead",
+  "pageLabel": "Festival Lead",
+  "listId": "30526",
+  "lang": "en",
+  "sections": [
+    {
+      "section": "pokemon",
+      "count": 21
+    },
+    {
+      "section": "trainer",
+      "count": 34
+    },
+    {
+      "section": "energy",
+      "count": 5
+    }
+  ],
+  "total": 60,
+  "cards": [
+    {
+      "setCode": "TWM",
+      "number": "126",
+      "count": 3,
+      "name": "Applin",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "17",
+      "count": 1,
+      "name": "Applin",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "18",
+      "count": 3,
+      "name": "Dipplin",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEP",
+      "number": "52",
+      "count": 3,
+      "name": "Grookey",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "15",
+      "count": 4,
+      "name": "Thwackey",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "44",
+      "count": 2,
+      "name": "Goldeen",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "21",
+      "count": 2,
+      "name": "Seaking",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TEF",
+      "number": "23",
+      "count": 1,
+      "name": "Rellor",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TEF",
+      "number": "24",
+      "count": 1,
+      "name": "Rabsca",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "39",
+      "count": 1,
+      "name": "Psyduck",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "119",
+      "count": 4,
+      "name": "Lillie's Determination",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PBL",
+      "number": "77",
+      "count": 2,
+      "name": "Gladion's Final Battle",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "114",
+      "count": 2,
+      "name": "Boss's Orders",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "154",
+      "count": 1,
+      "name": "Kieran",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TEF",
+      "number": "144",
+      "count": 4,
+      "name": "Buddy-Buddy Poffin",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "81",
+      "count": 4,
+      "name": "Poké Pad",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "131",
+      "count": 3,
+      "name": "Ultra Ball",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "196",
+      "count": 2,
+      "name": "Night Stretcher",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "130",
+      "count": 1,
+      "name": "Switch",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "163",
+      "count": 1,
+      "name": "Secret Box",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "212",
+      "count": 1,
+      "name": "Tool Scrapper",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "DRI",
+      "number": "168",
+      "count": 1,
+      "name": "Sacred Ash",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "181",
+      "count": 2,
+      "name": "Air Balloon",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "WHT",
+      "number": "80",
+      "count": 2,
+      "name": "Brave Bangle",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "149",
+      "count": 4,
+      "name": "Festival Grounds",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEE",
+      "number": "9",
+      "count": 3,
+      "name": "Grass Energy",
+      "section": "energy",
+      "basicEnergy": true
+    },
+    {
+      "setCode": "POR",
+      "number": "86",
+      "count": 2,
+      "name": "Growing Grass Energy",
+      "section": "energy",
+      "basicEnergy": false
+    }
+  ],
+  "missingCatalogRefs": []
+}

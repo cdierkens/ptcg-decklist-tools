@@ -1,0 +1,242 @@
+{
+  "source": "https://limitlesstcg.com/decks/list/30537?lang=de",
+  "aliasId": null,
+  "label": "Dragapult Dusknoir",
+  "pageLabel": "Dragapult Dusknoir",
+  "listId": "30537",
+  "lang": "de",
+  "sections": [
+    {
+      "section": "pokemon",
+      "count": 23
+    },
+    {
+      "section": "trainer",
+      "count": 29
+    },
+    {
+      "section": "energy",
+      "count": 8
+    }
+  ],
+  "total": 60,
+  "cards": [
+    {
+      "setCode": "TWM",
+      "number": "128",
+      "count": 4,
+      "name": "Grolldra",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "129",
+      "count": 4,
+      "name": "Phandra",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "130",
+      "count": 3,
+      "name": "Katapuldra-ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "35",
+      "count": 2,
+      "name": "Zwirrlicht",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "36",
+      "count": 2,
+      "name": "Zwirrklop",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PRE",
+      "number": "37",
+      "count": 1,
+      "name": "Zwirrfinst",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "16",
+      "count": 2,
+      "name": "Knospi",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "95",
+      "count": 1,
+      "name": "Benesaru",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "PFL",
+      "number": "14",
+      "count": 1,
+      "name": "Lavados",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "DRI",
+      "number": "10",
+      "count": 1,
+      "name": "Shaymin",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "142",
+      "count": 1,
+      "name": "Beatori-ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "62",
+      "count": 1,
+      "name": "Mauzi-ex",
+      "section": "pokemon",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "119",
+      "count": 4,
+      "name": "Lillys Entschlossenheit",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "114",
+      "count": 3,
+      "name": "Befehl vom Boss",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "SCR",
+      "number": "133",
+      "count": 2,
+      "name": "Matt",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "76",
+      "count": 1,
+      "name": "Richter",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "84",
+      "count": 1,
+      "name": "Rosys Ermutigung",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "POR",
+      "number": "81",
+      "count": 4,
+      "name": "Poképad",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TEF",
+      "number": "144",
+      "count": 4,
+      "name": "Dicke-Freunde-Knursp",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEG",
+      "number": "131",
+      "count": 3,
+      "name": "Hyperball",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "ASC",
+      "number": "196",
+      "count": 3,
+      "name": "Nachttrage",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "CRI",
+      "number": "82",
+      "count": 1,
+      "name": "Spezielle Rote Karte",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "TWM",
+      "number": "165",
+      "count": 1,
+      "name": "Unfairer Stempel",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "DRI",
+      "number": "180",
+      "count": 2,
+      "name": "Team Rockets Wachturm",
+      "section": "trainer",
+      "basicEnergy": false
+    },
+    {
+      "setCode": "MEE",
+      "number": "13",
+      "count": 3,
+      "name": "Psycho-Energie",
+      "section": "energy",
+      "basicEnergy": true
+    },
+    {
+      "setCode": "MEE",
+      "number": "10",
+      "count": 3,
+      "name": "Feuer-Energie",
+      "section": "energy",
+      "basicEnergy": true
+    },
+    {
+      "setCode": "MEE",
+      "number": "15",
+      "count": 2,
+      "name": "Finsternis-Energie",
+      "section": "energy",
+      "basicEnergy": true
+    }
+  ],
+  "missingCatalogRefs": []
+}

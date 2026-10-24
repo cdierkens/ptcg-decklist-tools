@@ -15,6 +15,10 @@ Public API and provenance: `README.md`. Design:
 - `pnpm run catalog` — rebuild the shipped JSON from the pinned public TCGdex
   dump. It fails if a frozen fingerprint would change; accept one only with a
   deliberate `hashVersion` bump (`pnpm run catalog:accept`).
+- `pnpm run harvest:limitless -- --list=30537 --out=.cache/limitless` — fetch
+  public Limitless decklists and emit fixture-shaped text (network; never run in
+  tests). The default validates every ref against `src/data/cards.json` and
+  exits non-zero if one is missing; `--no-validate` skips that check.
 - `pnpm changeset` / `pnpm run version` / `pnpm run release` — changesets;
   publishing needs a one-time npm OTP (2FA).
 

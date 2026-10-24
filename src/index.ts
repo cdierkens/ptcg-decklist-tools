@@ -4,9 +4,9 @@
  * Parse, normalise, identify, diff, and render Pokémon TCG decklists.
  * Node >=22.12. ESM only. Zero runtime dependencies.
  *
- * The design lives in `docs/specs/2026-10-23-decklist-identity.md`. This
- * scaffold exports the data shapes, the error contract, and the `Result`
- * helpers; the parsing and identity functions land next.
+ * The design lives in `docs/specs/2026-10-23-decklist-identity.md`. Parsing and
+ * the shipped catalog are available; identity, format windows, diff, and
+ * rendering land next.
  */
 
 export type {
@@ -35,6 +35,8 @@ export type {
 
 export type { Result } from "./result.js";
 export { err, isErr, isOk, map, ok, unwrapOr, unwrapOrThrow } from "./result.js";
+
+export { parseDecklist } from "./parse.js";
 
 export type { DecklistErrorCode, FormatErrorCode } from "./errors.js";
 export {

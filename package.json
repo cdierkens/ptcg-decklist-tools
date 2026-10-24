@@ -60,6 +60,7 @@
     "catalog": "node scripts/build-catalog.mjs",
     "catalog:accept": "node scripts/build-catalog.mjs --accept",
     "catalog:refresh": "node scripts/build-catalog.mjs --refresh",
+    "harvest:limitless": "node scripts/harvest-limitless.mjs",
     "test": "pnpm run \"/^test:.*/\"",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
