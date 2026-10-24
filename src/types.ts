@@ -116,6 +116,11 @@ export interface ParsedDecklist {
 export interface NormalizedEntry {
   /** `null` when the catalog could not resolve the entry. */
   readonly card: CatalogCard | null;
+  /**
+   * Display name: the catalog's canonical name when resolved, otherwise the
+   * folded name from the list. Never hashed.
+   */
+  readonly name: string;
   /** `f:<function>` | `?:<SET>-<NUM>` | `?<folded name>`. */
   readonly key: string;
   readonly count: number;

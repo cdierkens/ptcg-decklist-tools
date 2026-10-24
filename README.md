@@ -8,9 +8,9 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: in progress.** The catalog, parser, normaliser, data shapes, error
-> contract, and `Result` helpers are published. Identity, format-window, diff,
-> and render functions land next. The design is in
+> **Status: in progress.** The catalog, parser, normaliser, identity, data
+> shapes, error contract, and `Result` helpers are published. Format-window,
+> diff, and render functions land next. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
 ## Why
@@ -53,8 +53,10 @@ The decklist API is the 0.1.0 target:
 
 ```ts
 import {
+  canonicalText,
   deckId,
   diffDecklists,
+  listId,
   normalizeDecklist,
   parseDecklist,
   renderDecklist,
@@ -67,6 +69,8 @@ const parsed = unwrapOrThrow(parseDecklist(text));
 const deck = unwrapOrThrow(normalizeDecklist(parsed, { catalog }));
 
 const id = await deckId(deck);
+const exact = await listId(deck);
+const preImage = canonicalText(deck); // debug and goldens
 const format = renderDecklist(deck, "print"); // a sheet for a deck check
 const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 ```
@@ -79,6 +83,7 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `normalizeDecklist(parsed, { catalog })` | Resolve refs and names, infer sections, merge printings |
 | `renderDecklist(deck, style)` | `ptcgl`, `list`, `print`, or `plain` |
 | `deckId(deck)` / `listId(deck)` | Functional identity / exact-printing identity |
+| `canonicalText(deck)` | The `deckId` pre-image, for debugging and goldens |
 | `countByName(deck)` | The four-copy rule, kept separate from identity |
 | `parseFormatLabel(label)` / `validateDeck(deck, window)` | `TEF-30C` windows, advisory legality |
 | `diffDecklists(a, b)` | Changes with confidence, classified |
@@ -87,6 +92,20 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
 `FormatWindow`, `DeckDiff`, `ArchetypeSuggestion`, and the rest.
+
+### Identity
+
+`deckId` hashes the functional multiset: `ptcg-decklist@1` plus sorted
+`key:count` lines. Section, name, printing, and source order are deliberately
+absent. `listId` hashes the printing multiset, including the absence of a ref
+for a name-only line, so a printing swap changes only `listId`.
+
+Both return `{ value: "sha256:…", hashVersion, catalogVersion }`. Store both
+versions beside the id: ids are only comparable within the same pair. Hashing
+uses WebCrypto, so there is no dependency and no runtime network call.
+
+`countByName` is the four-copy check, not identity. Two Pikachu functions are
+different decks but the same name, so the counts add up for legality.
 
 ### Data
 

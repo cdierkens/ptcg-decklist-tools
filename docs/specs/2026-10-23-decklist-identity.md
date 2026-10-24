@@ -200,6 +200,7 @@ interface NormalizedDeck {
 
 interface NormalizedEntry {
   card: CatalogCard | null;   // null when unresolved
+  name: string;               // display name; canonical when resolved, else the list name; never hashed
   key: string;                // `f:<function>` | `?:<SET>-<NUM>` | `?<folded name>`
   count: number;
   printings: { ref: string; count: number }[]; // for display and printing diffs
@@ -253,6 +254,12 @@ f:9e8f7a6b5c4d3e2f:3
 deckId(normalized) → "sha256:<hex>"   // functional multiset
 listId(normalized) → "sha256:<hex>"   // printing multiset (exact text equality)
 ```
+
+The list pre-image is `ptcg-decklist-list@1` plus sorted `key:ref:count` lines.
+A copy with no recorded printing uses an empty ref (`key::count`); splitting
+those copies out keeps a ref-less name distinct from a resolved printing, and
+keeps a merged name-plus-ref line exact. Both hashes return the same
+`hashVersion` and `catalogVersion`.
 
 Both use WebCrypto (`crypto.subtle.digest`), which Node 22 and every Tauri
 webview provide. No dependency.

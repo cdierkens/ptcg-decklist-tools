@@ -27,6 +27,7 @@ describe("normalizeDecklist", () => {
         card: expect.objectContaining({ ref: "TEF-1", name: "Scyther", category: "pokemon" }),
         count: 4,
         key: "f:efe7625b302d57af",
+        name: "Scyther",
         printings: [{ count: 4, ref: "TEF-1" }],
         section: "pokemon",
       },
@@ -39,6 +40,7 @@ describe("normalizeDecklist", () => {
     expect(deck.entries).toHaveLength(1);
     const entry = deck.entries[0];
     expect(entry?.key).toBe("f:d505c0a758fde5e6");
+    expect(entry?.name).toBe("Poké Pad");
     expect(entry?.count).toBe(4);
     expect(entry?.section).toBe("trainer");
     expect(entry?.card).toEqual(
@@ -69,6 +71,7 @@ describe("normalizeDecklist", () => {
     expect(deck.entries).toHaveLength(1);
     const entry = deck.entries[0];
     expect(entry?.key).toBe("?Pikachu");
+    expect(entry?.name).toBe("Pikachu");
     expect(entry?.card).toBeNull();
     expect(entry?.section).toBe("unknown");
     expect(entry?.printings).toEqual([]);
@@ -88,6 +91,7 @@ describe("normalizeDecklist", () => {
       "?:XXX-196",
       "?:SVI-9999",
     ].sort());
+    expect(deck.entries.map((entry) => entry.name)).toEqual(["Ultra Ball", "Ultra Ball"]);
     expect(deck.entries.every((entry) => entry.card === null)).toBe(true);
     expect(deck.entries.map((entry) => entry.printings)).toEqual([
       [{ count: 4, ref: "SVI-9999" }],
@@ -111,6 +115,7 @@ describe("normalizeDecklist", () => {
     const deck = normalize("4 Not A Real Card");
 
     expect(deck.entries[0]?.key).toBe("?Not A Real Card");
+    expect(deck.entries[0]?.name).toBe("Not A Real Card");
     expect(deck.entries[0]?.card).toBeNull();
     expect(deck.warnings).toEqual([
       {
@@ -205,6 +210,9 @@ describe("normalizeDecklist", () => {
     );
     expect(german.entries.map((entry) => entry.count)).toEqual(
       english.entries.map((entry) => entry.count),
+    );
+    expect(german.entries.map((entry) => entry.name)).toEqual(
+      english.entries.map((entry) => entry.name),
     );
     expect(german.total).toBe(english.total);
     expect(german.warnings).toEqual(english.warnings);

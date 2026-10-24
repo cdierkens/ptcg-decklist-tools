@@ -43,3 +43,7 @@ _Avoid_: unknown, invalid
 **Representative printing**:
 The printing chosen to display an entry that has copies across several printings.
 _Avoid_: default printing, main printing
+
+**Canonical text**:
+The exact bytes `deckId` hashes: a domain line plus sorted `key:count` lines. It is for debugging and goldens, not a rendering style.
+_Avoid_: canonical form, hash string

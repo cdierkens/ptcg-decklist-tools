@@ -39,6 +39,7 @@ interface ResolvedLine {
   readonly card: CatalogCard | null;
   readonly count: number;
   readonly key: string;
+  readonly name: string;
   readonly printing: { readonly count: number; readonly ref: string } | null;
   readonly section: DeckSection;
 }
@@ -47,6 +48,7 @@ interface Accumulator {
   readonly card: CatalogCard | null;
   count: number;
   readonly key: string;
+  readonly name: string;
   readonly printings: Map<string, { count: number; ref: string }>;
   section: DeckSection;
 }
@@ -210,6 +212,7 @@ function resolveEntry(
         card: resolved.card,
         count: entry.count,
         key: `f:${resolved.card.function}`,
+        name: resolved.card.name,
         printing: { count: entry.count, ref: resolved.card.ref },
         section: sectionFor(entry, resolved.card, warnings),
       };
@@ -227,6 +230,7 @@ function resolveEntry(
       card: null,
       count: entry.count,
       key: `?:${resolved.ref}`,
+      name: entry.name,
       printing: { count: entry.count, ref: resolved.ref },
       section: entry.section,
     };
@@ -238,6 +242,7 @@ function resolveEntry(
       card: resolved.card,
       count: entry.count,
       key: `f:${resolved.function}`,
+      name: resolved.card.name,
       printing: null,
       section: sectionFor(entry, resolved.card, warnings),
     };
@@ -255,6 +260,7 @@ function resolveEntry(
     card: null,
     count: entry.count,
     key: `?${foldName(entry.name)}`,
+    name: entry.name,
     printing: null,
     section: entry.section,
   };
@@ -305,6 +311,7 @@ function accumulate(
         card: line.card,
         count: line.count,
         key: line.key,
+        name: line.name,
         printings,
         section: line.section,
       });
@@ -334,6 +341,7 @@ function accumulate(
       card: chooseRepresentative(printings, index) ?? accumulator.card,
       count: accumulator.count,
       key: accumulator.key,
+      name: accumulator.name,
       printings,
       section: accumulator.section,
     });
