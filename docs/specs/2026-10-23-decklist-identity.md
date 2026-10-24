@@ -358,7 +358,7 @@ by `(deckId, window.label)`.
 
 ## 6. Diff
 
-`diffDecklists(a, b, { maxChanges?, catalog? })` →
+`diffDecklists(a, b, { maxChanges? })` →
 
 ```ts
 interface DeckDiff {
@@ -473,6 +473,12 @@ diffDecklists(a, b, opts?): DeckDiff
 suggestArchetype(deck, opts?): ArchetypeSuggestion[]
 unwrap(result)
 ```
+
+A live `NormalizedDeck` carries the catalog context it was built with, so
+`validateDeck`, `fittingWindows`, and `suggestArchetype` reuse the same set
+order without another argument. A deck restored from storage carries only
+`catalogVersion`; pass the catalog to those functions when it is not the shipped
+one.
 
 - `ptcgl` — section headers plus `Total Cards`, ready to paste back into Live.
 - `list` — `count name SET NUM` lines, the Limitless paste shape.

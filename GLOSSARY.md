@@ -16,9 +16,17 @@ _Avoid_: list, decklist
 One physical card version, identified by its set and number.
 _Avoid_: version, variant, edition
 
+**Printing ref**:
+A printing's live address: set code plus collector number, such as `TEF-130`.
+_Avoid_: card id, printing id
+
 **Functional card**:
 The same card across printings: identical name, stats, abilities, attacks, and rules text.
 _Avoid_: card identity, oracle card
+
+**Catalog context**:
+The derived view of a catalog that resolves printings and names: set order, live-code addressability, and the card indexes. It travels with a live normalized deck.
+_Avoid_: catalog index, registry
 
 **Deck identity**:
 What makes two decklists the same deck, independent of printing, source, and language.
