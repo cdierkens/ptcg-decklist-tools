@@ -8,7 +8,7 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: 0.1.1.** The catalog, parser, normaliser, identity, format windows,
+> **Status: 0.2.0.** The catalog, parser, normaliser, identity, format windows,
 > diff, rendering, archetype suggestions, data shapes, error contract, and
 > `Result` helpers are implemented. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
