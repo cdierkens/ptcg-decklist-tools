@@ -12,6 +12,9 @@ Public API and provenance: `README.md`. Design:
 - `pnpm run verify` — the gate: `typecheck`, `test`, `build`. CI and
   `prepublishOnly` run this.
 - `pnpm run test` — unit tests plus coverage.
+- `pnpm run catalog` — rebuild the shipped JSON from the pinned public TCGdex
+  dump. It fails if a frozen fingerprint would change; accept one only with a
+  deliberate `hashVersion` bump (`pnpm run catalog:accept`).
 - `pnpm changeset` / `pnpm run version` / `pnpm run release` — changesets;
   publishing needs a one-time npm OTP (2FA).
 

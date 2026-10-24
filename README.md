@@ -8,8 +8,8 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: scaffold.** The data shapes, error contract, and `Result` helpers are
-> published here first. The parser, identity, format-window, diff, and render
+> **Status: in progress.** The catalog, data shapes, error contract, and `Result`
+> helpers are published. The parser, identity, format-window, diff, and render
 > functions land next. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
@@ -87,6 +87,24 @@ Types are exported for storage and adapters: `CatalogSet`, `CatalogCard`,
 `CatalogArchetype`, `NormalizedDeck`, `DeckHash`, `FormatWindow`, `DeckDiff`,
 `ArchetypeSuggestion`, and the rest.
 
+### Data
+
+The generated catalog is opt-in, so core users do not pay for it:
+
+```ts
+import {
+  archetypes,
+  cards,
+  catalogVersion,
+  sets,
+} from "@dierkens.dev/ptcg-decklist-tools/data";
+```
+
+`sets` is oldest-first and carries the resolved `liveAddressable` answer for
+shared Live codes. `cards` carries every Live-addressable printing with its
+16-hex functional fingerprint. The JSON is bundled; nothing is fetched at
+runtime.
+
 ## Data and provenance
 
 The catalog is generated at release time and bundled. Nothing is fetched at
@@ -119,9 +137,15 @@ opt-in consumer setting; they never enter a hash.
 
 ```sh
 pnpm install
-pnpm run verify    # typecheck, test, build
+pnpm run verify           # typecheck, test, build
 pnpm run test:coverage
+pnpm run catalog          # rebuild the catalog from the pinned TCGdex dump
+pnpm run catalog:accept   # accept fingerprint drift (requires a hashVersion bump)
 ```
+
+The catalog build downloads the pinned dump into the gitignored `.cache/`, or
+accepts an already-extracted checkout with `--source=…`. It fails when a shipped
+fingerprint would move; that is deliberate.
 
 ## Releasing
 

@@ -28,6 +28,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./data": {
+      "types": "./dist/data.d.ts",
+      "default": "./dist/data.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -49,9 +53,13 @@
     "url": "https://github.com/cdierkens/ptcg-decklist-tools/issues"
   },
   "scripts": {
-    "build": "pnpm run \"/^build:.*/\"",
+    "build": "pnpm run build:clean && pnpm run build:lib && pnpm run build:data",
     "build:clean": "node -e \"import('node:fs').then(f=>f.rmSync('dist',{recursive:true,force:true}))\"",
+    "build:data": "node scripts/copy-data.mjs",
     "build:lib": "tsc -p tsconfig.build.json",
+    "catalog": "node scripts/build-catalog.mjs",
+    "catalog:accept": "node scripts/build-catalog.mjs --accept",
+    "catalog:refresh": "node scripts/build-catalog.mjs --refresh",
     "test": "pnpm run \"/^test:.*/\"",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",

@@ -1,0 +1,1902 @@
+[
+  {
+    "era": "base",
+    "liveAddressable": true,
+    "liveCode": "BS",
+    "name": "Base Set",
+    "order": 0,
+    "paddingWidth": 1,
+    "releaseDate": "1999-01-09",
+    "tcgdexId": "base1"
+  },
+  {
+    "era": "base",
+    "liveAddressable": true,
+    "liveCode": "JU",
+    "name": "Jungle",
+    "order": 1,
+    "paddingWidth": 1,
+    "releaseDate": "1999-06-16",
+    "tcgdexId": "base2"
+  },
+  {
+    "era": "base",
+    "liveAddressable": true,
+    "liveCode": "FO",
+    "name": "Fossil",
+    "order": 2,
+    "paddingWidth": 1,
+    "releaseDate": "1999-10-10",
+    "tcgdexId": "base3"
+  },
+  {
+    "era": "base",
+    "liveAddressable": true,
+    "liveCode": "B2",
+    "name": "Base Set 2",
+    "order": 3,
+    "paddingWidth": 1,
+    "releaseDate": "2000-02-24",
+    "tcgdexId": "base4"
+  },
+  {
+    "era": "base",
+    "liveAddressable": true,
+    "liveCode": "RO",
+    "name": "Team Rocket",
+    "order": 4,
+    "paddingWidth": 1,
+    "releaseDate": "2000-04-24",
+    "tcgdexId": "base5"
+  },
+  {
+    "era": "gym",
+    "liveAddressable": true,
+    "liveCode": "G1",
+    "name": "Gym Heroes",
+    "order": 5,
+    "paddingWidth": 1,
+    "releaseDate": "2000-08-14",
+    "tcgdexId": "gym1"
+  },
+  {
+    "era": "gym",
+    "liveAddressable": true,
+    "liveCode": "G2",
+    "name": "Gym Challenge",
+    "order": 6,
+    "paddingWidth": 1,
+    "releaseDate": "2000-10-16",
+    "tcgdexId": "gym2"
+  },
+  {
+    "era": "neo",
+    "liveAddressable": true,
+    "liveCode": "N1",
+    "name": "Neo Genesis",
+    "order": 7,
+    "paddingWidth": 1,
+    "releaseDate": "2000-12-16",
+    "tcgdexId": "neo1"
+  },
+  {
+    "era": "neo",
+    "liveAddressable": true,
+    "liveCode": "N2",
+    "name": "Neo Discovery",
+    "order": 8,
+    "paddingWidth": 1,
+    "releaseDate": "2001-06-01",
+    "tcgdexId": "neo2"
+  },
+  {
+    "era": "neo",
+    "liveAddressable": true,
+    "liveCode": "SI",
+    "name": "Southern Islands",
+    "order": 9,
+    "paddingWidth": 1,
+    "releaseDate": "2001-07-31",
+    "tcgdexId": "si1"
+  },
+  {
+    "era": "neo",
+    "liveAddressable": true,
+    "liveCode": "N3",
+    "name": "Neo Revelation",
+    "order": 10,
+    "paddingWidth": 1,
+    "releaseDate": "2001-09-21",
+    "tcgdexId": "neo3"
+  },
+  {
+    "era": "neo",
+    "liveAddressable": true,
+    "liveCode": "N4",
+    "name": "Neo Destiny",
+    "order": 11,
+    "paddingWidth": 1,
+    "releaseDate": "2002-02-28",
+    "tcgdexId": "neo4"
+  },
+  {
+    "era": "lc",
+    "liveAddressable": true,
+    "liveCode": "LC",
+    "name": "Legendary Collection",
+    "order": 12,
+    "paddingWidth": 1,
+    "releaseDate": "2002-05-24",
+    "tcgdexId": "lc"
+  },
+  {
+    "era": "ecard",
+    "liveAddressable": true,
+    "liveCode": "EX",
+    "name": "Expedition Base Set",
+    "order": 13,
+    "paddingWidth": 1,
+    "releaseDate": "2002-09-15",
+    "tcgdexId": "ecard1"
+  },
+  {
+    "era": "ecard",
+    "liveAddressable": true,
+    "liveCode": "AQ",
+    "name": "Aquapolis",
+    "order": 14,
+    "paddingWidth": 1,
+    "releaseDate": "2003-01-15",
+    "tcgdexId": "ecard2"
+  },
+  {
+    "era": "ecard",
+    "liveAddressable": true,
+    "liveCode": "SK",
+    "name": "Skyridge",
+    "order": 15,
+    "paddingWidth": 1,
+    "releaseDate": "2003-05-12",
+    "tcgdexId": "ecard3"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "RS",
+    "name": "Ruby & Sapphire",
+    "order": 16,
+    "paddingWidth": 1,
+    "releaseDate": "2003-07-01",
+    "tcgdexId": "ex1"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "SS",
+    "name": "Sandstorm",
+    "order": 17,
+    "paddingWidth": 1,
+    "releaseDate": "2003-09-18",
+    "tcgdexId": "ex2"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "DR",
+    "name": "Dragon",
+    "order": 18,
+    "paddingWidth": 1,
+    "releaseDate": "2003-11-24",
+    "tcgdexId": "ex3"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "MA",
+    "name": "Team Magma vs Team Aqua",
+    "order": 19,
+    "paddingWidth": 1,
+    "releaseDate": "2004-03-01",
+    "tcgdexId": "ex4"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "HL",
+    "name": "Hidden Legends",
+    "order": 20,
+    "paddingWidth": 1,
+    "releaseDate": "2004-06-01",
+    "tcgdexId": "ex5"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK1A",
+    "name": "EX trainer Kit (Latias)",
+    "order": 21,
+    "paddingWidth": 1,
+    "releaseDate": "2004-07-01",
+    "tcgdexId": "tk-ex-latia"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK1O",
+    "name": "EX trainer Kit (Latios)",
+    "order": 22,
+    "paddingWidth": 1,
+    "releaseDate": "2004-07-01",
+    "tcgdexId": "tk-ex-latio"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "RG",
+    "name": "FireRed & LeafGreen",
+    "order": 23,
+    "paddingWidth": 1,
+    "releaseDate": "2004-09-01",
+    "tcgdexId": "ex6"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P1",
+    "name": "POP Series 1",
+    "order": 24,
+    "paddingWidth": 1,
+    "releaseDate": "2004-09-01",
+    "tcgdexId": "pop1"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "TR",
+    "name": "Team Rocket Returns",
+    "order": 25,
+    "paddingWidth": 1,
+    "releaseDate": "2004-11-01",
+    "tcgdexId": "ex7"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "DX",
+    "name": "Deoxys",
+    "order": 26,
+    "paddingWidth": 1,
+    "releaseDate": "2005-02-01",
+    "tcgdexId": "ex8"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "EM",
+    "name": "Emerald",
+    "order": 27,
+    "paddingWidth": 1,
+    "releaseDate": "2005-05-09",
+    "tcgdexId": "ex9"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P2",
+    "name": "POP Series 2",
+    "order": 28,
+    "paddingWidth": 1,
+    "releaseDate": "2005-08-01",
+    "tcgdexId": "pop2"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "UF",
+    "name": "Unseen Forces",
+    "order": 29,
+    "paddingWidth": 1,
+    "releaseDate": "2005-08-22",
+    "tcgdexId": "ex10"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "DS",
+    "name": "Delta Species",
+    "order": 30,
+    "paddingWidth": 1,
+    "releaseDate": "2005-10-31",
+    "tcgdexId": "ex11"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "LM",
+    "name": "Legend Maker",
+    "order": 31,
+    "paddingWidth": 1,
+    "releaseDate": "2006-02-13",
+    "tcgdexId": "ex12"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK2M",
+    "name": "EX trainer Kit 2 (Minun)",
+    "order": 32,
+    "paddingWidth": 1,
+    "releaseDate": "2006-03-01",
+    "tcgdexId": "tk-ex-m"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK2P",
+    "name": "EX trainer Kit 2 (Plusle)",
+    "order": 33,
+    "paddingWidth": 1,
+    "releaseDate": "2006-03-01",
+    "tcgdexId": "tk-ex-p"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P3",
+    "name": "POP Series 3",
+    "order": 34,
+    "paddingWidth": 1,
+    "releaseDate": "2006-04-01",
+    "tcgdexId": "pop3"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "HP",
+    "name": "Holon Phantoms",
+    "order": 35,
+    "paddingWidth": 1,
+    "releaseDate": "2006-05-03",
+    "tcgdexId": "ex13"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P4",
+    "name": "POP Series 4",
+    "order": 36,
+    "paddingWidth": 1,
+    "releaseDate": "2006-08-01",
+    "tcgdexId": "pop4"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "CG",
+    "name": "Crystal Guardians",
+    "order": 37,
+    "paddingWidth": 1,
+    "releaseDate": "2006-08-30",
+    "tcgdexId": "ex14"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "DF",
+    "name": "Dragon Frontiers",
+    "order": 38,
+    "paddingWidth": 1,
+    "releaseDate": "2006-11-08",
+    "tcgdexId": "ex15"
+  },
+  {
+    "era": "ex",
+    "liveAddressable": true,
+    "liveCode": "PK",
+    "name": "Power Keepers",
+    "order": 39,
+    "paddingWidth": 1,
+    "releaseDate": "2007-02-17",
+    "tcgdexId": "ex16"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P5",
+    "name": "POP Series 5",
+    "order": 40,
+    "paddingWidth": 1,
+    "releaseDate": "2007-03-01",
+    "tcgdexId": "pop5"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "DP",
+    "name": "Diamond & Pearl",
+    "order": 41,
+    "paddingWidth": 1,
+    "releaseDate": "2007-05-01",
+    "tcgdexId": "dp1"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "MT",
+    "name": "Mysterious Treasures",
+    "order": 42,
+    "paddingWidth": 1,
+    "releaseDate": "2007-08-01",
+    "tcgdexId": "dp2"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P6",
+    "name": "POP Series 6",
+    "order": 43,
+    "paddingWidth": 1,
+    "releaseDate": "2007-09-01",
+    "tcgdexId": "pop6"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK3L",
+    "name": "DP trainer Kit (Lucario)",
+    "order": 44,
+    "paddingWidth": 1,
+    "releaseDate": "2007-09-01",
+    "tcgdexId": "tk-dp-l"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK3M",
+    "name": "DP trainer Kit (Manaphy)",
+    "order": 45,
+    "paddingWidth": 1,
+    "releaseDate": "2007-09-01",
+    "tcgdexId": "tk-dp-m"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "SW",
+    "name": "Secret Wonders",
+    "order": 46,
+    "paddingWidth": 1,
+    "releaseDate": "2007-11-01",
+    "tcgdexId": "dp3"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "GE",
+    "name": "Great Encounters",
+    "order": 47,
+    "paddingWidth": 1,
+    "releaseDate": "2008-02-01",
+    "tcgdexId": "dp4"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P7",
+    "name": "POP Series 7",
+    "order": 48,
+    "paddingWidth": 1,
+    "releaseDate": "2008-03-01",
+    "tcgdexId": "pop7"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "MD",
+    "name": "Majestic Dawn",
+    "order": 49,
+    "paddingWidth": 1,
+    "releaseDate": "2008-05-01",
+    "tcgdexId": "dp5"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "LA",
+    "name": "Legends Awakened",
+    "order": 50,
+    "paddingWidth": 1,
+    "releaseDate": "2008-08-01",
+    "tcgdexId": "dp6"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P8",
+    "name": "POP Series 8",
+    "order": 51,
+    "paddingWidth": 1,
+    "releaseDate": "2008-09-01",
+    "tcgdexId": "pop8"
+  },
+  {
+    "era": "dp",
+    "liveAddressable": true,
+    "liveCode": "SF",
+    "name": "Stormfront",
+    "order": 52,
+    "paddingWidth": 1,
+    "releaseDate": "2008-11-01",
+    "tcgdexId": "dp7"
+  },
+  {
+    "era": "pl",
+    "liveAddressable": true,
+    "liveCode": "PL",
+    "name": "Platinum",
+    "order": 53,
+    "paddingWidth": 1,
+    "releaseDate": "2009-02-11",
+    "tcgdexId": "pl1"
+  },
+  {
+    "era": "pop",
+    "liveAddressable": true,
+    "liveCode": "P9",
+    "name": "POP Series 9",
+    "order": 54,
+    "paddingWidth": 1,
+    "releaseDate": "2009-03-01",
+    "tcgdexId": "pop9"
+  },
+  {
+    "era": "pl",
+    "liveAddressable": true,
+    "liveCode": "RR",
+    "name": "Rising Rivals",
+    "order": 55,
+    "paddingWidth": 1,
+    "releaseDate": "2009-05-16",
+    "tcgdexId": "pl2"
+  },
+  {
+    "era": "pl",
+    "liveAddressable": true,
+    "liveCode": "SV",
+    "name": "Supreme Victors",
+    "order": 56,
+    "paddingWidth": 1,
+    "releaseDate": "2009-08-19",
+    "tcgdexId": "pl3"
+  },
+  {
+    "era": "pl",
+    "liveAddressable": true,
+    "liveCode": "AR",
+    "name": "Arceus",
+    "order": 57,
+    "paddingWidth": 1,
+    "releaseDate": "2009-11-04",
+    "tcgdexId": "pl4"
+  },
+  {
+    "era": "pl",
+    "liveAddressable": true,
+    "liveCode": "RM",
+    "name": "Pokémon Rumble",
+    "order": 58,
+    "paddingWidth": 1,
+    "releaseDate": "2009-12-02",
+    "tcgdexId": "ru1"
+  },
+  {
+    "era": "hgss",
+    "liveAddressable": true,
+    "liveCode": "HS",
+    "name": "HeartGold SoulSilver",
+    "order": 59,
+    "paddingWidth": 1,
+    "releaseDate": "2010-02-10",
+    "tcgdexId": "hgss1"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK4G",
+    "name": "HS trainer Kit (Gyarados)",
+    "order": 60,
+    "paddingWidth": 1,
+    "releaseDate": "2010-05-01",
+    "tcgdexId": "tk-hs-g"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK4R",
+    "name": "HS trainer Kit (Raichu)",
+    "order": 61,
+    "paddingWidth": 1,
+    "releaseDate": "2010-05-01",
+    "tcgdexId": "tk-hs-r"
+  },
+  {
+    "era": "hgss",
+    "liveAddressable": true,
+    "liveCode": "UL",
+    "name": "Unleashed",
+    "order": 62,
+    "paddingWidth": 1,
+    "releaseDate": "2010-05-12",
+    "tcgdexId": "hgss2"
+  },
+  {
+    "era": "hgss",
+    "liveAddressable": true,
+    "liveCode": "UND",
+    "name": "Undaunted",
+    "order": 63,
+    "paddingWidth": 1,
+    "releaseDate": "2010-08-18",
+    "tcgdexId": "hgss3"
+  },
+  {
+    "era": "hgss",
+    "liveAddressable": true,
+    "liveCode": "TRI",
+    "name": "Triumphant",
+    "order": 64,
+    "paddingWidth": 1,
+    "releaseDate": "2010-11-03",
+    "tcgdexId": "hgss4"
+  },
+  {
+    "era": "col",
+    "liveAddressable": true,
+    "liveCode": "COL",
+    "name": "Call of Legends",
+    "order": 65,
+    "paddingWidth": 1,
+    "releaseDate": "2011-02-09",
+    "tcgdexId": "col1"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "BLW",
+    "name": "Black & White",
+    "order": 66,
+    "paddingWidth": 1,
+    "releaseDate": "2011-04-25",
+    "tcgdexId": "bw1"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "BWP",
+    "name": "BW Black Star Promos",
+    "order": 67,
+    "paddingWidth": 3,
+    "releaseDate": "2011-04-26",
+    "tcgdexId": "bwp"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD11",
+    "name": "McDonald's Collection 2011",
+    "order": 68,
+    "paddingWidth": 1,
+    "releaseDate": "2011-06-17",
+    "tcgdexId": "2011bw"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "EP",
+    "name": "Emerging Powers",
+    "order": 69,
+    "paddingWidth": 1,
+    "releaseDate": "2011-08-31",
+    "tcgdexId": "bw2"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK5E",
+    "name": "BW trainer Kit (Excadrill)",
+    "order": 70,
+    "paddingWidth": 1,
+    "releaseDate": "2011-09-01",
+    "tcgdexId": "tk-bw-e"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK5Z",
+    "name": "BW trainer Kit (Zoroark)",
+    "order": 71,
+    "paddingWidth": 1,
+    "releaseDate": "2011-09-01",
+    "tcgdexId": "tk-bw-z"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "NVI",
+    "name": "Noble Victories",
+    "order": 72,
+    "paddingWidth": 1,
+    "releaseDate": "2011-11-16",
+    "tcgdexId": "bw3"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "NXD",
+    "name": "Next Destinies",
+    "order": 73,
+    "paddingWidth": 1,
+    "releaseDate": "2012-02-08",
+    "tcgdexId": "bw4"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "DEX",
+    "name": "Dark Explorers",
+    "order": 74,
+    "paddingWidth": 1,
+    "releaseDate": "2012-05-09",
+    "tcgdexId": "bw5"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD12",
+    "name": "McDonald's Collection 2012",
+    "order": 75,
+    "paddingWidth": 1,
+    "releaseDate": "2012-06-15",
+    "tcgdexId": "2012bw"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "DRX",
+    "name": "Dragons Exalted",
+    "order": 76,
+    "paddingWidth": 1,
+    "releaseDate": "2012-08-15",
+    "tcgdexId": "bw6"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "DRV",
+    "name": "Dragon Vault",
+    "order": 77,
+    "paddingWidth": 1,
+    "releaseDate": "2012-10-05",
+    "tcgdexId": "dv1"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "BCR",
+    "name": "Boundaries Crossed",
+    "order": 78,
+    "paddingWidth": 1,
+    "releaseDate": "2012-11-07",
+    "tcgdexId": "bw7"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "PLS",
+    "name": "Plasma Storm",
+    "order": 79,
+    "paddingWidth": 1,
+    "releaseDate": "2013-02-06",
+    "tcgdexId": "bw8"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "PLF",
+    "name": "Plasma Freeze",
+    "order": 80,
+    "paddingWidth": 1,
+    "releaseDate": "2013-05-08",
+    "tcgdexId": "bw9"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "PLB",
+    "name": "Plasma Blast",
+    "order": 81,
+    "paddingWidth": 1,
+    "releaseDate": "2013-08-14",
+    "tcgdexId": "bw10"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "XYP",
+    "name": "XY Black Star Promos",
+    "order": 82,
+    "paddingWidth": 3,
+    "releaseDate": "2013-10-12",
+    "tcgdexId": "xyp"
+  },
+  {
+    "era": "bw",
+    "liveAddressable": true,
+    "liveCode": "LTR",
+    "name": "Legendary Treasures",
+    "order": 83,
+    "paddingWidth": 1,
+    "releaseDate": "2013-11-06",
+    "tcgdexId": "bw11"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "KSS",
+    "name": "Kalos Starter Set",
+    "order": 84,
+    "paddingWidth": 1,
+    "releaseDate": "2013-11-08",
+    "tcgdexId": "xy0"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "XY",
+    "name": "XY",
+    "order": 85,
+    "paddingWidth": 1,
+    "releaseDate": "2014-02-05",
+    "tcgdexId": "xy1"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK6N",
+    "name": "XY trainer Kit (Noivern)",
+    "order": 86,
+    "paddingWidth": 1,
+    "releaseDate": "2014-03-12",
+    "tcgdexId": "tk-xy-n"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK6S",
+    "name": "XY trainer Kit (Sylveon)",
+    "order": 87,
+    "paddingWidth": 1,
+    "releaseDate": "2014-03-12",
+    "tcgdexId": "tk-xy-sy"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "FLF",
+    "name": "Flashfire",
+    "order": 88,
+    "paddingWidth": 1,
+    "releaseDate": "2014-05-07",
+    "tcgdexId": "xy2"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD14",
+    "name": "McDonald's Collection 2014",
+    "order": 89,
+    "paddingWidth": 1,
+    "releaseDate": "2014-05-23",
+    "tcgdexId": "2014xy"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "FFI",
+    "name": "Furious Fists",
+    "order": 90,
+    "paddingWidth": 1,
+    "releaseDate": "2014-08-13",
+    "tcgdexId": "xy3"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK7A",
+    "name": "XY trainer Kit (Bisharp)",
+    "order": 91,
+    "paddingWidth": 1,
+    "releaseDate": "2014-11-01",
+    "tcgdexId": "tk-xy-b"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK7B",
+    "name": "XY trainer Kit (Wigglytuff)",
+    "order": 92,
+    "paddingWidth": 1,
+    "releaseDate": "2014-11-01",
+    "tcgdexId": "tk-xy-w"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "PHF",
+    "name": "Phantom Forces",
+    "order": 93,
+    "paddingWidth": 1,
+    "releaseDate": "2014-11-05",
+    "tcgdexId": "xy4"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "PRC",
+    "name": "Primal Clash",
+    "order": 94,
+    "paddingWidth": 1,
+    "releaseDate": "2015-02-04",
+    "tcgdexId": "xy5"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "DCR",
+    "name": "Double Crisis",
+    "order": 95,
+    "paddingWidth": 1,
+    "releaseDate": "2015-03-25",
+    "tcgdexId": "dc1"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK8A",
+    "name": "XY trainer Kit (Latias)",
+    "order": 96,
+    "paddingWidth": 1,
+    "releaseDate": "2015-04-29",
+    "tcgdexId": "tk-xy-latia"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK8O",
+    "name": "XY trainer Kit (Latios)",
+    "order": 97,
+    "paddingWidth": 1,
+    "releaseDate": "2015-04-29",
+    "tcgdexId": "tk-xy-latio"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "ROS",
+    "name": "Roaring Skies",
+    "order": 98,
+    "paddingWidth": 1,
+    "releaseDate": "2015-05-06",
+    "tcgdexId": "xy6"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "AOR",
+    "name": "Ancient Origins",
+    "order": 99,
+    "paddingWidth": 1,
+    "releaseDate": "2015-08-12",
+    "tcgdexId": "xy7"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "BKT",
+    "name": "BREAKthrough",
+    "order": 100,
+    "paddingWidth": 1,
+    "releaseDate": "2015-11-04",
+    "tcgdexId": "xy8"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD15",
+    "name": "McDonald's Collection 2015",
+    "order": 101,
+    "paddingWidth": 1,
+    "releaseDate": "2015-11-27",
+    "tcgdexId": "2015xy"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "BKP",
+    "name": "BREAKpoint",
+    "order": 102,
+    "paddingWidth": 1,
+    "releaseDate": "2016-02-03",
+    "tcgdexId": "xy9"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "GEN",
+    "name": "Generations",
+    "order": 103,
+    "paddingWidth": 1,
+    "releaseDate": "2016-02-22",
+    "tcgdexId": "g1"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK9P",
+    "name": "XY trainer Kit (Pikachu Libre)",
+    "order": 104,
+    "paddingWidth": 1,
+    "releaseDate": "2016-04-27",
+    "tcgdexId": "tk-xy-p"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK9S",
+    "name": "XY trainer Kit (Suicune)",
+    "order": 105,
+    "paddingWidth": 1,
+    "releaseDate": "2016-04-27",
+    "tcgdexId": "tk-xy-su"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "FCO",
+    "name": "Fates Collide",
+    "order": 106,
+    "paddingWidth": 1,
+    "releaseDate": "2016-05-02",
+    "tcgdexId": "xy10"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "STS",
+    "name": "Steam Siege",
+    "order": 107,
+    "paddingWidth": 1,
+    "releaseDate": "2016-08-03",
+    "tcgdexId": "xy11"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD16",
+    "name": "McDonald's Collection 2016",
+    "order": 108,
+    "paddingWidth": 1,
+    "releaseDate": "2016-08-20",
+    "tcgdexId": "2016xy"
+  },
+  {
+    "era": "xy",
+    "liveAddressable": true,
+    "liveCode": "EVO",
+    "name": "Evolutions",
+    "order": 109,
+    "paddingWidth": 1,
+    "releaseDate": "2016-11-02",
+    "tcgdexId": "xy12"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "SUM",
+    "name": "Sun & Moon",
+    "order": 110,
+    "paddingWidth": 1,
+    "releaseDate": "2017-02-03",
+    "tcgdexId": "sm1"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "SMP",
+    "name": "SM Black Star Promos",
+    "order": 111,
+    "paddingWidth": 3,
+    "releaseDate": "2017-02-03",
+    "tcgdexId": "smp"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK10L",
+    "name": "SM trainer Kit (Lycanroc)",
+    "order": 112,
+    "paddingWidth": 1,
+    "releaseDate": "2017-04-21",
+    "tcgdexId": "tk-sm-l"
+  },
+  {
+    "era": "tk",
+    "liveAddressable": true,
+    "liveCode": "TK10A",
+    "name": "SM trainer Kit (Alolan Raichu)",
+    "order": 113,
+    "paddingWidth": 1,
+    "releaseDate": "2017-04-21",
+    "tcgdexId": "tk-sm-r"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "GRI",
+    "name": "Guardians Rising",
+    "order": 114,
+    "paddingWidth": 1,
+    "releaseDate": "2017-05-05",
+    "tcgdexId": "sm2"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD17",
+    "name": "McDonald's Collection 2017",
+    "order": 115,
+    "paddingWidth": 1,
+    "releaseDate": "2017-08-03",
+    "tcgdexId": "2017sm"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "BUS",
+    "name": "Burning Shadows",
+    "order": 116,
+    "paddingWidth": 1,
+    "releaseDate": "2017-08-04",
+    "tcgdexId": "sm3"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "SLG",
+    "name": "Shining Legends",
+    "order": 117,
+    "paddingWidth": 1,
+    "releaseDate": "2017-10-06",
+    "tcgdexId": "sm3.5"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "CIN",
+    "name": "Crimson Invasion",
+    "order": 118,
+    "paddingWidth": 1,
+    "releaseDate": "2017-11-03",
+    "tcgdexId": "sm4"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "UPR",
+    "name": "Ultra Prism",
+    "order": 119,
+    "paddingWidth": 1,
+    "releaseDate": "2018-02-02",
+    "tcgdexId": "sm5"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "FLI",
+    "name": "Forbidden Light",
+    "order": 120,
+    "paddingWidth": 1,
+    "releaseDate": "2018-05-04",
+    "tcgdexId": "sm6"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "CES",
+    "name": "Celestial Storm",
+    "order": 121,
+    "paddingWidth": 1,
+    "releaseDate": "2018-08-03",
+    "tcgdexId": "sm7"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "DRM",
+    "name": "Dragon Majesty",
+    "order": 122,
+    "paddingWidth": 1,
+    "releaseDate": "2018-09-07",
+    "tcgdexId": "sm7.5"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD18",
+    "name": "McDonald's Collection 2018",
+    "order": 123,
+    "paddingWidth": 1,
+    "releaseDate": "2018-10-19",
+    "tcgdexId": "2018sm"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "LOT",
+    "name": "Lost Thunder",
+    "order": 124,
+    "paddingWidth": 1,
+    "releaseDate": "2018-11-02",
+    "tcgdexId": "sm8"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "TEU",
+    "name": "Team Up",
+    "order": 125,
+    "paddingWidth": 1,
+    "releaseDate": "2019-01-31",
+    "tcgdexId": "sm9"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "DET",
+    "name": "Detective Pikachu",
+    "order": 126,
+    "paddingWidth": 1,
+    "releaseDate": "2019-03-29",
+    "tcgdexId": "det1"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "UNB",
+    "name": "Unbroken Bonds",
+    "order": 127,
+    "paddingWidth": 1,
+    "releaseDate": "2019-05-03",
+    "tcgdexId": "sm10"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "UNM",
+    "name": "Unified Minds",
+    "order": 128,
+    "paddingWidth": 1,
+    "releaseDate": "2019-08-02",
+    "tcgdexId": "sm11"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "HIF",
+    "name": "Hidden Fates",
+    "order": 129,
+    "paddingWidth": 1,
+    "releaseDate": "2019-08-23",
+    "tcgdexId": "sm115"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD19",
+    "name": "McDonald's Collection 2019",
+    "order": 130,
+    "paddingWidth": 1,
+    "releaseDate": "2019-10-15",
+    "tcgdexId": "2019sm"
+  },
+  {
+    "era": "sm",
+    "liveAddressable": true,
+    "liveCode": "CEC",
+    "name": "Cosmic Eclipse",
+    "order": 131,
+    "paddingWidth": 1,
+    "releaseDate": "2019-11-01",
+    "tcgdexId": "sm12"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "SSH",
+    "name": "Sword & Shield",
+    "order": 132,
+    "paddingWidth": 1,
+    "releaseDate": "2020-02-07",
+    "tcgdexId": "swsh1"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "RCL",
+    "name": "Rebel Clash",
+    "order": 133,
+    "paddingWidth": 1,
+    "releaseDate": "2020-05-01",
+    "tcgdexId": "swsh2"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "DAA",
+    "name": "Darkness Ablaze",
+    "order": 134,
+    "paddingWidth": 1,
+    "releaseDate": "2020-08-14",
+    "tcgdexId": "swsh3"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "FUT20",
+    "name": "Pokémon Futsal 2020",
+    "order": 135,
+    "paddingWidth": 1,
+    "releaseDate": "2020-09-11",
+    "tcgdexId": "fut2020"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CPA",
+    "name": "Champion's Path",
+    "order": 136,
+    "paddingWidth": 1,
+    "releaseDate": "2020-09-25",
+    "tcgdexId": "swsh3.5"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "VIV",
+    "name": "Vivid Voltage",
+    "order": 137,
+    "paddingWidth": 1,
+    "releaseDate": "2020-11-13",
+    "tcgdexId": "swsh4"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD21",
+    "name": "McDonald's Collection 2021",
+    "order": 138,
+    "paddingWidth": 1,
+    "releaseDate": "2021-02-09",
+    "tcgdexId": "2021swsh"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "SHF",
+    "name": "Shining Fates",
+    "order": 139,
+    "paddingWidth": 1,
+    "releaseDate": "2021-02-19",
+    "tcgdexId": "swsh4.5"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "SHF:SV",
+    "name": "Shining Fates Shiny Vault",
+    "order": 140,
+    "paddingWidth": 3,
+    "releaseDate": "2021-02-19",
+    "tcgdexId": "swsh4.5sv"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "BST",
+    "name": "Battle Styles",
+    "order": 141,
+    "paddingWidth": 1,
+    "releaseDate": "2021-03-19",
+    "tcgdexId": "swsh5"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CRE",
+    "name": "Chilling Reign",
+    "order": 142,
+    "paddingWidth": 1,
+    "releaseDate": "2021-06-18",
+    "tcgdexId": "swsh6"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "EVS",
+    "name": "Evolving Skies",
+    "order": 143,
+    "paddingWidth": 1,
+    "releaseDate": "2021-08-27",
+    "tcgdexId": "swsh7"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CEL",
+    "name": "Celebrations",
+    "order": 144,
+    "paddingWidth": 1,
+    "releaseDate": "2021-10-08",
+    "tcgdexId": "cel25"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CEL:CC",
+    "name": "Celebrations Classic Collection",
+    "order": 145,
+    "paddingWidth": 3,
+    "releaseDate": "2021-10-08",
+    "tcgdexId": "cel25cc"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "FST",
+    "name": "Fusion Strike",
+    "order": 146,
+    "paddingWidth": 1,
+    "releaseDate": "2021-11-12",
+    "tcgdexId": "swsh8"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "BRS",
+    "name": "Brilliant Stars",
+    "order": 147,
+    "paddingWidth": 3,
+    "releaseDate": "2022-02-25",
+    "tcgdexId": "swsh9"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "BRS:TG",
+    "name": "Brilliant Stars Trainer Gallery",
+    "order": 148,
+    "paddingWidth": 3,
+    "releaseDate": "2022-02-25",
+    "tcgdexId": "swsh9tg"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "ASR",
+    "name": "Astral Radiance",
+    "order": 149,
+    "paddingWidth": 3,
+    "releaseDate": "2022-05-27",
+    "tcgdexId": "swsh10"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "ASR:TG",
+    "name": "Astral Radiance Trainer Gallery",
+    "order": 150,
+    "paddingWidth": 3,
+    "releaseDate": "2022-05-27",
+    "tcgdexId": "swsh10tg"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "PGO",
+    "name": "Pokémon GO",
+    "order": 151,
+    "paddingWidth": 3,
+    "releaseDate": "2022-07-01",
+    "tcgdexId": "swsh10.5"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD22",
+    "name": "McDonald's Collection 2022",
+    "order": 152,
+    "paddingWidth": 1,
+    "releaseDate": "2022-08-03",
+    "tcgdexId": "2022swsh"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "LOR",
+    "name": "Lost Origin",
+    "order": 153,
+    "paddingWidth": 3,
+    "releaseDate": "2022-09-09",
+    "tcgdexId": "swsh11"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "LOR:TG",
+    "name": "Lost Origin Trainer Gallery",
+    "order": 154,
+    "paddingWidth": 3,
+    "releaseDate": "2022-09-09",
+    "tcgdexId": "swsh11tg"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "SIT",
+    "name": "Silver Tempest",
+    "order": 155,
+    "paddingWidth": 3,
+    "releaseDate": "2022-11-11",
+    "tcgdexId": "swsh12"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "SIT:TG",
+    "name": "Silver Tempest Trainer Gallery",
+    "order": 156,
+    "paddingWidth": 3,
+    "releaseDate": "2022-11-11",
+    "tcgdexId": "swsh12tg"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CRZ",
+    "name": "Crown Zenith",
+    "order": 157,
+    "paddingWidth": 3,
+    "releaseDate": "2023-01-20",
+    "tcgdexId": "swsh12.5"
+  },
+  {
+    "era": "swsh",
+    "liveAddressable": true,
+    "liveCode": "CRZ:GG",
+    "name": "Crown Zenith Galarian Gallery",
+    "order": 158,
+    "paddingWidth": 3,
+    "releaseDate": "2023-01-20",
+    "tcgdexId": "swsh12.5gg"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SVI",
+    "name": "Scarlet & Violet",
+    "order": 159,
+    "paddingWidth": 3,
+    "releaseDate": "2023-03-31",
+    "tcgdexId": "sv01"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SVE",
+    "name": "Scarlet & Violet Energy",
+    "order": 160,
+    "paddingWidth": 3,
+    "releaseDate": "2023-03-31",
+    "tcgdexId": "sve"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SVP",
+    "name": "SVP Black Star Promos",
+    "order": 161,
+    "paddingWidth": 3,
+    "releaseDate": "2023-03-31",
+    "tcgdexId": "svp"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "PAL",
+    "name": "Paldea Evolved",
+    "order": 162,
+    "paddingWidth": 3,
+    "releaseDate": "2023-06-09",
+    "tcgdexId": "sv02"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD23",
+    "name": "McDonald's Collection 2023",
+    "order": 163,
+    "paddingWidth": 1,
+    "releaseDate": "2023-08-01",
+    "tcgdexId": "2023sv"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "OBF",
+    "name": "Obsidian Flames",
+    "order": 164,
+    "paddingWidth": 3,
+    "releaseDate": "2023-08-11",
+    "tcgdexId": "sv03"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "MEW",
+    "name": "151",
+    "order": 165,
+    "paddingWidth": 3,
+    "releaseDate": "2023-09-22",
+    "tcgdexId": "sv03.5"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "MFB",
+    "name": "My First Battle",
+    "order": 166,
+    "paddingWidth": 1,
+    "releaseDate": "2023-09-29",
+    "tcgdexId": "mfb"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "PAR",
+    "name": "Paradox Rift",
+    "order": 167,
+    "paddingWidth": 3,
+    "releaseDate": "2023-11-03",
+    "tcgdexId": "sv04"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "PAF",
+    "name": "Paldean Fates",
+    "order": 168,
+    "paddingWidth": 3,
+    "releaseDate": "2024-01-26",
+    "tcgdexId": "sv04.5"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "TEF",
+    "name": "Temporal Forces",
+    "order": 169,
+    "paddingWidth": 3,
+    "releaseDate": "2024-03-22",
+    "tcgdexId": "sv05"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "TWM",
+    "name": "Twilight Masquerade",
+    "order": 170,
+    "paddingWidth": 3,
+    "releaseDate": "2024-05-24",
+    "tcgdexId": "sv06"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SFA",
+    "name": "Shrouded Fable",
+    "order": 171,
+    "paddingWidth": 3,
+    "releaseDate": "2024-08-02",
+    "tcgdexId": "sv06.5"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SCR",
+    "name": "Stellar Crown",
+    "order": 172,
+    "paddingWidth": 3,
+    "releaseDate": "2024-09-13",
+    "tcgdexId": "sv07"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "SSP",
+    "name": "Surging Sparks",
+    "order": 173,
+    "paddingWidth": 3,
+    "releaseDate": "2024-11-08",
+    "tcgdexId": "sv08"
+  },
+  {
+    "era": "mc",
+    "liveAddressable": true,
+    "liveCode": "MCD24",
+    "name": "McDonald's Collection 2024",
+    "order": 174,
+    "paddingWidth": 1,
+    "releaseDate": "2024-12-04",
+    "tcgdexId": "2024sv"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "PRE",
+    "name": "Prismatic Evolutions",
+    "order": 175,
+    "paddingWidth": 3,
+    "releaseDate": "2025-01-17",
+    "tcgdexId": "sv08.5"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "JTG",
+    "name": "Journey Together",
+    "order": 176,
+    "paddingWidth": 3,
+    "releaseDate": "2025-03-28",
+    "tcgdexId": "sv09"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "DRI",
+    "name": "Destined Rivals",
+    "order": 177,
+    "paddingWidth": 3,
+    "releaseDate": "2025-05-30",
+    "tcgdexId": "sv10"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "BLK",
+    "name": "Black Bolt",
+    "order": 178,
+    "paddingWidth": 3,
+    "releaseDate": "2025-07-17",
+    "tcgdexId": "sv10.5b"
+  },
+  {
+    "era": "sv",
+    "liveAddressable": true,
+    "liveCode": "WHT",
+    "name": "White Flare",
+    "order": 179,
+    "paddingWidth": 3,
+    "releaseDate": "2025-07-17",
+    "tcgdexId": "sv10.5w"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "MEE",
+    "name": "Mega Evolution Energy",
+    "order": 180,
+    "paddingWidth": 3,
+    "releaseDate": "2025-09-25",
+    "tcgdexId": "mee"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "MEG",
+    "name": "Mega Evolution",
+    "order": 181,
+    "paddingWidth": 3,
+    "releaseDate": "2025-09-26",
+    "tcgdexId": "me01"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "MEP",
+    "name": "MEP Black Star Promos",
+    "order": 182,
+    "paddingWidth": 3,
+    "releaseDate": "2025-09-26",
+    "tcgdexId": "mep"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "PFL",
+    "name": "Phantasmal Flames",
+    "order": 183,
+    "paddingWidth": 3,
+    "releaseDate": "2025-11-14",
+    "tcgdexId": "me02"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "ASC",
+    "name": "Ascended Heroes",
+    "order": 184,
+    "paddingWidth": 3,
+    "releaseDate": "2026-01-30",
+    "tcgdexId": "me02.5"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "POR",
+    "name": "Perfect Order",
+    "order": 185,
+    "paddingWidth": 3,
+    "releaseDate": "2026-03-27",
+    "tcgdexId": "me03"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "CRI",
+    "name": "Chaos Rising",
+    "order": 186,
+    "paddingWidth": 3,
+    "releaseDate": "2026-05-22",
+    "tcgdexId": "me04"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "PBL",
+    "name": "Pitch Black",
+    "order": 187,
+    "paddingWidth": 3,
+    "releaseDate": "2026-07-17",
+    "tcgdexId": "me05"
+  },
+  {
+    "era": "me",
+    "liveAddressable": true,
+    "liveCode": "30C",
+    "name": "30th Celebration",
+    "order": 188,
+    "paddingWidth": 3,
+    "releaseDate": "2026-09-16",
+    "tcgdexId": "30th"
+  },
+  {
+    "era": "me",
+    "liveAddressable": false,
+    "liveCode": "30C",
+    "name": "30th Classic Collection",
+    "order": 189,
+    "paddingWidth": 3,
+    "releaseDate": "2026-09-16",
+    "tcgdexId": "30th-c"
+  }
+]
