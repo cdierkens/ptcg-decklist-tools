@@ -155,9 +155,21 @@ export interface FormatWindow {
 
 export interface FormatReport {
   readonly window: FormatWindow;
+  /** Entries with at least one contributing printing outside the window. */
   readonly outside: readonly NormalizedEntry[];
+  /** Set codes the catalog does not know, including unknown window ends. */
   readonly unknownSets: readonly string[];
+  /** Names over four copies, excluding basic Energy. */
+  readonly fourCopy: readonly { readonly name: string; readonly count: number }[];
   readonly ok: boolean;
+}
+
+/** Options for fitting a deck to candidate windows. */
+export interface FittingWindowsOptions {
+  /** Restrict candidate bases to sets in this catalog era, e.g. `sv`. */
+  readonly era?: string;
+  /** Catalog whose set order to use; defaults to the shipped set index. */
+  readonly catalog?: Catalog;
 }
 
 export type DiffChangeKind = "added" | "removed" | "count" | "printing";

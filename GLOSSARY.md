@@ -32,6 +32,10 @@ _Avoid_: printing hash
 An inclusive range of sets a deck is scoped to, written `base-latest` (for example `TEF-30C`).
 _Avoid_: format, rotation, standard
 
+**Candidate window**:
+A window whose base could scope a deck. Fitting returns candidates; it never chooses the base for the player.
+_Avoid_: inferred format, guessed window
+
 **Archetype alias**:
 A community label for a deck concept, together with the one or two Pokémon Limitless uses as its icons.
 _Avoid_: archetype, deck name

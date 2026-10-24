@@ -8,9 +8,9 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: in progress.** The catalog, parser, normaliser, identity, data
-> shapes, error contract, and `Result` helpers are published. Format-window,
-> diff, and render functions land next. The design is in
+> **Status: in progress.** The catalog, parser, normaliser, identity, format
+> windows, data shapes, error contract, and `Result` helpers are published.
+> Diff and render functions land next. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
 ## Why
@@ -56,12 +56,15 @@ import {
   canonicalText,
   deckId,
   diffDecklists,
+  fittingWindows,
   listId,
   normalizeDecklist,
   parseDecklist,
+  parseFormatLabel,
   renderDecklist,
   suggestArchetype,
   unwrapOrThrow,
+  validateDeck,
 } from "@dierkens.dev/ptcg-decklist-tools";
 import { catalog } from "@dierkens.dev/ptcg-decklist-tools/data";
 
@@ -71,6 +74,11 @@ const deck = unwrapOrThrow(normalizeDecklist(parsed, { catalog }));
 const id = await deckId(deck);
 const exact = await listId(deck);
 const preImage = canonicalText(deck); // debug and goldens
+
+const window = unwrapOrThrow(parseFormatLabel("tef-30c"));
+const report = validateDeck(deck, window); // advisory outside/unknown/four-copy
+const candidates = fittingWindows(deck, { era: "sv" });
+
 const format = renderDecklist(deck, "print"); // a sheet for a deck check
 const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 ```
@@ -85,13 +93,16 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `deckId(deck)` / `listId(deck)` | Functional identity / exact-printing identity |
 | `canonicalText(deck)` | The `deckId` pre-image, for debugging and goldens |
 | `countByName(deck)` | The four-copy rule, kept separate from identity |
-| `parseFormatLabel(label)` / `validateDeck(deck, window)` | `TEF-30C` windows, advisory legality |
+| `parseFormatLabel(label)` | `TEF-30C` windows, case-insensitive and catalog-checked |
+| `validateDeck(deck, window)` | Advisory outside sets, unknown sets, four-copy counts |
+| `fittingWindows(deck, { era })` | Candidate bases; never infers the base from the deck |
 | `diffDecklists(a, b)` | Changes with confidence, classified |
 | `suggestArchetype(deck)` | Aliases with reasons, never auto-committed |
 
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
-`FormatWindow`, `DeckDiff`, `ArchetypeSuggestion`, and the rest.
+`FormatWindow`, `FormatReport`, `FittingWindowsOptions`, `DeckDiff`,
+`ArchetypeSuggestion`, and the rest.
 
 ### Identity
 
@@ -107,9 +118,30 @@ uses WebCrypto, so there is no dependency and no runtime network call.
 `countByName` is the four-copy check, not identity. Two Pikachu functions are
 different decks but the same name, so the counts add up for legality.
 
+### Format windows
+
+`parseFormatLabel` resolves both ends against the shipped set order, so
+`tef-30c`, `TEF-30C`, and ` TEF-30C ` are one window. The `30C` collision
+resolves to the Live-addressable celebration set. Unknown sets and malformed or
+reversed labels are `FormatError` values, not guesses.
+
+`validateDeck` is advisory. `outside` lists entries with any contributing
+printing outside the window; `unknownSets` lists set codes the catalog does not
+know; `fourCopy` lists names over four copies, excluding basic Energy. Real
+Standard legality is a regulation-mark rule, and promos sit outside the set order
+in places, so `ok` means "nothing this checker can see", not an official ruling.
+
+`fittingWindows` answers "which bases could scope this deck?" It tries every
+live-addressable set at or before the deck's oldest card as a candidate base,
+optionally narrowed by `era`, and uses the catalog's newest live-addressable set
+as `latest`. The deck never chooses its own base. Any unknown set, or any entry
+with no set at all, returns no candidates: the function will not claim a fit it
+cannot prove.
+
 ### Data
 
-The generated catalog is opt-in, so core users do not pay for it:
+The card catalog and archetype table are opt-in, so core users do not pay for
+them:
 
 ```ts
 import {
@@ -126,6 +158,10 @@ shared Live codes. `cards` carries every Live-addressable printing with its
 16-hex functional fingerprint. `catalog` is the three values in one object,
 ready to pass to `normalizeDecklist`. The JSON is bundled; nothing is fetched at
 runtime.
+
+The set index is also loaded by the format-window functions, because set order
+is what membership means. It is small; the card list and archetypes remain on the
+`./data` subpath.
 
 ## Data and provenance
 

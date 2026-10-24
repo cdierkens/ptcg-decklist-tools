@@ -322,11 +322,23 @@ interface FormatWindow {
 - `validateDeck(deck, window)` returns cards whose set is outside the window and
   refs whose set is unknown. Advisory only: real Standard legality is the
   regulation mark, and promos sit outside the set order in places.
+- `validateDeck` checks the four-copy rule through `countByName`, because that
+  rule is name-based while identity is functional. The two must not be conflated.
+  Basic Energy is exempt from the limit.
+- `validateDeck` reports `{ window, outside, unknownSets, fourCopy, ok }`.
+  `outside` holds entries with at least one contributing printing outside;
+  `unknownSets` holds set codes, including unknown window ends; `fourCopy` holds
+  `{ name, count }` over four copies. `ok` is advisory: no outside, unknown, or
+  four-copy finding, not an official legality ruling.
 - `fittingWindows(deck, { era })` returns the windows that contain every card.
   A list can only **bound** a window; it can never determine the base. The base
   is chosen by the player/deck record, not inferred.
-- `validateDeck` checks the four-copy rule through `countByName`, because that
-  rule is name-based while identity is functional. The two must not be conflated.
+  - Candidate bases are every live-addressable set at or before the deck's
+    oldest known printing, optionally narrowed to `era`.
+  - `latest` is the catalog's newest live-addressable set, so the result is a
+    current window. The deck never supplies the base.
+  - Every printing participates, not just the representative. Any unknown set,
+    or any entry with no set at all, cannot be proven to fit and returns none.
 
 **Why a window and not a date.** PokeDojo currently resolves formats with
 `FORMAT_ROTATIONS` (oldest legal set → rotation date) and stores `formatWindow`
@@ -441,6 +453,7 @@ listId(normalized): Promise<DeckHash>
 countByName(normalized): { name: string; count: number }[]
 parseFormatLabel(label, catalog?): Result<FormatWindow, FormatError>
 validateDeck(deck, window, catalog?): FormatReport
+fittingWindows(deck, { era, catalog? }): FormatWindow[]
 diffDecklists(a, b, opts?): DeckDiff
 suggestArchetype(deck, opts?): ArchetypeSuggestion[]
 unwrap(result)
