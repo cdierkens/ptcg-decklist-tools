@@ -10,6 +10,7 @@
  */
 
 import { DecklistError } from "./errors.js";
+import { foldName } from "./fold.js";
 import { err, ok, type Result } from "./result.js";
 import type {
   CardRef,
@@ -72,16 +73,6 @@ function headerKey(value: string): string {
     .normalize("NFD")
     .replace(/\p{M}/gu, "")
     .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/** Fold a display name: NFC, straight quotes, collapsed whitespace, trim. */
-function foldName(value: string): string {
-  return value
-    .normalize("NFC")
-    .replace(/[\u2018\u2019\u201A\u201B\u2032]/g, "'")
-    .replace(/[\u201C\u201D\u201E\u201F\u2033]/g, '"')
     .replace(/\s+/g, " ")
     .trim();
 }

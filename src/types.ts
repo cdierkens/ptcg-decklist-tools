@@ -49,6 +49,18 @@ export interface CatalogCard {
   readonly species: null | string;
 }
 
+/** The catalog and its build date, ready to pass to `normalizeDecklist`. */
+export interface Catalog {
+  readonly cards: readonly CatalogCard[];
+  readonly sets: readonly CatalogSet[];
+  readonly catalogVersion: string;
+}
+
+/** Options for normalisation. The catalog is required at runtime. */
+export interface NormalizeOptions {
+  readonly catalog: Catalog;
+}
+
 /** One community archetype alias, with the 1–2 Pokémon Limitless uses as icons. */
 export interface CatalogArchetype {
   /** Stable id: `limitless:284/3`. */
@@ -104,7 +116,7 @@ export interface ParsedDecklist {
 export interface NormalizedEntry {
   /** `null` when the catalog could not resolve the entry. */
   readonly card: CatalogCard | null;
-  /** `f:<function>` | `?<SET>-<NUM>` | `?<folded name>`. */
+  /** `f:<function>` | `?:<SET>-<NUM>` | `?<folded name>`. */
   readonly key: string;
   readonly count: number;
   readonly section: DeckSection;

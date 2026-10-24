@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { archetypes, cards, catalogVersion, sets } from "../data.js";
+import { archetypes, cards, catalog, catalogVersion, sets } from "../data.js";
 
 const cardKeys = [
   "category",
@@ -28,6 +28,12 @@ const setKeys = [
 describe("shipped catalog", () => {
   it("stamps a catalog version", () => {
     expect(catalogVersion).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it("groups the catalog for normalisation", () => {
+    expect(catalog.cards).toBe(cards);
+    expect(catalog.sets).toBe(sets);
+    expect(catalog.catalogVersion).toBe(catalogVersion);
   });
 
   it("carries a full set list in release order", () => {

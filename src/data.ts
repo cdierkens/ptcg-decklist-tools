@@ -15,9 +15,9 @@ import cardsJson from "./data/cards.json" with { type: "json" };
 import setsJson from "./data/sets.json" with { type: "json" };
 import versionJson from "./data/version.json" with { type: "json" };
 
-import type { CatalogArchetype, CatalogCard, CatalogSet } from "./types.js";
+import type { Catalog, CatalogArchetype, CatalogCard, CatalogSet } from "./types.js";
 
-export type { CatalogArchetype, CatalogCard, CatalogSet } from "./types.js";
+export type { Catalog, CatalogArchetype, CatalogCard, CatalogSet } from "./types.js";
 
 /** The build date of this catalog, `YYYY-MM-DD`. Store it beside a hash. */
 export const catalogVersion: string = versionJson.version;
@@ -31,3 +31,6 @@ export const cards: readonly CatalogCard[] = cardsJson as readonly CatalogCard[]
 /** Window-scoped Limitless archetype aliases. */
 export const archetypes: readonly CatalogArchetype[] =
   archetypesJson as readonly CatalogArchetype[];
+
+/** The whole catalog in one object, ready for `normalizeDecklist(parsed, { catalog })`. */
+export const catalog: Catalog = { cards, sets, catalogVersion };

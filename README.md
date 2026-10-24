@@ -8,9 +8,9 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: in progress.** The catalog, parser, data shapes, error contract, and
-> `Result` helpers are published. Identity, format-window, diff, and render
-> functions land next. The design is in
+> **Status: in progress.** The catalog, parser, normaliser, data shapes, error
+> contract, and `Result` helpers are published. Identity, format-window, diff,
+> and render functions land next. The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
 ## Why
@@ -61,9 +61,10 @@ import {
   suggestArchetype,
   unwrapOrThrow,
 } from "@dierkens.dev/ptcg-decklist-tools";
+import { catalog } from "@dierkens.dev/ptcg-decklist-tools/data";
 
 const parsed = unwrapOrThrow(parseDecklist(text));
-const deck = unwrapOrThrow(normalizeDecklist(parsed));
+const deck = unwrapOrThrow(normalizeDecklist(parsed, { catalog }));
 
 const id = await deckId(deck);
 const format = renderDecklist(deck, "print"); // a sheet for a deck check
@@ -75,7 +76,7 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | Export | Purpose |
 |---|---|
 | `parseDecklist(text)` | `Result<ParsedDecklist, DecklistError[]>`. Any source; refs optional |
-| `normalizeDecklist(parsed, opts?)` | Resolve refs and names, infer sections, merge printings |
+| `normalizeDecklist(parsed, { catalog })` | Resolve refs and names, infer sections, merge printings |
 | `renderDecklist(deck, style)` | `ptcgl`, `list`, `print`, or `plain` |
 | `deckId(deck)` / `listId(deck)` | Functional identity / exact-printing identity |
 | `countByName(deck)` | The four-copy rule, kept separate from identity |
@@ -83,9 +84,9 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `diffDecklists(a, b)` | Changes with confidence, classified |
 | `suggestArchetype(deck)` | Aliases with reasons, never auto-committed |
 
-Types are exported for storage and adapters: `CatalogSet`, `CatalogCard`,
-`CatalogArchetype`, `NormalizedDeck`, `DeckHash`, `FormatWindow`, `DeckDiff`,
-`ArchetypeSuggestion`, and the rest.
+Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
+`CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
+`FormatWindow`, `DeckDiff`, `ArchetypeSuggestion`, and the rest.
 
 ### Data
 
@@ -95,6 +96,7 @@ The generated catalog is opt-in, so core users do not pay for it:
 import {
   archetypes,
   cards,
+  catalog,
   catalogVersion,
   sets,
 } from "@dierkens.dev/ptcg-decklist-tools/data";
@@ -102,7 +104,8 @@ import {
 
 `sets` is oldest-first and carries the resolved `liveAddressable` answer for
 shared Live codes. `cards` carries every Live-addressable printing with its
-16-hex functional fingerprint. The JSON is bundled; nothing is fetched at
+16-hex functional fingerprint. `catalog` is the three values in one object,
+ready to pass to `normalizeDecklist`. The JSON is bundled; nothing is fetched at
 runtime.
 
 ## Data and provenance

@@ -153,7 +153,8 @@ interface CatalogArchetype {
   the catalog; ids are stable, labels are refreshed.
 
 **Unknown cards never fail.** A ref absent from the catalog is `resolved: false`
-and hashes under a provisional key (`?<SET>-<NUM>`). New sets therefore work
+and hashes under a provisional key (`?:<SET>-<NUM>`, the form used in §4's
+canonical text). New sets therefore work
 before the app ships an updated catalog, at the cost of the id changing when the
 catalog catches up (see §4, versioning).
 
@@ -199,7 +200,7 @@ interface NormalizedDeck {
 
 interface NormalizedEntry {
   card: CatalogCard | null;   // null when unresolved
-  key: string;                // `f:<function>` | `?<SET>-<NUM>` | `?<folded name>`
+  key: string;                // `f:<function>` | `?:<SET>-<NUM>` | `?<folded name>`
   count: number;
   printings: { ref: string; count: number }[]; // for display and printing diffs
 }
@@ -218,14 +219,16 @@ Order of operations:
    distinct `function` for that folded name. Two candidates (two different
    Pikachus, or a name collision) is a warning and an unresolved key; never
    guessed. A uniquely resolved ref-less entry keys as `f:<function>`, so
-   `4 Ultra Ball` and `4 Ultra Ball SVI 196` reach the same `deckId`, with no
-   printing recorded.
+   `4 Acerola's Mischief` and `4 Acerola's Mischief MEG 113` reach the same
+   `deckId`, with no printing recorded. `Ultra Ball` is deliberately not an
+   example: the pinned catalog has four functional Ultra Balls, so a ref-less
+   `4 Ultra Ball` stays unresolved under this rule.
 4. **Section inference** — when the header is unknown, take the section from the
    resolved card's `category`. When the header and the catalog disagree, the
    catalog wins and a warning is recorded.
 5. **Merge** — sum counts by `key`. Printings are retained as a multiset.
 6. **Representative form** — for each key, choose the printing with the most
-   copies; ties broken by highest `order`, then `ref` lexicographically. This is
+   copies; ties broken by highest `order`, then `ref` ascending. This is
    the "most common form" rule. It affects serialisation and display, **not**
    identity. A ref-less entry has no printing to choose; it renders by name.
 

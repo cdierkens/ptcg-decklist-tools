@@ -8,8 +8,8 @@
  * The `_tag` values are part of the public API.
  */
 
-/** Fatal parse failures. Everything else is a `DecklistWarning`. */
-export type DecklistErrorCode = "empty-input" | "no-entries";
+/** Fatal parse or normalisation failures. Everything else is a `DecklistWarning`. */
+export type DecklistErrorCode = "empty-input" | "missing-catalog" | "no-entries";
 
 /** The input could not be read as a decklist at all. */
 export class DecklistError extends Error {
