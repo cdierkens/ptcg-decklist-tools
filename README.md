@@ -96,13 +96,14 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `parseFormatLabel(label)` | `TEF-30C` windows, case-insensitive and catalog-checked |
 | `validateDeck(deck, window)` | Advisory outside sets, unknown sets, four-copy counts |
 | `fittingWindows(deck, { era })` | Candidate bases; never infers the base from the deck |
-| `diffDecklists(a, b)` | Changes with confidence, classified |
+| `diffDecklists(a, b, { maxChanges })` | Changes with confidence, classified |
 | `suggestArchetype(deck, { window })` | Aliases with reasons, never auto-committed |
 
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
 `FormatWindow`, `FormatReport`, `FittingWindowsOptions`, `DeckDiff`,
-`ArchetypeSuggestion`, `SuggestArchetypeOptions`, and the rest.
+`DiffDecklistsOptions`, `ArchetypeSuggestion`, `SuggestArchetypeOptions`, and
+the rest.
 
 ### Identity
 
@@ -137,6 +138,21 @@ optionally narrowed by `era`, and uses the catalog's newest live-addressable set
 as `latest`. The deck never chooses its own base. Any unknown set, or any entry
 with no set at all, returns no candidates: the function will not claim a fit it
 cannot prove.
+
+### Diff
+
+`diffDecklists` is synchronous because it compares normalised entries rather
+than hashing. Resolved entries pair on their functional key; unresolved entries
+pair on their folded name, preferring the same refs. A count change is full
+confidence when the card resolved and 0.8 when it did not. A printing-only
+change is 1.0 resolved and 0.7 unresolved. Anything unpaired is an added or
+removed entry at 1.0.
+
+`sameCount` sums copies whose functional card and count did not change,
+including copies whose printing moved. `classification` is `identical` when the
+functional and printing multisets match, `printing-only` when only printings
+differ, and `variant` when at most `maxChanges` (default 5) entries differ and at
+least 90% of copies are unchanged. Everything else is `different`.
 
 ### Archetype suggestions
 

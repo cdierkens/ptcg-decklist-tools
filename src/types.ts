@@ -172,6 +172,14 @@ export interface FittingWindowsOptions {
   readonly catalog?: Catalog;
 }
 
+/** Options for comparing two normalised decks. */
+export interface DiffDecklistsOptions {
+  /** Maximum differing entries still called a variant. Defaults to 5. */
+  readonly maxChanges?: number;
+  /** Accepted for API symmetry; normalised entries already carry catalog data. */
+  readonly catalog?: Catalog;
+}
+
 export type DiffChangeKind = "added" | "removed" | "count" | "printing";
 
 export interface DiffChange {

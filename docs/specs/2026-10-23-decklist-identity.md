@@ -358,7 +358,7 @@ by `(deckId, window.label)`.
 
 ## 6. Diff
 
-`diffDecklists(a, b, { catalog })` →
+`diffDecklists(a, b, { maxChanges?, catalog? })` →
 
 ```ts
 interface DeckDiff {
@@ -391,8 +391,12 @@ Classification:
 - `identical` — same `deckId`.
 - `printing-only` — same `deckId`, different `listId`; only `printing` changes.
 - `variant` — at most `maxChanges` (default 5) entries differ and ≥ 90 % of
-  copies are unchanged.
+  copies are unchanged. The implementation measures against the larger deck so
+  a large deletion cannot look like a small variant.
 - `different` — everything else.
+
+A printing swap counts toward `sameCount`: the functional card and its count are
+unchanged, even though `listId` moves.
 
 Confidence is operational, not decorative: it is the input for auto-linking a
 re-import to an existing deck version (PokeDojo's `changeNote`) and for
