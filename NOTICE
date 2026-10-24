@@ -1,0 +1,20 @@
+# NOTICE
+
+`@dierkens.dev/ptcg-decklist-tools` is MIT-licensed (see `LICENSE`).
+
+## Bundled data
+
+Card and set data, including the functional fingerprints and regulation marks,
+are derived from **TCGdex** (<https://tcgdex.dev>), whose card database is
+licensed MIT (<https://github.com/tcgdex/cards-database>). The derivation is
+documented in the repository's spec; card text and images are not redistributed.
+
+Archetype aliases and sprite slugs are derived from **Limitless TCG**
+(<https://limitlesstcg.com>) and are included as attributed community
+identifiers. No card images or card text from Limitless are redistributed.
+
+## Trademarks
+
+Pokémon and Pokémon TCG are trademarks of Nintendo, Creatures, and GAME FREAK.
+This project is not produced by, endorsed by, supported by, or affiliated with
+Nintendo, Creatures, or GAME FREAK.

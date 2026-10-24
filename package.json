@@ -1,0 +1,72 @@
+{
+  "name": "@dierkens.dev/ptcg-decklist-tools",
+  "version": "0.1.0",
+  "description": "Parse, normalise, identify, diff, and render Pokémon TCG decklists. Zero dependencies.",
+  "keywords": [
+    "pokemon",
+    "ptcg",
+    "ptcgl",
+    "decklist",
+    "deck-list",
+    "parser",
+    "tcg",
+    "archetype",
+    "format"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "private": false,
+  "packageManager": "pnpm@11.11.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "CHANGELOG.md"
+  ],
+  "homepage": "https://github.com/cdierkens/ptcg-decklist-tools#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cdierkens/ptcg-decklist-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cdierkens/ptcg-decklist-tools/issues"
+  },
+  "scripts": {
+    "build": "pnpm run \"/^build:.*/\"",
+    "build:clean": "node -e \"import('node:fs').then(f=>f.rmSync('dist',{recursive:true,force:true}))\"",
+    "build:lib": "tsc -p tsconfig.build.json",
+    "test": "pnpm run \"/^test:.*/\"",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "verify": "pnpm run typecheck && pnpm run test && pnpm run build",
+    "prepublishOnly": "pnpm run verify",
+    "version": "changeset version",
+    "release": "pnpm run build && pnpm publish --access public --no-git-checks",
+    "release:provenance": "pnpm run build && pnpm publish --access public --provenance --no-git-checks"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@types/node": "^22.10.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.8"
+  }
+}
