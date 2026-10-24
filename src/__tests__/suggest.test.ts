@@ -19,6 +19,24 @@ describe("suggestArchetype", () => {
     expect(top?.reasons.length).toBeGreaterThan(0);
   });
 
+  it("exposes structured alias evidence", () => {
+    const top = suggestArchetype(
+      normalize(fixture("Dragapult-Dusknoir-30537.ptcgl.txt")),
+    )[0];
+
+    expect(top?.evidence).toMatchObject({
+      kind: "alias",
+      specificity: 2,
+    });
+    if (top?.evidence.kind === "alias") {
+      expect(top.evidence.windows).toContain("TEF-30C");
+      expect(top.evidence.matched.map((match) => match.slug).sort()).toEqual([
+        "dragapult",
+        "dusknoir",
+      ]);
+    }
+  });
+
   it("prefers Dragapult Dusknoir over the one-card Dragapult alias", () => {
     const suggestions = suggestArchetype(normalize(fixture("Dragapult-Dusknoir-30537.ptcgl.txt")));
     const twoCard = suggestions.find((suggestion) => suggestion.id === "limitless:284/3");
@@ -108,6 +126,19 @@ describe("suggestArchetype", () => {
     expect(top?.label).toContain("Baxcalibur");
     expect(top?.confidence).toBeLessThanOrEqual(0.5);
     expect(top?.reasons.join(" ")).toMatch(/no alias matched/i);
+  });
+
+  it("exposes structured line evidence", () => {
+    const top = suggestArchetype(normalize("4 Baxcalibur PAL 60"), {
+      archetypes: [],
+    })[0];
+
+    expect(top?.evidence).toMatchObject({
+      kind: "line",
+      copies: 4,
+      stages: 1,
+      traits: ["Stage 2"],
+    });
   });
 
   it("favours a Stage 2 ex line over a non-ex Stage 2 line", () => {
