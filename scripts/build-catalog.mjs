@@ -478,6 +478,11 @@ if (
 ) {
   fail(`${FINGERPRINTS} must be a JSON object`);
 }
+for (const [tcgdexId, fingerprint] of Object.entries(previousFingerprints)) {
+  if (typeof fingerprint !== "string" || !/^[0-9a-f]{16}$/.test(fingerprint)) {
+    fail(`${FINGERPRINTS} has an invalid fingerprint for ${tcgdexId}`);
+  }
+}
 
 const fingerprintByTcgdexId = new Map();
 const collisions = new Map();
@@ -487,7 +492,7 @@ const added = [];
 for (const card of cards) {
   const fresh = fingerprintOf(card.source);
   const frozen = previousFingerprints[card.tcgdexId];
-  const chosen = frozen ?? fresh.short;
+  const chosen = frozen === undefined || acceptDrift ? fresh.short : frozen;
 
   if (frozen !== undefined && frozen !== fresh.short) {
     drift.push({ from: frozen, tcgdexId: card.tcgdexId, to: fresh.short });
