@@ -10,13 +10,19 @@
  * The design is in `docs/specs/2026-10-23-decklist-identity.md` §3.
  */
 
+import {
+  catalogContext,
+  chooseRepresentative,
+  resolveName,
+  resolveRef,
+  type CatalogContext,
+} from "./catalog.js";
+import { createNormalizedDeck } from "./deck.js";
 import { DecklistError } from "./errors.js";
 import { foldName } from "./fold.js";
 import { err, ok, type Result } from "./result.js";
 import type {
-  Catalog,
   CatalogCard,
-  CatalogSet,
   DecklistWarning,
   DecklistWarningCode,
   DeckSection,
@@ -26,14 +32,6 @@ import type {
   ParsedDecklist,
   ParsedEntry,
 } from "./types.js";
-
-interface CatalogIndex {
-  readonly cardsByFunction: ReadonlyMap<string, CatalogCard>;
-  readonly cardsByRef: ReadonlyMap<string, CatalogCard>;
-  readonly functionsByName: ReadonlyMap<string, ReadonlySet<string>>;
-  readonly setOrderByLiveCode: ReadonlyMap<string, number>;
-  readonly setsByLiveCode: ReadonlyMap<string, CatalogSet>;
-}
 
 interface ResolvedLine {
   readonly card: CatalogCard | null;
@@ -51,126 +49,6 @@ interface Accumulator {
   readonly name: string;
   readonly printings: Map<string, { count: number; ref: string }>;
   section: DeckSection;
-}
-
-const indexes = new WeakMap<Catalog, CatalogIndex>();
-
-/** `TEF-130` -> `TEF`; also keeps gallery codes such as `BRS:TG` intact. */
-function setCodeOf(ref: string): string {
-  const dash = ref.lastIndexOf("-");
-  return dash === -1 ? ref : ref.slice(0, dash);
-}
-
-/**
- * Live prints numeric local ids without leading zeroes; the catalog does too.
- * Accept `001`, `1`, and `0001` as the same card, and uppercase promo suffixes.
- */
-function normalizeNumber(value: string): string {
-  const trimmed = value.trim();
-  const number = /^\d+$/.test(trimmed) ? trimmed.replace(/^0+(?=\d)/, "") : trimmed;
-  return number.toUpperCase();
-}
-
-function setOrderOf(card: CatalogCard, orders: ReadonlyMap<string, number>): number {
-  return orders.get(setCodeOf(card.ref)) ?? -1;
-}
-
-/** Positive when `a` is the better representative: higher set order, then lower ref. */
-function compareCards(a: CatalogCard, b: CatalogCard, orders: ReadonlyMap<string, number>): number {
-  const order = setOrderOf(a, orders) - setOrderOf(b, orders);
-  return order === 0 ? b.ref.localeCompare(a.ref) : order;
-}
-
-/** Positive when `a` wins: more copies, then higher order, then lower ref. */
-function comparePrintings(
-  a: { readonly count: number; readonly ref: string },
-  aCard: CatalogCard,
-  b: { readonly count: number; readonly ref: string },
-  bCard: CatalogCard,
-  orders: ReadonlyMap<string, number>,
-): number {
-  return a.count === b.count ? compareCards(aCard, bCard, orders) : a.count - b.count;
-}
-
-function indexCatalog(catalog: Catalog): CatalogIndex {
-  const cached = indexes.get(catalog);
-  if (cached !== undefined) return cached;
-
-  const setOrderByLiveCode = new Map<string, number>();
-  const setsByLiveCode = new Map<string, CatalogSet>();
-  for (const set of catalog.sets) {
-    const code = set.liveCode.toUpperCase();
-    setOrderByLiveCode.set(code, set.order);
-    if (set.liveAddressable && !setsByLiveCode.has(code)) setsByLiveCode.set(code, set);
-  }
-
-  const cardsByRef = new Map<string, CatalogCard>();
-  const cardsByFunction = new Map<string, CatalogCard>();
-  const functionsByName = new Map<string, Set<string>>();
-
-  for (const card of catalog.cards) {
-    cardsByRef.set(card.ref, card);
-
-    const representative = cardsByFunction.get(card.function);
-    if (
-      representative === undefined ||
-      compareCards(card, representative, setOrderByLiveCode) > 0
-    ) {
-      cardsByFunction.set(card.function, card);
-    }
-
-    const name = foldName(card.name);
-    const functions = functionsByName.get(name);
-    if (functions === undefined) functionsByName.set(name, new Set([card.function]));
-    else functions.add(card.function);
-  }
-
-  const index = {
-    cardsByFunction,
-    cardsByRef,
-    functionsByName,
-    setOrderByLiveCode,
-    setsByLiveCode,
-  };
-  indexes.set(catalog, index);
-  return index;
-}
-
-type RefResolution =
-  | { readonly card: CatalogCard; readonly kind: "resolved"; readonly ref: string }
-  | { readonly kind: "unknown-card"; readonly ref: string; readonly setCode: string }
-  | { readonly kind: "unknown-set"; readonly ref: string; readonly setCode: string };
-
-function resolveRef(
-  ref: { readonly number: string; readonly setCode: string },
-  index: CatalogIndex,
-): RefResolution {
-  const setCode = ref.setCode.trim().toUpperCase();
-  const number = normalizeNumber(ref.number);
-  const provisional = `${setCode}-${number}`;
-  const set = index.setsByLiveCode.get(setCode);
-  if (set === undefined) return { kind: "unknown-set", ref: provisional, setCode };
-
-  const card = index.cardsByRef.get(`${set.liveCode}-${number}`);
-  if (card === undefined) return { kind: "unknown-card", ref: provisional, setCode };
-  return { card, kind: "resolved", ref: card.ref };
-}
-
-type NameResolution =
-  | { readonly card: CatalogCard; readonly function: string; readonly kind: "resolved" }
-  | { readonly kind: "ambiguous" }
-  | { readonly kind: "unknown" };
-
-function resolveName(name: string, index: CatalogIndex): NameResolution {
-  const functions = index.functionsByName.get(foldName(name));
-  if (functions === undefined || functions.size === 0) return { kind: "unknown" };
-  if (functions.size > 1) return { kind: "ambiguous" };
-
-  const [fn] = functions;
-  if (fn === undefined) return { kind: "unknown" };
-  const card = index.cardsByFunction.get(fn);
-  if (card === undefined) return { kind: "unknown" };
-  return { card, function: fn, kind: "resolved" };
 }
 
 function warn(
@@ -202,11 +80,11 @@ function sectionFor(
 
 function resolveEntry(
   entry: ParsedEntry,
-  index: CatalogIndex,
+  context: CatalogContext,
   warnings: DecklistWarning[],
 ): ResolvedLine {
   if (entry.ref !== null) {
-    const resolved = resolveRef(entry.ref, index);
+    const resolved = resolveRef(context, entry.ref);
     if (resolved.kind === "resolved") {
       return {
         card: resolved.card,
@@ -236,7 +114,7 @@ function resolveEntry(
     };
   }
 
-  const resolved = resolveName(entry.name, index);
+  const resolved = resolveName(context, entry.name);
   if (resolved.kind === "resolved") {
     return {
       card: resolved.card,
@@ -266,40 +144,7 @@ function resolveEntry(
   };
 }
 
-function chooseRepresentative(
-  printings: readonly { readonly count: number; readonly ref: string }[],
-  index: CatalogIndex,
-): CatalogCard | null {
-  let bestPrinting: { readonly count: number; readonly ref: string } | null = null;
-  let bestCard: CatalogCard | null = null;
-
-  for (const printing of printings) {
-    const card = index.cardsByRef.get(printing.ref);
-    if (card === undefined) continue;
-
-    if (
-      bestPrinting === null ||
-      bestCard === null ||
-      comparePrintings(
-        printing,
-        card,
-        bestPrinting,
-        bestCard,
-        index.setOrderByLiveCode,
-      ) > 0
-    ) {
-      bestPrinting = printing;
-      bestCard = card;
-    }
-  }
-
-  return bestCard;
-}
-
-function accumulate(
-  lines: readonly ResolvedLine[],
-  index: CatalogIndex,
-): NormalizedEntry[] {
+function accumulate(lines: readonly ResolvedLine[], context: CatalogContext): NormalizedEntry[] {
   const merged = new Map<string, Accumulator>();
 
   for (const line of lines) {
@@ -338,7 +183,7 @@ function accumulate(
       left.ref.localeCompare(right.ref),
     );
     entries.push({
-      card: chooseRepresentative(printings, index) ?? accumulator.card,
+      card: chooseRepresentative(context, printings) ?? accumulator.card,
       count: accumulator.count,
       key: accumulator.key,
       name: accumulator.name,
@@ -347,9 +192,6 @@ function accumulate(
     });
   }
 
-  entries.sort((left, right) =>
-    left.key < right.key ? -1 : left.key > right.key ? 1 : 0,
-  );
   return entries;
 }
 
@@ -375,11 +217,9 @@ export function normalizeDecklist(
     ]);
   }
 
-  const index = indexCatalog(catalog);
+  const context = catalogContext(catalog);
   const warnings: DecklistWarning[] = [...parsed.warnings];
-  const lines = parsed.entries.map((entry) => resolveEntry(entry, index, warnings));
-  const entries = accumulate(lines, index);
-  const total = entries.reduce((sum, entry) => sum + entry.count, 0);
-
-  return ok({ catalogVersion: catalog.catalogVersion, entries, total, warnings });
+  const lines = parsed.entries.map((entry) => resolveEntry(entry, context, warnings));
+  const entries = accumulate(lines, context);
+  return ok(createNormalizedDeck(entries, warnings, context));
 }

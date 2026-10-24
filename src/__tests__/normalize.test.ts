@@ -1,19 +1,13 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { catalog, catalogVersion } from "../data.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { isErr, unwrapOrThrow } from "../result.js";
-
-function fixture(name: string): string {
-  return readFileSync(new URL(`./fixtures/decklists/${name}`, import.meta.url), "utf8");
-}
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import { catalogVersion } from "../data.js";
+import {
+  isErr,
+  normalizeDecklist,
+  parseDecklist,
+  unwrapOrThrow,
+} from "../index.js";
+import { fixture, normalize } from "./support.js";
 
 describe("normalizeDecklist", () => {
   it("resolves a ref through the live code and a padded local id", () => {

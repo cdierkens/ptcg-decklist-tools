@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { DecklistError, isDecklistError } from "../errors.js";
-import { err, isErr, isOk, map, ok, unwrapOr, unwrapOrThrow } from "../result.js";
+import {
+  DecklistError,
+  err,
+  isDecklistError,
+  isErr,
+  isOk,
+  map,
+  ok,
+  unwrapOr,
+  unwrapOrThrow,
+} from "../index.js";
 
 describe("Result", () => {
   it("narrows with isOk / isErr", () => {

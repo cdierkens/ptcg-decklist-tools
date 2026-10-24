@@ -9,9 +9,11 @@
  * Suggestions are advisory. This module never writes an archetype.
  */
 
-import { archetypes as shippedArchetypes } from "./archetypes.js";
+import type { CatalogContext } from "./catalog.js";
+import { contextForDeck } from "./deck.js";
 import { parseFormatLabel } from "./format.js";
 import { isOk } from "./result.js";
+import { shippedArchetypes } from "./shipped.js";
 import type {
   ArchetypeSuggestion,
   CatalogArchetype,
@@ -59,10 +61,13 @@ function formatWindows(windows: readonly string[]): string {
   return windows.join(", ");
 }
 
-function selectedWindow(options: SuggestArchetypeOptions): string | null {
+function selectedWindow(
+  options: SuggestArchetypeOptions,
+  context: CatalogContext,
+): string | null {
   if (options.window === undefined) return null;
   const label = typeof options.window === "string" ? options.window : options.window.label;
-  const parsed = parseFormatLabel(label, options.catalog);
+  const parsed = parseFormatLabel(label, context.catalog);
   return (isOk(parsed) ? parsed.value.label : label.trim()).toUpperCase();
 }
 
@@ -91,12 +96,16 @@ function speciesUses(deck: NormalizedDeck): Map<string, SpeciesUse> {
   return uses;
 }
 
-function aliasGroups(deck: NormalizedDeck, options: SuggestArchetypeOptions): AliasGroup[] {
+function aliasGroups(
+  deck: NormalizedDeck,
+  options: SuggestArchetypeOptions,
+  context: CatalogContext,
+): AliasGroup[] {
   const uses = speciesUses(deck);
   if (uses.size === 0) return [];
 
   const table = options.archetypes ?? shippedArchetypes;
-  const window = selectedWindow(options);
+  const window = selectedWindow(options, context);
   const groups = new Map<string, AliasGroup>();
 
   for (let order = 0; order < table.length; order += 1) {
@@ -135,8 +144,12 @@ function aliasGroups(deck: NormalizedDeck, options: SuggestArchetypeOptions): Al
   });
 }
 
-function aliasSuggestions(deck: NormalizedDeck, options: SuggestArchetypeOptions): ArchetypeSuggestion[] {
-  const groups = aliasGroups(deck, options);
+function aliasSuggestions(
+  deck: NormalizedDeck,
+  options: SuggestArchetypeOptions,
+  context: CatalogContext,
+): ArchetypeSuggestion[] {
+  const groups = aliasGroups(deck, options, context);
   if (groups.length === 0) return [];
 
   const multiCardCount = groups.filter((group) => group.specificity > 1).length;
@@ -339,6 +352,7 @@ export function suggestArchetype(
   deck: NormalizedDeck,
   options: SuggestArchetypeOptions = {},
 ): ArchetypeSuggestion[] {
-  const aliases = aliasSuggestions(deck, options);
+  const context = contextForDeck(deck, options.catalog);
+  const aliases = aliasSuggestions(deck, options, context);
   return aliases.length > 0 ? aliases : lineSuggestions(deck);
 }

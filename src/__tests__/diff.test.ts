@@ -1,20 +1,7 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { catalog } from "../data.js";
-import { diffDecklists } from "../diff.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { unwrapOrThrow } from "../result.js";
-
-function fixture(name: string): string {
-  return readFileSync(new URL(`./fixtures/decklists/${name}`, import.meta.url), "utf8");
-}
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import { diffDecklists } from "../index.js";
+import { fixture, normalize } from "./support.js";
 
 const dragapult = fixture("Dragapult-Dusknoir-30537.ptcgl.txt");
 

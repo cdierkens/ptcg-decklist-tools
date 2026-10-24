@@ -1,13 +1,7 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { parseDecklist } from "../parse.js";
-import { isErr, unwrapOrThrow } from "../result.js";
-
-function fixture(name: string): string {
-  return readFileSync(new URL(`./fixtures/decklists/${name}`, import.meta.url), "utf8");
-}
+import { isErr, parseDecklist, unwrapOrThrow } from "../index.js";
+import { fixture } from "./support.js";
 
 function parseFixture(name: string) {
   return unwrapOrThrow(parseDecklist(fixture(name)));

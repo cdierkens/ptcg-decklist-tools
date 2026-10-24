@@ -1,23 +1,11 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { catalog, catalogVersion } from "../data.js";
-import { canonicalText, countByName, deckId, listId } from "../identity.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { unwrapOrThrow } from "../result.js";
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import { catalogVersion } from "../data.js";
+import { canonicalText, countByName, deckId, listId } from "../index.js";
+import { fixture, normalize } from "./support.js";
 
 function golden(value: string) {
   return `sha256:${value}`;
-}
-
-function fixture(name: string): string {
-  return readFileSync(new URL(`./fixtures/decklists/${name}`, import.meta.url), "utf8");
 }
 
 const fixtureGoldens = [
