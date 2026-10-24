@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
 
 import { catalog } from "../data.js";
-import { FormatError, isFormatError } from "../errors.js";
-import { fittingWindows, parseFormatLabel, validateDeck } from "../format.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { isErr, unwrapOrThrow } from "../result.js";
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import {
+  FormatError,
+  fittingWindows,
+  isErr,
+  isFormatError,
+  normalizeDecklist,
+  parseDecklist,
+  parseFormatLabel,
+  unwrapOrThrow,
+  validateDeck,
+} from "../index.js";
+import { normalize } from "./support.js";
 
 function formatWindow(label: string) {
   return unwrapOrThrow(parseFormatLabel(label));
@@ -188,6 +191,23 @@ describe("validateDeck", () => {
     expect(report.unknownSets).toEqual(["SVI"]);
     expect(report.ok).toBe(false);
   });
+
+  it("reuses the catalog attached at normalisation", () => {
+    const custom = {
+      ...catalog,
+      sets: catalog.sets.filter((set) => set.liveCode === "TEF" || set.liveCode === "30C"),
+    };
+    const deck = unwrapOrThrow(
+      normalizeDecklist(unwrapOrThrow(parseDecklist("4 Ultra Ball SVI 196")), {
+        catalog: custom,
+      }),
+    );
+
+    const report = validateDeck(deck, window);
+
+    expect(report.unknownSets).toEqual(["SVI"]);
+    expect(report.ok).toBe(false);
+  });
 });
 
 describe("fittingWindows", () => {
@@ -257,6 +277,25 @@ describe("fittingWindows", () => {
       catalog: custom,
       era: "sv",
     });
+
+    expect(windows.map((candidate) => candidate.base)).toEqual(["SVI", "TEF"]);
+    expect(windows.every((candidate) => candidate.latest === "TEF")).toBe(true);
+  });
+
+  it("reuses the catalog attached at normalisation for the set order", () => {
+    const custom = {
+      ...catalog,
+      sets: catalog.sets.filter(
+        (set) => set.liveCode === "SVI" || set.liveCode === "TEF",
+      ),
+    };
+    const deck = unwrapOrThrow(
+      normalizeDecklist(unwrapOrThrow(parseDecklist("4 Scyther TEF 1")), {
+        catalog: custom,
+      }),
+    );
+
+    const windows = fittingWindows(deck, { era: "sv" });
 
     expect(windows.map((candidate) => candidate.base)).toEqual(["SVI", "TEF"]);
     expect(windows.every((candidate) => candidate.latest === "TEF")).toBe(true);

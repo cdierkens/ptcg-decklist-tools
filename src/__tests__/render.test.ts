@@ -1,25 +1,8 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { catalog, catalogVersion } from "../data.js";
-import { listId } from "../identity.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { renderDecklist } from "../render.js";
-import { unwrapOrThrow } from "../result.js";
-
-function read(relative: string): string {
-  return readFileSync(new URL(relative, import.meta.url), "utf8");
-}
-
-function fixture(name: string): string {
-  return read(`./fixtures/decklists/${name}`);
-}
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import { catalogVersion } from "../data.js";
+import { listId, renderDecklist } from "../index.js";
+import { fixture, normalize, readFixture } from "./support.js";
 
 const manifest = JSON.parse(fixture("manifest.json")) as Array<{
   readonly label: string;
@@ -36,7 +19,7 @@ describe("renderDecklist goldens", () => {
         const options = style === "print" ? { listName: item.label, window: "TEF-30C" } : undefined;
 
         expect(renderDecklist(deck, style, options)).toBe(
-          read(`./fixtures/rendered/${item.name}.${style}.txt`),
+          readFixture(`./fixtures/rendered/${item.name}.${style}.txt`),
         );
       });
     }

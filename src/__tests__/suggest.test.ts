@@ -1,20 +1,7 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
-import { catalog } from "../data.js";
-import { normalizeDecklist } from "../normalize.js";
-import { parseDecklist } from "../parse.js";
-import { unwrapOrThrow } from "../result.js";
-import { suggestArchetype } from "../suggest.js";
-
-function fixture(name: string): string {
-  return readFileSync(new URL(`./fixtures/decklists/${name}`, import.meta.url), "utf8");
-}
-
-function normalize(text: string) {
-  return unwrapOrThrow(normalizeDecklist(unwrapOrThrow(parseDecklist(text)), { catalog }));
-}
+import { suggestArchetype } from "../index.js";
+import { fixture, normalize } from "./support.js";
 
 describe("suggestArchetype", () => {
   it("finds Dragapult Dusknoir and explains the alias", () => {
