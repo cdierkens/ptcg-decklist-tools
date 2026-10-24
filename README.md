@@ -280,11 +280,19 @@ fingerprint would move; that is deliberate.
 
 ## Releasing
 
+A release is a `v*` tag. CI publishes through npm trusted publishing, so the
+upload is provenance-signed and no npm token lives in the repository:
+
 ```sh
 pnpm changeset          # describe the change
 pnpm run version        # bump + changelog
-pnpm run release        # publish (needs an npm OTP — 2FA is enabled)
+pnpm run verify
+git add -A && git commit -m "chore: release vX.Y.Z"
+git tag vX.Y.Z && git push origin main --tags
 ```
+
+See [`docs/RELEASING.md`](docs/RELEASING.md) for the trusted-publisher setup and
+the environment approval.
 
 ## License
 

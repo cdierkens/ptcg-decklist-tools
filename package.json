@@ -69,9 +69,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "verify": "pnpm run typecheck && pnpm run test && pnpm run build",
     "prepublishOnly": "pnpm run verify",
-    "version": "changeset version",
-    "release": "pnpm run build && pnpm publish --access public --no-git-checks",
-    "release:provenance": "pnpm run build && pnpm publish --access public --provenance --no-git-checks"
+    "version": "changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10",

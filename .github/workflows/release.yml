@@ -1,0 +1,94 @@
+name: Release
+
+# The single sanctioned release action is pushing a `v*` tag. Everything after
+# that is automated, tokenless, and provenance-signed by npm trusted publishing.
+on:
+  push:
+    tags: ["v*"]
+
+# Read-only by default; the publish job grants `id-token: write` for itself.
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    # Required reviewers gate this job. The tag push is the first key; the
+    # environment is the second. It is also where a fallback `NPM_TOKEN` would
+    # live if trusted publishing ever became unavailable.
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@dierkens.dev/ptcg-decklist-tools
+
+    permissions:
+      contents: read
+      # The one permission OIDC trusted publishing needs. There is no
+      # NPM_TOKEN anywhere in this workflow, and no `--provenance` flag —
+      # npm generates and publishes the attestation automatically.
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      # No `registry-url:` on purpose. actions/setup-node writes an
+      # `//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}` line when it is
+      # set; with NODE_AUTH_TOKEN unset that expands to empty, which npm reads
+      # as "auth is already configured" — so it never starts the OIDC exchange.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0 # the runtime half of the OIDC floor
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Trusted publishing authenticates through the **npm** CLI, which must be
+      # >= 11.5.1. Node 22.14.0 bundles npm 10.x, so install npm explicitly.
+      - run: npm install -g npm@^11.5.1
+
+      # Guard 1 — the tag must name the version being published. A mismatch
+      # publishes the wrong version under the right tag, and that cannot be
+      # undone.
+      - name: Assert the tag matches package.json
+        run: |
+          set -euo pipefail
+          pkg="$(node -p "require('./package.json').version")"
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$pkg" != "$tag" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match package.json version ${pkg}"
+            exit 1
+          fi
+
+      # Guard 2 — a release must come from main, so a stray tag on a feature
+      # branch cannot publish.
+      - name: Assert the tagged commit is on main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::${GITHUB_REF_NAME} is not an ancestor of main"
+            exit 1
+          fi
+
+      # Prereleases go to `next`; final releases move `latest`.
+      - name: Choose the dist-tag
+        id: dist
+        run: |
+          set -euo pipefail
+          pkg="$(node -p "require('./package.json').version")"
+          case "$pkg" in
+            *-*) echo "tag=next" >> "$GITHUB_OUTPUT" ;;
+            *)   echo "tag=latest" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      # `prepublishOnly` runs the gate (typecheck + test + build), so nothing
+      # unverified can reach the registry. Use `npm publish` rather than
+      # `pnpm publish`: the OIDC exchange lives in npm, and npm has no detached
+      # HEAD publish check, so `--no-git-checks` is unnecessary.
+      - run: npm publish --access public --tag "${{ steps.dist.outputs.tag }}"
