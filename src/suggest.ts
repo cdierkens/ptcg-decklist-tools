@@ -9,12 +9,13 @@
  * Suggestions are advisory. This module never writes an archetype.
  */
 
-import type { CatalogContext } from "./catalog.js";
+import type { SetContext } from "./catalog.js";
 import { contextForDeck } from "./deck.js";
-import { parseFormatLabel } from "./format.js";
+import { parseFormatLabelInContext } from "./format.js";
 import { isOk } from "./result.js";
 import { shippedArchetypes } from "./shipped.js";
 import type {
+  ArchetypeEvidence,
   ArchetypeSuggestion,
   CatalogArchetype,
   CatalogCard,
@@ -27,6 +28,7 @@ interface SpeciesUse {
   count: number;
   name: string;
   nameCount: number;
+  slug: string;
 }
 
 interface AliasGroup {
@@ -63,11 +65,11 @@ function formatWindows(windows: readonly string[]): string {
 
 function selectedWindow(
   options: SuggestArchetypeOptions,
-  context: CatalogContext,
+  context: SetContext,
 ): string | null {
   if (options.window === undefined) return null;
   const label = typeof options.window === "string" ? options.window : options.window.label;
-  const parsed = parseFormatLabel(label, context.catalog);
+  const parsed = parseFormatLabelInContext(label, context);
   return (isOk(parsed) ? parsed.value.label : label.trim()).toUpperCase();
 }
 
@@ -82,7 +84,12 @@ function speciesUses(deck: NormalizedDeck): Map<string, SpeciesUse> {
 
     const current = uses.get(card.species);
     if (current === undefined) {
-      uses.set(card.species, { count: entry.count, name: entry.name, nameCount: entry.count });
+      uses.set(card.species, {
+        count: entry.count,
+        name: entry.name,
+        nameCount: entry.count,
+        slug: card.species,
+      });
       continue;
     }
 
@@ -99,7 +106,7 @@ function speciesUses(deck: NormalizedDeck): Map<string, SpeciesUse> {
 function aliasGroups(
   deck: NormalizedDeck,
   options: SuggestArchetypeOptions,
-  context: CatalogContext,
+  context: SetContext,
 ): AliasGroup[] {
   const uses = speciesUses(deck);
   if (uses.size === 0) return [];
@@ -147,7 +154,7 @@ function aliasGroups(
 function aliasSuggestions(
   deck: NormalizedDeck,
   options: SuggestArchetypeOptions,
-  context: CatalogContext,
+  context: SetContext,
 ): ArchetypeSuggestion[] {
   const groups = aliasGroups(deck, options, context);
   if (groups.length === 0) return [];
@@ -156,11 +163,11 @@ function aliasSuggestions(
 
   return groups.map((group) => {
     const reasons = [`Matched ${formatCounts(group.uses)} in ${formatWindows(group.windows)}.`];
+    const otherLabels = [...new Set(group.aliases.map((alias) => alias.label))].filter(
+      (label) => label !== group.representative.label,
+    );
 
     if (group.specificity > 1) {
-      const otherLabels = [...new Set(group.aliases.map((alias) => alias.label))].filter(
-        (label) => label !== group.representative.label,
-      );
       if (otherLabels.length > 0) {
         reasons.push(
           `Same icons also label ${otherLabels.join(", ")}; kept ${group.representative.label}.`,
@@ -175,12 +182,21 @@ function aliasSuggestions(
       reasons.push("One-card alias; it cannot distinguish variants, so confidence is low.");
     }
 
+    const evidence: ArchetypeEvidence = {
+      competitors: otherLabels,
+      kind: "alias",
+      matched: group.uses.map(({ count, name, slug }) => ({ count, name, slug })),
+      specificity: group.specificity,
+      windows: [...group.windows],
+    };
+
     return {
       id: group.representative.id,
       label: group.representative.label,
       cards: [...group.representative.cards],
       confidence: group.specificity > 1 ? (multiCardCount === 1 ? 0.9 : 0.6) : 0.4,
       basis: "alias",
+      evidence,
       reasons,
     };
   });
@@ -300,7 +316,7 @@ function lineLabel(group: LineGroup): string {
   return `${lineName(name ?? "Line")} line`;
 }
 
-function lineReasons(group: LineGroup): string[] {
+function lineTraits(group: LineGroup): string[] {
   const card = bestEntry(group.entries)?.card;
   const traits: string[] = [];
   if (card?.stage === "stage2") traits.push("Stage 2");
@@ -310,10 +326,13 @@ function lineReasons(group: LineGroup): string[] {
   if (name.startsWith("mega ")) traits.push("Mega");
   if (name.endsWith(" vstar")) traits.push("VSTAR");
   if (traits.length === 0) traits.push("basic attacker");
+  return traits;
+}
 
+function lineReasons(group: LineGroup): string[] {
   return [
     `No alias matched; grouped ${group.copies} cards across ${group.stages.size} evolution stage(s) on ${group.line}.`,
-    `Favours ${traits.join(", ")}.`,
+    `Favours ${lineTraits(group).join(", ")}.`,
     "Line fallback is capped at 0.5 confidence.",
   ];
 }
@@ -334,6 +353,13 @@ function lineSuggestions(deck: NormalizedDeck): ArchetypeSuggestion[] {
       cards,
       confidence: Math.round(Math.min(0.5, 0.25 + 0.25 * ratio) * 100) / 100,
       basis: "lines",
+      evidence: {
+        copies: group.copies,
+        kind: "line",
+        line: group.line,
+        stages: group.stages.size,
+        traits: lineTraits(group),
+      },
       reasons: lineReasons(group),
     });
   }

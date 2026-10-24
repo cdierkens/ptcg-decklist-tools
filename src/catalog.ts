@@ -4,20 +4,27 @@
  * A catalog is a data contract. Resolving a decklist against it needs derived
  * indexes and a few ordering rules: which set a live code means when codes
  * collide, which printing represents a functional card, and which card a folded
- * name identifies. This module owns those rules behind one interface so
- * normalisation, format checks, and suggestions cannot drift.
+ * name identifies. This module owns those rules behind two interfaces: a small
+ * set context for format checks, and a full catalog context for normalisation.
  */
 
 import { foldName } from "./fold.js";
 import { normalizeNumber, normalizeSetCode, setCodeOf } from "./refs.js";
 import type { CardRef, Catalog, CatalogCard, CatalogSet } from "./types.js";
 
-export interface CatalogContext {
-  readonly catalog: Catalog;
+/** Set order and live-code resolution. Format checks need only this much. */
+export interface SetContext {
+  readonly id: string;
+  readonly catalogVersion: string;
   readonly sets: readonly CatalogSet[];
   /** Live-addressable sets by uppercase live code; the lowest-order set wins. */
   readonly setByLiveCode: ReadonlyMap<string, CatalogSet>;
   readonly setOrderByLiveCode: ReadonlyMap<string, number>;
+}
+
+/** A set context plus the card indexes normalisation needs. */
+export interface CatalogContext extends SetContext {
+  readonly catalog: Catalog;
   readonly cardsByRef: ReadonlyMap<string, CatalogCard>;
   /** One representative printing per functional fingerprint. */
   readonly cardsByFunction: ReadonlyMap<string, CatalogCard>;
@@ -38,7 +45,7 @@ const contexts = new WeakMap<Catalog, CatalogContext>();
 
 /** Positive when `a` is the better representative: higher set order, then lower ref. */
 export function compareCards(
-  context: CatalogContext,
+  context: SetContext,
   left: CatalogCard,
   right: CatalogCard,
 ): number {
@@ -50,7 +57,7 @@ export function compareCards(
 
 /** Positive when `a` wins: more copies, then higher order, then lower ref. */
 export function comparePrintings(
-  context: CatalogContext,
+  context: SetContext,
   left: { readonly count: number; readonly ref: string },
   leftCard: CatalogCard,
   right: { readonly count: number; readonly ref: string },
@@ -86,14 +93,32 @@ export function chooseRepresentative(
   return bestCard;
 }
 
-/** Build or reuse the indexes a catalog needs. */
-export function catalogContext(catalog: Catalog): CatalogContext {
-  const cached = contexts.get(catalog);
-  if (cached !== undefined) return cached;
+/** A stable fingerprint of the set facts a context is built from. */
+function contextId(catalogVersion: string, sets: readonly CatalogSet[]): string {
+  const text = [
+    catalogVersion,
+    ...sets.map(
+      (set) =>
+        `${set.liveCode}:${set.tcgdexId}:${set.order}:${set.liveAddressable ? 1 : 0}`,
+    ),
+  ].join("\n");
 
+  let hash = 0xcbf29ce484222325n;
+  for (const character of text) {
+    hash ^= BigInt(character.codePointAt(0) ?? 0);
+    hash = BigInt.asUintN(64, hash * 0x100000001b3n);
+  }
+  return `catalog:${hash.toString(16).padStart(16, "0")}`;
+}
+
+/** Build a set context from a catalog version and its sets. */
+export function createSetContext(
+  catalogVersion: string,
+  sets: readonly CatalogSet[],
+): SetContext {
   const setByLiveCode = new Map<string, CatalogSet>();
   const setOrderByLiveCode = new Map<string, number>();
-  for (const set of catalog.sets) {
+  for (const set of sets) {
     const code = normalizeSetCode(set.liveCode);
     if (!setOrderByLiveCode.has(code)) setOrderByLiveCode.set(code, set.order);
     if (!set.liveAddressable) continue;
@@ -105,18 +130,31 @@ export function catalogContext(catalog: Catalog): CatalogContext {
     }
   }
 
+  return {
+    catalogVersion,
+    id: contextId(catalogVersion, sets),
+    setByLiveCode,
+    setOrderByLiveCode,
+    sets,
+  };
+}
+
+/** Build or reuse the indexes a full catalog needs. */
+export function catalogContext(catalog: Catalog): CatalogContext {
+  const cached = contexts.get(catalog);
+  if (cached !== undefined) return cached;
+
+  const setContext = createSetContext(catalog.catalogVersion, catalog.sets);
   const cardsByRef = new Map<string, CatalogCard>();
   const cardsByFunction = new Map<string, CatalogCard>();
   const functionsByName = new Map<string, Set<string>>();
 
   const index: CatalogContext = {
+    ...setContext,
     cardsByFunction,
     cardsByRef,
     catalog,
     functionsByName,
-    setByLiveCode,
-    setOrderByLiveCode,
-    sets: catalog.sets,
   };
 
   for (const card of catalog.cards) {
@@ -139,7 +177,7 @@ export function catalogContext(catalog: Catalog): CatalogContext {
 
 /** Look up a live-addressable set by code. */
 export function setForCode(
-  context: CatalogContext,
+  context: SetContext,
   code: string,
 ): CatalogSet | undefined {
   return context.setByLiveCode.get(normalizeSetCode(code));

@@ -98,9 +98,24 @@ export type DecklistWarningCode =
   | "total-mismatch"
   | "no-ref";
 
+/** Structured facts behind a warning; `message` is the presentation layer. */
+export interface DecklistWarningDetails {
+  readonly actual?: number;
+  readonly actualSection?: DeckSection;
+  readonly declared?: number;
+  readonly declaredSection?: DeckSection;
+  readonly name?: string;
+  readonly ref?: string;
+  readonly section?: DeckSection;
+  readonly setCode?: string;
+  readonly text?: string;
+  readonly totals?: readonly number[];
+}
+
 /** A non-fatal observation. Warnings never change a hash; they explain it. */
 export interface DecklistWarning {
   readonly code: DecklistWarningCode;
+  readonly details: DecklistWarningDetails;
   readonly message: string;
   readonly line: number | null;
 }
@@ -134,6 +149,39 @@ export interface NormalizedDeck {
   readonly total: number;
   readonly warnings: readonly DecklistWarning[];
   readonly catalogVersion: string;
+  /**
+   * A stable fingerprint of the set facts this deck was normalised with.
+   * Optional for decks stored before 0.2; those fall back by catalog version.
+   */
+  readonly catalogContextId?: string;
+}
+
+/** One section of a read-only deck view. */
+export interface DeckSectionView {
+  readonly count: number;
+  readonly entries: readonly NormalizedEntry[];
+  readonly section: DeckSection;
+}
+
+/** A functional count used by deck identity and custom consumers. */
+export interface DeckFunctionalCount {
+  readonly count: number;
+  readonly key: string;
+}
+
+/** A printing count used by list identity and custom consumers. */
+export interface DeckListCount {
+  readonly count: number;
+  readonly key: string;
+  readonly ref: string;
+}
+
+/** Read-only projections of a normalised deck. */
+export interface DeckView {
+  readonly functional: readonly DeckFunctionalCount[];
+  readonly list: readonly DeckListCount[];
+  readonly names: readonly { readonly count: number; readonly name: string }[];
+  readonly sections: readonly DeckSectionView[];
 }
 
 /** A hash and the versions needed to compare it with another. */
@@ -215,6 +263,30 @@ export interface RenderDecklistOptions {
 
 export type ArchetypeBasis = "alias" | "lines";
 
+/** The matched species behind an alias suggestion. */
+export interface AliasEvidenceMatch {
+  readonly count: number;
+  readonly name: string;
+  readonly slug: string;
+}
+
+/** Structured evidence behind a suggestion; `reasons` is the presentation layer. */
+export type ArchetypeEvidence =
+  | {
+      readonly kind: "alias";
+      readonly competitors: readonly string[];
+      readonly matched: readonly AliasEvidenceMatch[];
+      readonly specificity: number;
+      readonly windows: readonly string[];
+    }
+  | {
+      readonly kind: "line";
+      readonly copies: number;
+      readonly line: string;
+      readonly stages: number;
+      readonly traits: readonly string[];
+    };
+
 export interface ArchetypeSuggestion {
   /** `limitless:284/3`, or a synthetic id for a line suggestion. */
   readonly id: string;
@@ -223,6 +295,8 @@ export interface ArchetypeSuggestion {
   readonly cards: readonly string[];
   readonly confidence: number;
   readonly basis: ArchetypeBasis;
+  /** Structured facts behind the suggestion. */
+  readonly evidence: ArchetypeEvidence;
   /** Why this won, shown to the player before they confirm. */
   readonly reasons: readonly string[];
 }

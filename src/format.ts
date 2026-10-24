@@ -1,4 +1,4 @@
-import { catalogContext, setForCode } from "./catalog.js";
+import { createSetContext, setForCode, type SetContext } from "./catalog.js";
 import { contextForDeck, countByName, refsForEntry } from "./deck.js";
 import { FormatError } from "./errors.js";
 import { normalizeSetCode, setCodeOf } from "./refs.js";
@@ -39,9 +39,9 @@ function unknownSet(input: string): Result<never, FormatError> {
  * Resolve a Limitless-style window label such as `TEF-30C`. Both ends must be
  * live-addressable sets, and the base cannot be newer than the latest set.
  */
-export function parseFormatLabel(
+export function parseFormatLabelInContext(
   label: string,
-  catalog?: Catalog,
+  context: SetContext,
 ): Result<FormatWindow, FormatError> {
   const trimmed = label.trim();
   const parts = trimmed.split("-");
@@ -55,7 +55,6 @@ export function parseFormatLabel(
     return invalidLabel(trimmed, `"${label}" is missing a window end.`);
   }
 
-  const context = catalog === undefined ? shippedSetContext() : catalogContext(catalog);
   const base = setForCode(context, rawBase);
   if (base === undefined) return unknownSet(rawBase);
 
@@ -71,6 +70,17 @@ export function parseFormatLabel(
     label: `${base.liveCode}-${latest.liveCode}`,
     latest: latest.liveCode,
   });
+}
+
+/** Resolve a window label against a catalog, or the shipped sets. */
+export function parseFormatLabel(
+  label: string,
+  catalog?: Catalog,
+): Result<FormatWindow, FormatError> {
+  const context = catalog === undefined
+    ? shippedSetContext()
+    : createSetContext(catalog.catalogVersion, catalog.sets);
+  return parseFormatLabelInContext(label, context);
 }
 
 /**

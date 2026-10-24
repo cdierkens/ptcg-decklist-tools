@@ -11,11 +11,13 @@
 
 import { DecklistError } from "./errors.js";
 import { foldName } from "./fold.js";
+import { splitRefSuffix } from "./refs.js";
 import { err, ok, type Result } from "./result.js";
 import type {
   CardRef,
   DeckSection,
   DecklistWarning,
+  DecklistWarningDetails,
   ParsedDecklist,
   ParsedEntry,
 } from "./types.js";
@@ -25,14 +27,6 @@ const CARD_LINE = /^(\d+)\s+(.+)$/u;
 
 /** `Pokémon: 18`, `Total Cards: 60`, `Karten gesamt: 60`. */
 const HEADER_LINE = /^(.+):\s*(\d+)$/u;
-
-/**
- * A ref at the end of a card line. Set codes are uppercase (`SVI`, `30C`,
- * `SHF:SV`); requiring that avoids reading `4 Mew 151` as set `Mew`, number
- * `151`. Numbers may be promos (`TG01`, `SWSH014`, `SV001`) but must contain a
- * digit.
- */
-const REF_SUFFIX = /\s+([A-Z0-9][A-Z0-9:]+)\s+([A-Z0-9]*\d[A-Z0-9]*)$/u;
 
 const SECTION_HEADERS = new Map<string, DeckSection>([
   ["pokemon", "pokemon"],
@@ -81,8 +75,9 @@ function warning(
   code: DecklistWarning["code"],
   message: string,
   line: number | null,
+  details: DecklistWarningDetails = {},
 ): DecklistWarning {
-  return { code, line, message };
+  return { code, details, line, message };
 }
 
 /**
@@ -104,7 +99,7 @@ function parseCard(
 
   const count = Number(countText);
   if (!Number.isSafeInteger(count) || count < 0) {
-    warnings.push(warning("invalid-count", `Invalid card count "${countText}".`, lineNumber));
+    warnings.push(warning("invalid-count", `Invalid card count "${countText}".`, lineNumber, { text: countText }));
     return null;
   }
   if (count === 0 || count > 60) {
@@ -113,30 +108,30 @@ function parseCard(
         "invalid-count",
         `Card count ${count} is outside the expected 1–60 range; keeping it.`,
         lineNumber,
+        { actual: count },
       ),
     );
   }
 
-  let name = rest;
-  let ref: CardRef | null = null;
-  const suffix = REF_SUFFIX.exec(rest);
-  if (suffix !== null) {
-    const setCode = suffix[1];
-    const number = suffix[2];
-    if (setCode !== undefined && number !== undefined && /[A-Z]/u.test(setCode)) {
-      const candidate = rest.slice(0, suffix.index).trim();
-      if (candidate === "") {
-        warnings.push(warning("unrecognised-line", `Card line has a ref but no name: "${line}".`, lineNumber));
-        return null;
-      }
-      name = candidate;
-      ref = { number, setCode };
-    }
+  const suffix = splitRefSuffix(rest);
+  if (suffix.kind === "empty-name") {
+    warnings.push(
+      warning(
+        "unrecognised-line",
+        `Card line has a ref but no name: "${line}".`,
+        lineNumber,
+        { ref: `${suffix.ref.setCode}-${suffix.ref.number}`, text: line },
+      ),
+    );
+    return null;
   }
+
+  const name = suffix.kind === "ref" ? suffix.name : rest;
+  const ref: CardRef | null = suffix.kind === "ref" ? suffix.ref : null;
 
   const folded = foldName(name);
   if (folded === "") {
-    warnings.push(warning("unrecognised-line", `Card line has no name: "${line}".`, lineNumber));
+    warnings.push(warning("unrecognised-line", `Card line has no name: "${line}".`, lineNumber, { text: line }));
     return null;
   }
 
@@ -176,7 +171,7 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
       const entry = parseCard(line, lineNumber, section, warnings);
       if (entry === null) {
         if (warnings.length === warningsBefore) {
-          warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber));
+          warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber, { text: line }));
         }
       } else {
         entries.push(entry);
@@ -186,20 +181,20 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
 
     const header = HEADER_LINE.exec(line);
     if (header === null) {
-      warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber));
+      warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber, { text: line }));
       continue;
     }
 
     const label = header[1]?.trim() ?? "";
     const countText = header[2];
     if (label === "" || countText === undefined) {
-      warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber));
+      warnings.push(warning("unrecognised-line", `Unrecognised line: "${line}".`, lineNumber, { text: line }));
       continue;
     }
 
     const count = Number(countText);
     if (!Number.isSafeInteger(count) || count < 0) {
-      warnings.push(warning("invalid-count", `Invalid header count "${countText}".`, lineNumber));
+      warnings.push(warning("invalid-count", `Invalid header count "${countText}".`, lineNumber, { text: countText }));
       continue;
     }
 
@@ -217,6 +212,7 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
           "unrecognised-line",
           `Unrecognised section header "${label}: ${count}"; entries below it have no section.`,
           lineNumber,
+          { actual: count, text: line },
         ),
       );
       section = "unknown";
@@ -249,6 +245,7 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
           "section-mismatch",
           `${declaration.section} header declares ${declaration.count}, parsed ${actual}.`,
           declaration.line,
+          { actual, declared: declaration.count, declaredSection: declaration.section },
         ),
       );
     }
@@ -265,6 +262,7 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
           "total-mismatch",
           `Conflicting total headers: ${[...distinct].join(", ")}.`,
           last?.line ?? null,
+          { totals: [...distinct] },
         ),
       );
     }
@@ -276,6 +274,7 @@ export function parseDecklist(text: string): Result<ParsedDecklist, DecklistErro
           "total-mismatch",
           `Total header declares ${total}, parsed ${sum}.`,
           last?.line ?? null,
+          { actual: sum, declared: total },
         ),
       );
     }

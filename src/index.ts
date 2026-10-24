@@ -10,7 +10,9 @@
  */
 
 export type {
+  AliasEvidenceMatch,
   ArchetypeBasis,
+  ArchetypeEvidence,
   ArchetypeSuggestion,
   CardCategory,
   CardRef,
@@ -20,10 +22,15 @@ export type {
   CatalogSet,
   DeckDiff,
   DeckDiffClassification,
+  DeckFunctionalCount,
   DeckHash,
+  DeckListCount,
   DecklistWarning,
   DecklistWarningCode,
+  DecklistWarningDetails,
   DeckSection,
+  DeckSectionView,
+  DeckView,
   DiffChange,
   DiffChangeKind,
   DiffDecklistsOptions,
@@ -45,17 +52,23 @@ export { err, isErr, isOk, map, ok, unwrapOr, unwrapOrThrow } from "./result.js"
 
 export { parseDecklist } from "./parse.js";
 export { normalizeDecklist } from "./normalize.js";
-export { countByName } from "./deck.js";
+export { countByName, deckView } from "./deck.js";
 export { canonicalText, deckId, listId } from "./identity.js";
 export { diffDecklists } from "./diff.js";
 export { fittingWindows, parseFormatLabel, validateDeck } from "./format.js";
 export { renderDecklist } from "./render.js";
 export { suggestArchetype } from "./suggest.js";
 
-export type { DecklistErrorCode, FormatErrorCode } from "./errors.js";
+export type {
+  CatalogContextErrorCode,
+  DecklistErrorCode,
+  FormatErrorCode,
+} from "./errors.js";
 export {
+  CatalogContextError,
   DecklistError,
   FormatError,
+  isCatalogContextError,
   isDecklistError,
   isFormatError,
 } from "./errors.js";

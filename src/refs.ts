@@ -7,6 +7,8 @@
  * parser, catalog, format checks, and renderer agree on what a ref is.
  */
 
+import type { CardRef } from "./types.js";
+
 const NUMERIC = /^\d+$/u;
 
 /** Live codes are case-insensitive on input and uppercase on output. */
@@ -25,6 +27,33 @@ export function normalizeNumber(value: string): string {
 export function setCodeOf(ref: string): string {
   const dash = ref.lastIndexOf("-");
   return dash === -1 ? ref : ref.slice(0, dash);
+}
+
+/** A ref at the end of a card line. Set codes are uppercase; numbers contain a digit. */
+const REF_SUFFIX = /\s+([A-Z0-9][A-Z0-9:]+)\s+([A-Z0-9]*\d[A-Z0-9]*)$/u;
+
+export type RefSuffix =
+  | { readonly kind: "none"; readonly name: string }
+  | { readonly kind: "ref"; readonly name: string; readonly ref: CardRef }
+  | { readonly kind: "empty-name"; readonly ref: CardRef };
+
+/**
+ * Split the optional printing ref from a card line's name. The set code must
+ * contain an uppercase letter so `4 Mew 151` stays a name, not set `151`.
+ */
+export function splitRefSuffix(value: string): RefSuffix {
+  const suffix = REF_SUFFIX.exec(value);
+  if (suffix === null) return { kind: "none", name: value };
+
+  const setCode = suffix[1];
+  const number = suffix[2];
+  if (setCode === undefined || number === undefined || !/[A-Z]/u.test(setCode)) {
+    return { kind: "none", name: value };
+  }
+
+  const name = value.slice(0, suffix.index).trim();
+  if (name === "") return { kind: "empty-name", ref: { number, setCode } };
+  return { kind: "ref", name, ref: { number, setCode } };
 }
 
 /** `TWM-130` prints as `TWM 130`; a ref with no hyphen is left alone. */

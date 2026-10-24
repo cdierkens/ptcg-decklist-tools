@@ -15,7 +15,7 @@ import archetypesJson from "./data/archetypes.json" with { type: "json" };
 import setsJson from "./data/sets.json" with { type: "json" };
 import versionJson from "./data/version.json" with { type: "json" };
 
-import { catalogContext, type CatalogContext } from "./catalog.js";
+import { createSetContext, type SetContext } from "./catalog.js";
 import type { CatalogArchetype, CatalogSet } from "./types.js";
 
 /** The shipped set index, oldest first. */
@@ -28,17 +28,13 @@ export const shippedArchetypes: readonly CatalogArchetype[] =
 /** The build date of the shipped catalog, `YYYY-MM-DD`. */
 export const shippedCatalogVersion: string = versionJson.version;
 
-let setContext: CatalogContext | undefined;
+let setContext: SetContext | undefined;
 
 /**
  * A set-only context for the shipped data. Format checks need set order and
  * live-code resolution, not cards, so they do not pull the large data subpath.
  */
-export function shippedSetContext(): CatalogContext {
-  setContext ??= catalogContext({
-    cards: [],
-    catalogVersion: shippedCatalogVersion,
-    sets: shippedSets,
-  });
+export function shippedSetContext(): SetContext {
+  setContext ??= createSetContext(shippedCatalogVersion, shippedSets);
   return setContext;
 }
