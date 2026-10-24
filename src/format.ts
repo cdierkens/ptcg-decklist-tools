@@ -1,7 +1,9 @@
+import { catalogContext, setForCode } from "./catalog.js";
+import { contextForDeck, countByName, refsForEntry } from "./deck.js";
 import { FormatError } from "./errors.js";
-import { countByName } from "./identity.js";
+import { normalizeSetCode, setCodeOf } from "./refs.js";
 import { err, ok } from "./result.js";
-import { sets as shippedSets } from "./sets.js";
+import { shippedSetContext } from "./shipped.js";
 import type { Result } from "./result.js";
 import type {
   Catalog,
@@ -23,21 +25,6 @@ const BASIC_ENERGY =
 
 function compare(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
-}
-
-/** Live codes are not unique; the addressable set wins, lowest order first. */
-function indexSets(sets: readonly CatalogSet[]): Map<string, CatalogSet> {
-  const index = new Map<string, CatalogSet>();
-  for (const set of sets) {
-    if (!set.liveAddressable) continue;
-    const current = index.get(set.liveCode);
-    if (current === undefined || set.order < current.order) index.set(set.liveCode, set);
-  }
-  return index;
-}
-
-function resolveSet(code: string, index: Map<string, CatalogSet>): CatalogSet | undefined {
-  return index.get(code.trim().toUpperCase());
 }
 
 function invalidLabel(input: string, message: string): Result<never, FormatError> {
@@ -68,11 +55,11 @@ export function parseFormatLabel(
     return invalidLabel(trimmed, `"${label}" is missing a window end.`);
   }
 
-  const index = indexSets(catalog?.sets ?? shippedSets);
-  const base = resolveSet(rawBase, index);
+  const context = catalog === undefined ? shippedSetContext() : catalogContext(catalog);
+  const base = setForCode(context, rawBase);
   if (base === undefined) return unknownSet(rawBase);
 
-  const latest = resolveSet(rawLatest, index);
+  const latest = setForCode(context, rawLatest);
   if (latest === undefined) return unknownSet(rawLatest);
 
   if (base.order > latest.order) {
@@ -86,16 +73,6 @@ export function parseFormatLabel(
   });
 }
 
-function refsForEntry(entry: NormalizedEntry): readonly string[] {
-  if (entry.printings.length > 0) return entry.printings.map((printing) => printing.ref);
-  return entry.card === null ? [] : [entry.card.ref];
-}
-
-function setCodeForRef(ref: string): string {
-  const dash = ref.indexOf("-");
-  return dash === -1 ? ref : ref.slice(0, dash);
-}
-
 /**
  * Check which entries sit outside a window and which names exceed four copies.
  * Advisory only: Standard legality is a regulation-mark rule, and promos can
@@ -106,21 +83,21 @@ export function validateDeck(
   window: FormatWindow,
   catalog?: Catalog,
 ): FormatReport {
-  const index = indexSets(catalog?.sets ?? shippedSets);
+  const context = contextForDeck(deck, catalog);
   const unknown = new Set<string>();
 
-  const base = resolveSet(window.base, index);
-  if (base === undefined) unknown.add(window.base.trim().toUpperCase());
+  const base = setForCode(context, window.base);
+  if (base === undefined) unknown.add(normalizeSetCode(window.base));
 
-  const latest = resolveSet(window.latest, index);
-  if (latest === undefined) unknown.add(window.latest.trim().toUpperCase());
+  const latest = setForCode(context, window.latest);
+  if (latest === undefined) unknown.add(normalizeSetCode(window.latest));
 
   const outside: NormalizedEntry[] = [];
   for (const entry of deck.entries) {
     let entryOutside = false;
     for (const ref of refsForEntry(entry)) {
-      const code = setCodeForRef(ref).trim().toUpperCase();
-      const set = resolveSet(code, index);
+      const code = normalizeSetCode(setCodeOf(ref));
+      const set = setForCode(context, code);
       if (set === undefined) {
         unknown.add(code);
         continue;
@@ -160,15 +137,14 @@ export function fittingWindows(
   deck: NormalizedDeck,
   options: FittingWindowsOptions = {},
 ): FormatWindow[] {
-  const catalogSets = options.catalog?.sets ?? shippedSets;
-  const index = indexSets(catalogSets);
+  const context = contextForDeck(deck, options.catalog);
   const orders: number[] = [];
 
   for (const entry of deck.entries) {
     const refs = refsForEntry(entry);
     if (refs.length === 0) return [];
     for (const ref of refs) {
-      const set = resolveSet(setCodeForRef(ref), index);
+      const set = setForCode(context, setCodeOf(ref));
       if (set === undefined) return [];
       orders.push(set.order);
     }
@@ -180,18 +156,19 @@ export function fittingWindows(
   const newest = Math.max(...orders);
 
   let latest: CatalogSet | undefined;
-  for (const set of catalogSets) {
+  for (const set of context.sets) {
     if (!set.liveAddressable) continue;
     if (latest === undefined || set.order > latest.order) latest = set;
   }
   if (latest === undefined || latest.order < newest) return [];
 
   const bases = new Map<string, CatalogSet>();
-  for (const set of catalogSets) {
+  for (const set of context.sets) {
     if (!set.liveAddressable || set.order > oldest) continue;
     if (options.era !== undefined && set.era !== options.era) continue;
-    const current = bases.get(set.liveCode);
-    if (current === undefined || set.order < current.order) bases.set(set.liveCode, set);
+    const code = normalizeSetCode(set.liveCode);
+    const current = bases.get(code);
+    if (current === undefined || set.order < current.order) bases.set(code, set);
   }
 
   return [...bases.values()]

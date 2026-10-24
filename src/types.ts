@@ -176,8 +176,6 @@ export interface FittingWindowsOptions {
 export interface DiffDecklistsOptions {
   /** Maximum differing entries still called a variant. Defaults to 5. */
   readonly maxChanges?: number;
-  /** Accepted for API symmetry; normalised entries already carry catalog data. */
-  readonly catalog?: Catalog;
 }
 
 export type DiffChangeKind = "added" | "removed" | "count" | "printing";

@@ -45,7 +45,8 @@ export { err, isErr, isOk, map, ok, unwrapOr, unwrapOrThrow } from "./result.js"
 
 export { parseDecklist } from "./parse.js";
 export { normalizeDecklist } from "./normalize.js";
-export { canonicalText, countByName, deckId, listId } from "./identity.js";
+export { countByName } from "./deck.js";
+export { canonicalText, deckId, listId } from "./identity.js";
 export { diffDecklists } from "./diff.js";
 export { fittingWindows, parseFormatLabel, validateDeck } from "./format.js";
 export { renderDecklist } from "./render.js";

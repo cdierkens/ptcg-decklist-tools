@@ -11,7 +11,7 @@
  * The design is in `docs/specs/2026-10-23-decklist-identity.md` §4.
  */
 
-import { foldName } from "./fold.js";
+import { functionalCounts, listCounts } from "./deck.js";
 import type { DeckHash, NormalizedDeck } from "./types.js";
 
 /** Bump only with a deliberate migration; it changes both pre-image domains. */
@@ -46,12 +46,7 @@ async function hash(text: string, catalogVersion: string): Promise<DeckHash> {
  * functional key, sorted by key. No section, name, printing, or order.
  */
 export function canonicalText(normalized: NormalizedDeck): string {
-  const counts = new Map<string, number>();
-  for (const entry of normalized.entries) {
-    counts.set(entry.key, (counts.get(entry.key) ?? 0) + entry.count);
-  }
-
-  const lines = [...counts.entries()]
+  const lines = [...functionalCounts(normalized).entries()]
     .sort(([left], [right]) => compareKeys(left, right))
     .map(([key, count]) => `${key}:${count}`);
   return [DECK_DOMAIN, ...lines].join("\n");
@@ -63,34 +58,9 @@ export function canonicalText(normalized: NormalizedDeck): string {
  * ref-less name is a different list from the same name with a ref.
  */
 function listCanonicalText(normalized: NormalizedDeck): string {
-  const printings = new Map<string, { count: number; key: string; ref: string }>();
-  const unprinted = new Map<string, number>();
-
-  for (const entry of normalized.entries) {
-    let printed = 0;
-    for (const printing of entry.printings) {
-      printed += printing.count;
-      const id = `${entry.key}\u0000${printing.ref}`;
-      const current = printings.get(id);
-      if (current === undefined) {
-        printings.set(id, { count: printing.count, key: entry.key, ref: printing.ref });
-      } else {
-        current.count += printing.count;
-      }
-    }
-
-    const absent = entry.count - printed;
-    if (entry.printings.length === 0 || absent > 0) {
-      unprinted.set(entry.key, (unprinted.get(entry.key) ?? 0) + absent);
-    }
-  }
-
-  const lines = [
-    ...[...printings.values()].map(
-      (printing) => `${printing.key}:${printing.ref}:${printing.count}`,
-    ),
-    ...[...unprinted.entries()].map(([key, count]) => `${key}::${count}`),
-  ];
+  const lines = listCounts(normalized).map(
+    ({ count, key, ref }) => `${key}:${ref}:${count}`,
+  );
   lines.sort(compareKeys);
   return [LIST_DOMAIN, ...lines].join("\n");
 }
@@ -103,45 +73,4 @@ export function deckId(normalized: NormalizedDeck): Promise<DeckHash> {
 /** Hash the printing multiset. A printing swap changes this, not `deckId`. */
 export function listId(normalized: NormalizedDeck): Promise<DeckHash> {
   return hash(listCanonicalText(normalized), normalized.catalogVersion);
-}
-
-interface NameGroup {
-  count: number;
-  name: string;
-  resolved: boolean;
-}
-
-/**
- * Sum copies by name for the four-copy rule. This is deliberately not part of
- * identity: two Pikachu functions are different cards but share a name, and
- * both count toward the same four-copy limit.
- *
- * The written name is used when a card is unresolved, so a new set still
- * counts; a resolved card contributes its canonical English name.
- */
-export function countByName(normalized: NormalizedDeck): { name: string; count: number }[] {
-  const groups = new Map<string, NameGroup>();
-
-  for (const entry of normalized.entries) {
-    const key = foldName(entry.name);
-    const group = groups.get(key);
-    if (group === undefined) {
-      groups.set(key, {
-        count: entry.count,
-        name: entry.name,
-        resolved: entry.card !== null,
-      });
-      continue;
-    }
-
-    group.count += entry.count;
-    if (!group.resolved && entry.card !== null) {
-      group.name = entry.name;
-      group.resolved = true;
-    }
-  }
-
-  return [...groups.entries()]
-    .sort(([left], [right]) => compareKeys(left, right))
-    .map(([, group]) => ({ count: group.count, name: group.name }));
 }

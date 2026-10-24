@@ -12,6 +12,7 @@
  * leaves copies unchanged.
  */
 
+import { functionalCounts } from "./deck.js";
 import { foldName } from "./fold.js";
 import type {
   DeckDiff,
@@ -20,14 +21,6 @@ import type {
   NormalizedDeck,
   NormalizedEntry,
 } from "./types.js";
-
-function functionalCounts(deck: NormalizedDeck): Map<string, number> {
-  const counts = new Map<string, number>();
-  for (const entry of deck.entries) {
-    counts.set(entry.key, (counts.get(entry.key) ?? 0) + entry.count);
-  }
-  return counts;
-}
 
 function functionalEqual(left: NormalizedDeck, right: NormalizedDeck): boolean {
   const leftCounts = functionalCounts(left);
@@ -117,8 +110,7 @@ function classify(
  * Diff two normalised decks.
  *
  * The function is synchronous: it compares the already-normalised entries and
- * does not hash. `catalog` is accepted for API symmetry with the other
- * catalogue-aware functions; pairing never guesses beyond the entries.
+ * does not hash. Pairing never guesses beyond the entries.
  */
 export function diffDecklists(
   before: NormalizedDeck,
