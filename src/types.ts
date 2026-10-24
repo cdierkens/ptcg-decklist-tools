@@ -198,10 +198,20 @@ export interface ArchetypeSuggestion {
   /** `limitless:284/3`, or a synthetic id for a line suggestion. */
   readonly id: string;
   readonly label: string;
-  /** 1–2 sprite slugs. */
+  /** 0–2 sprite slugs for an alias, or 1–2 for a line suggestion. */
   readonly cards: readonly string[];
   readonly confidence: number;
   readonly basis: ArchetypeBasis;
   /** Why this won, shown to the player before they confirm. */
   readonly reasons: readonly string[];
+}
+
+/** Options for archetype suggestions. */
+export interface SuggestArchetypeOptions {
+  /** Scope alias matching to one window; defaults to every shipped window. */
+  readonly window?: FormatWindow | string;
+  /** Alias table; defaults to the shipped table. */
+  readonly archetypes?: readonly CatalogArchetype[];
+  /** Catalog used to resolve a window label; defaults to the shipped sets. */
+  readonly catalog?: Catalog;
 }

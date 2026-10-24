@@ -409,14 +409,20 @@ icons ship in the catalog (§1). Nothing here guesses a label.
 interface ArchetypeSuggestion {
   id: string;           // "limitless:284/3"
   label: string;        // "Dragapult Dusknoir"
-  cards: string[];      // 1–2 sprite slugs
+  cards: string[];      // 0–2 sprite slugs for an alias
   confidence: number;   // 0–1
   basis: "alias" | "lines";
   reasons: string[];    // shown to the player
 }
 
-suggestArchetype(deck, { archetypes?, catalog }) → ArchetypeSuggestion[]
+suggestArchetype(deck, { window?, archetypes?, catalog? }) → ArchetypeSuggestion[]
 ```
+
+`window` accepts a label or a `FormatWindow` and is case-insensitive. Implemented
+confidences are 0.9 for a unique two-card alias, 0.6 when two-card aliases tie,
+0.4 for a one-card alias, and 0.25–0.5 for the line fallback. Aliases with the
+same icon set are collapsed to the higher-ranked label; the reason names the
+others so the choice is visible.
 
 Matching, in order:
 

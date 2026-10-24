@@ -97,12 +97,12 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `validateDeck(deck, window)` | Advisory outside sets, unknown sets, four-copy counts |
 | `fittingWindows(deck, { era })` | Candidate bases; never infers the base from the deck |
 | `diffDecklists(a, b)` | Changes with confidence, classified |
-| `suggestArchetype(deck)` | Aliases with reasons, never auto-committed |
+| `suggestArchetype(deck, { window })` | Aliases with reasons, never auto-committed |
 
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
 `FormatWindow`, `FormatReport`, `FittingWindowsOptions`, `DeckDiff`,
-`ArchetypeSuggestion`, and the rest.
+`ArchetypeSuggestion`, `SuggestArchetypeOptions`, and the rest.
 
 ### Identity
 
@@ -138,10 +138,29 @@ as `latest`. The deck never chooses its own base. Any unknown set, or any entry
 with no set at all, returns no candidates: the function will not claim a fit it
 cannot prove.
 
+### Archetype suggestions
+
+`suggestArchetype` matches the shipped Limitless aliases by Pokémon species, not
+by name or card text. It sums copies of a species across printings, then ranks
+two-card aliases above one-card aliases and, within a rank, by matching copies.
+Aliases with the same icon set at different labels collapse to the
+higher-ranked label; the reasons name the other label. A unique two-card alias
+is high confidence, a tie is lower, and a one-card alias stops at 0.4 because it
+cannot distinguish variants.
+
+Without `window`, every shipped window is tried and the reasons say which one
+matched. Pass `{ window: "TEF-30C" }` (or a `FormatWindow`) to scope matching;
+the label is case-insensitive. If no alias matches, the fallback groups Pokémon
+by evolution line, favours Stage 2, ex, Mega, and VSTAR attackers, and returns a
+line suggestion with `basis: "lines"` and confidence at 0.5 or below. Nothing is
+written or auto-committed: store the chosen `{ id, label, cards }` after the
+player confirms.
+
 ### Data
 
-The card catalog and archetype table are opt-in, so core users do not pay for
-them:
+The card catalog is opt-in, so core users do not pay for the full card list.
+The small archetype table is imported by `suggestArchetype` and is also exported
+here for storage and adapters:
 
 ```ts
 import {
@@ -170,8 +189,8 @@ shipped card, or the build fails, which is why `scripts/catalog/species.json` is
 curated rather than guessed.
 
 The set index is also loaded by the format-window functions, because set order
-is what membership means. It is small; the card list and archetypes remain on the
-`./data` subpath.
+is what membership means. It is small, as is the archetype table; the full card
+list remains on the `./data` subpath.
 
 ## Data and provenance
 

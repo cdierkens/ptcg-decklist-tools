@@ -168,6 +168,9 @@ describe("shipped catalog", () => {
     expect(speciesOf("TEF-123")).toBe("raging-bolt");
     expect(speciesOf("TEF-81")).toBe("iron-crown");
     expect(speciesOf("PRE-37")).toBe("dusknoir");
+    expect(speciesOf("DRI-145")).toBe("metagross");
+    expect(speciesOf("ASC-96")).toBe("trevenant");
+    expect(speciesOf("DRI-36")).toBe("magcargo");
   });
 
   it("normalises a base alias row to variant 0", () => {
