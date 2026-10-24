@@ -22,6 +22,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 import { buildArchetypeRows, missingSpecies } from "./lib/archetypes.mjs";
+import { addressableSets } from "./lib/catalog.mjs";
 import { parseIndex } from "./lib/limitless.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -77,12 +78,7 @@ if (windowConfig.some((window) => typeof window !== "string")) {
   throw new Error(`${WINDOWS} must be an array of window labels`);
 }
 
-const addressable = new Map();
-for (const set of sets) {
-  if (!set.liveAddressable) continue;
-  const current = addressable.get(set.liveCode);
-  if (current === undefined || set.order < current.order) addressable.set(set.liveCode, set);
-}
+const addressable = addressableSets(sets);
 
 function validateWindow(label) {
   const parts = label.split("-");
