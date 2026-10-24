@@ -23,8 +23,9 @@ Public API and provenance: `README.md`. Design:
   public Limitless decklists and emit fixture-shaped text (network; never run in
   tests). The default validates every ref against `src/data/cards.json` and
   exits non-zero if one is missing; `--no-validate` skips that check.
-- `pnpm changeset` / `pnpm run version` / `pnpm run release` — changesets;
-  publishing needs a one-time npm OTP (2FA).
+- `pnpm changeset` / `pnpm run version` — changesets. Publishing is a `v*` tag
+  push through the trusted-publishing workflow; never publish locally. See
+  `docs/RELEASING.md`.
 
 ## Constraints
 

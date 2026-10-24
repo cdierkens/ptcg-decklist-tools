@@ -26,6 +26,22 @@ CI publish it:
    - **Allow npm publish** ticked (configurations created after 2026-09-03
      default to stage-only, which would require a per-release approval on
      npmjs.com)
+
+   Or create the same relationship from a terminal:
+
+   ```sh
+   npm trust github @dierkens.dev/ptcg-decklist-tools \
+     --file release.yml \
+     --repo cdierkens/ptcg-decklist-tools \
+     --env npm \
+     --allow-publish \
+     -y
+   ```
+
+   The command requires step-up 2FA in the browser. `--allow-publish` is not
+   optional: without it npm fails with "At least one permission flag is
+   required". `--allow-stage-publish` creates the weaker stage-only relationship.
+
 2. The `npm` GitHub environment must exist and have a required reviewer. The
    publish job waits for that approval; the tag alone cannot publish.
 3. Complete a publish within **2 days** of creating the trusted publisher, or
