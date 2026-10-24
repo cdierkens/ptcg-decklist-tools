@@ -200,6 +200,21 @@ export interface DeckDiff {
   readonly sameCount: number;
 }
 
+/** Output surfaces for a normalised decklist. */
+export type RenderStyle = "ptcgl" | "list" | "print" | "plain";
+
+/** Options for the print sheet; other styles ignore them. */
+export interface RenderDecklistOptions {
+  /** Format window label to print. Defaults to `not set`. */
+  readonly window?: FormatWindow | string;
+  /** Deck name shown at the top of the print sheet. */
+  readonly listName?: string;
+  /** Player name written on the sheet. */
+  readonly player?: string;
+  /** Date written on the sheet. */
+  readonly date?: string;
+}
+
 export type ArchetypeBasis = "alias" | "lines";
 
 export interface ArchetypeSuggestion {

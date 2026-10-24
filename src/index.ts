@@ -5,8 +5,8 @@
  * Node >=22.12. ESM only. Zero runtime dependencies.
  *
  * The design lives in `docs/specs/2026-10-23-decklist-identity.md`. Parsing,
- * normalisation, identity, format windows, diff, archetype suggestions, and the
- * shipped catalog are available; rendering lands next.
+ * normalisation, identity, format windows, diff, rendering, archetype
+ * suggestions, and the shipped catalog are available.
  */
 
 export type {
@@ -35,6 +35,8 @@ export type {
   NormalizeOptions,
   ParsedDecklist,
   ParsedEntry,
+  RenderDecklistOptions,
+  RenderStyle,
   SuggestArchetypeOptions,
 } from "./types.js";
 
@@ -46,6 +48,7 @@ export { normalizeDecklist } from "./normalize.js";
 export { canonicalText, countByName, deckId, listId } from "./identity.js";
 export { diffDecklists } from "./diff.js";
 export { fittingWindows, parseFormatLabel, validateDeck } from "./format.js";
+export { renderDecklist } from "./render.js";
 export { suggestArchetype } from "./suggest.js";
 
 export type { DecklistErrorCode, FormatErrorCode } from "./errors.js";

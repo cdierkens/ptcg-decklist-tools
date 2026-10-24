@@ -462,7 +462,7 @@ cards, not a 60-card list; the battle-log parser already declines this.
 parseDecklist(text): Result<ParsedDecklist, DecklistError[]>
 normalizeDecklist(parsed, opts?): Result<NormalizedDeck, DecklistError[]>
 canonicalText(normalized): string            // the hash pre-image (debug + goldens)
-renderDecklist(normalized, style): string    // "ptcgl" | "list" | "print" | "plain"
+renderDecklist(normalized, style, opts?): string // "ptcgl" | "list" | "print" | "plain"
 deckId(normalized): Promise<DeckHash>        // { value, hashVersion, catalogVersion }
 listId(normalized): Promise<DeckHash>
 countByName(normalized): { name: string; count: number }[]
@@ -483,6 +483,13 @@ unwrap(result)
 Rendering never invents a printing: an unresolved entry prints name + count and
 the sheet marks it unresolved. `print` includes the window label and catalog
 version so a deck check can see both.
+
+`ptcgl`, `list`, and `print` emit one line per printing and keep a name-only
+remainder for copies that had no ref. `plain` collapses each entry to one count.
+Entries sort by section and name, then by identity key. `print` accepts
+`{ window, listName, player, date }`; a missing window prints `not set` rather
+than inferring one, and player/date default to underscore rules. Its unresolved
+mark is `(unresolved)` on each affected line.
 
 Tier 2 (outside the promise): the catalog types, the data subpath, the scoring
 weights.

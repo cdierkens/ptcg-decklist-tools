@@ -8,9 +8,10 @@ hand. This package turns any of them into one normalised value, gives that value
 a stable identity, and renders it back out: PTCGL import, a plain list, or a
 print-friendly sheet for a local cup or league.
 
-> **Status: in progress.** The catalog, parser, normaliser, identity, format
-> windows, data shapes, error contract, and `Result` helpers are published.
-> Diff and render functions land next. The design is in
+> **Status: 0.1.0 implementation complete.** The catalog, parser, normaliser,
+> identity, format windows, diff, rendering, archetype suggestions, data shapes,
+> error contract, and `Result` helpers are implemented; the release is pending.
+> The design is in
 > [`docs/specs/2026-10-23-decklist-identity.md`](https://github.com/cdierkens/ptcg-decklist-tools/blob/main/docs/specs/2026-10-23-decklist-identity.md).
 
 ## Why
@@ -79,7 +80,10 @@ const window = unwrapOrThrow(parseFormatLabel("tef-30c"));
 const report = validateDeck(deck, window); // advisory outside/unknown/four-copy
 const candidates = fittingWindows(deck, { era: "sv" });
 
-const format = renderDecklist(deck, "print"); // a sheet for a deck check
+const format = renderDecklist(deck, "print", {
+  listName: "League deck",
+  window,
+}); // a sheet for a deck check
 const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 ```
 
@@ -89,7 +93,7 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 |---|---|
 | `parseDecklist(text)` | `Result<ParsedDecklist, DecklistError[]>`. Any source; refs optional |
 | `normalizeDecklist(parsed, { catalog })` | Resolve refs and names, infer sections, merge printings |
-| `renderDecklist(deck, style)` | `ptcgl`, `list`, `print`, or `plain` |
+| `renderDecklist(deck, style, opts?)` | `ptcgl`, `list`, `print`, or `plain` |
 | `deckId(deck)` / `listId(deck)` | Functional identity / exact-printing identity |
 | `canonicalText(deck)` | The `deckId` pre-image, for debugging and goldens |
 | `countByName(deck)` | The four-copy rule, kept separate from identity |
@@ -102,8 +106,8 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
 `FormatWindow`, `FormatReport`, `FittingWindowsOptions`, `DeckDiff`,
-`DiffDecklistsOptions`, `ArchetypeSuggestion`, `SuggestArchetypeOptions`, and
-the rest.
+`DiffDecklistsOptions`, `RenderStyle`, `RenderDecklistOptions`,
+`ArchetypeSuggestion`, `SuggestArchetypeOptions`, and the rest.
 
 ### Identity
 
@@ -153,6 +157,26 @@ including copies whose printing moved. `classification` is `identical` when the
 functional and printing multisets match, `printing-only` when only printings
 differ, and `variant` when at most `maxChanges` (default 5) entries differ and at
 least 90% of copies are unchanged. Everything else is `different`.
+
+### Rendering
+
+`ptcgl` writes section headers and `Total Cards` for a Live import. `list` writes
+the same `count name SET NUM` lines without headers, ready for a Limitless paste.
+`plain` collapses each entry to `count name` and omits refs. Every style sorts by
+section and card name, so a list renders the same regardless of source order.
+
+`ptcgl`, `list`, and `print` keep every printing a resolved entry carries. A
+split `2 + 2` prints as two lines; a name-only copy prints with no ref. They
+never choose a printing for the sheet. `plain` has no refs, so it prints one line
+per entry, including separate entries that share a name but have different
+functions.
+
+`print` adds a checkbox gutter, the list name, format window, catalog version,
+player/date lines, section counts, and a total. Pass
+`{ window, listName, player, date }`; `window` accepts a `FormatWindow` or a
+label string. Without a window it prints `Format: not set`, rather than inferring
+one from the deck. Unresolved entries keep the name and ref from the source and
+are marked `(unresolved)` on the print sheet.
 
 ### Archetype suggestions
 

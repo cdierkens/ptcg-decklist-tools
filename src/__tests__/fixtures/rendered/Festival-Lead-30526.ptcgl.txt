@@ -1,0 +1,34 @@
+Pokémon: 21
+1 Applin TWM 17
+3 Applin TWM 126
+3 Dipplin TWM 18
+2 Goldeen TWM 44
+3 Grookey MEP 52
+1 Psyduck ASC 39
+1 Rabsca TEF 24
+1 Rellor TEF 23
+2 Seaking PRE 21
+4 Thwackey TWM 15
+
+Trainer: 34
+2 Air Balloon ASC 181
+2 Boss's Orders MEG 114
+2 Brave Bangle WHT 80
+4 Buddy-Buddy Poffin TEF 144
+4 Festival Grounds TWM 149
+2 Gladion's Final Battle PBL 77
+1 Kieran TWM 154
+4 Lillie's Determination MEG 119
+2 Night Stretcher ASC 196
+4 Poké Pad POR 81
+1 Sacred Ash DRI 168
+1 Secret Box TWM 163
+1 Switch MEG 130
+1 Tool Scrapper ASC 212
+3 Ultra Ball MEG 131
+
+Energy: 5
+3 Basic Grass Energy MEE 9
+2 Growing Grass Energy POR 86
+
+Total Cards: 60
