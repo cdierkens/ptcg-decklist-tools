@@ -54,9 +54,10 @@ export function localIdOf(file) {
   return file.endsWith(".ts") ? file.slice(0, -3) : file;
 }
 
-/** Live prints numeric local ids without leading zeroes; promos keep their suffix. */
+/** Live prints numeric local ids without leading zeroes and uppercase promo suffixes. */
 export function liveNumber(localId) {
-  return /^\d+$/.test(localId) ? localId.replace(/^0+(?=\d)/, "") : localId;
+  const number = /^\d+$/.test(localId) ? localId.replace(/^0+(?=\d)/, "") : localId;
+  return number.toUpperCase();
 }
 
 export function compareCards(a, b) {
