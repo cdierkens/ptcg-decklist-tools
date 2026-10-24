@@ -159,6 +159,16 @@ shared Live codes. `cards` carries every Live-addressable printing with its
 ready to pass to `normalizeDecklist`. The JSON is bundled; nothing is fetched at
 runtime.
 
+`archetypes` is a snapshot of Limitless aliases scoped to a format window:
+`{ id, label, cards, window }`. The id is `limitless:{deckId}/{variantId}`; a
+base row with no variant normalises to variant `0`. `cards` is zero, one, or two
+Limitless sprite slugs, so a row with no icons is label-only and never matched by
+card. Labels are text content, never markup. The checked-in snapshot covers
+`TEF-30C` (current), `TEF-POR` (previous latest set), and `SVI-ASC` (previous
+rotation); refresh it with `pnpm run archetypes`. Every icon slug must exist on a
+shipped card, or the build fails, which is why `scripts/catalog/species.json` is
+curated rather than guessed.
+
 The set index is also loaded by the format-window functions, because set order
 is what membership means. It is small; the card list and archetypes remain on the
 `./data` subpath.
@@ -173,7 +183,9 @@ runtime.
   recipe is documented in the spec; card text and images are **not** shipped.
 - **Archetype aliases and sprite slugs** are derived from
   [Limitless TCG](https://limitlesstcg.com), attributed here, and limited to the
-  factual labels and identifiers.
+  factual labels and identifiers. The species mapping is curated in
+  `scripts/catalog/species.json`; the catalog build fails if an entry has no
+  card, and the archetype build fails if an alias icon has no species.
 - **Test fixtures** are harvested from public Limitless decklists with
   `scripts/harvest-limitless.mjs`; each one records its source list id in
   `src/__tests__/fixtures/decklists/manifest.json`.

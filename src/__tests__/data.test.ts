@@ -129,7 +129,64 @@ describe("shipped catalog", () => {
     }
   });
 
-  it("loads an archetype table (empty until the alias ticket)", () => {
-    expect(Array.isArray(archetypes)).toBe(true);
+  it("ships a window-scoped archetype table", () => {
+    expect(archetypes.length).toBeGreaterThan(100);
+
+    const windows = new Set(archetypes.map((archetype) => archetype.window));
+    expect(windows).toContain("TEF-30C");
+    expect(windows).toContain("SVI-ASC");
+    expect(windows.size).toBeGreaterThanOrEqual(2);
+
+    const species = new Set(
+      cards.map((card) => card.species).filter((slug): slug is string => slug !== null),
+    );
+    const seen = new Set<string>();
+
+    for (const archetype of archetypes) {
+      expect(Object.keys(archetype).sort()).toEqual(["cards", "id", "label", "window"]);
+      expect(archetype.id).toMatch(/^limitless:\d+\/\d+$/);
+      expect(archetype.label.length).toBeGreaterThan(0);
+      expect(archetype.label).not.toMatch(/<[^>]+>/);
+      expect(archetype.cards.length).toBeLessThanOrEqual(2);
+      for (const slug of archetype.cards) {
+        expect(species.has(slug)).toBe(true);
+      }
+
+      const key = `${archetype.window}\u0000${archetype.id}`;
+      expect(seen.has(key)).toBe(false);
+      seen.add(key);
+    }
+  });
+
+  it("maps Limitless species vocabulary onto the cards", () => {
+    const speciesOf = (ref: string) => cards.find((card) => card.ref === ref)?.species;
+
+    expect(speciesOf("TWM-25")).toBe("ogerpon");
+    expect(speciesOf("TWM-64")).toBe("ogerpon-wellspring");
+    expect(speciesOf("JTG-56")).toBe("clefairy");
+    expect(speciesOf("MEG-104")).toBe("kangaskhan-mega");
+    expect(speciesOf("TEF-123")).toBe("raging-bolt");
+    expect(speciesOf("TEF-81")).toBe("iron-crown");
+    expect(speciesOf("PRE-37")).toBe("dusknoir");
+  });
+
+  it("normalises a base alias row to variant 0", () => {
+    expect(archetypes).toContainEqual({
+      id: "limitless:339/0",
+      label: "Basic Box",
+      cards: ["ogerpon", "clefairy"],
+      window: "TEF-30C",
+    });
+  });
+
+  it("keeps the known Dragapult Dusknoir id stable", () => {
+    expect(
+      archetypes.find(
+        (archetype) => archetype.window === "TEF-30C" && archetype.id === "limitless:284/3",
+      ),
+    ).toMatchObject({
+      cards: ["dragapult", "dusknoir"],
+      label: "Dragapult Dusknoir",
+    });
   });
 });

@@ -61,12 +61,12 @@ export interface NormalizeOptions {
   readonly catalog: Catalog;
 }
 
-/** One community archetype alias, with the 1–2 Pokémon Limitless uses as icons. */
+/** One community archetype alias, with the 0–2 Pokémon Limitless uses as icons. */
 export interface CatalogArchetype {
-  /** Stable id: `limitless:284/3`. */
+  /** Stable id: `limitless:284/3`; a base row normalises to variant 0. */
   readonly id: string;
   readonly label: string;
-  /** 1–2 sprite slugs, e.g. `["dragapult", "dusknoir"]`. */
+  /** 0–2 sprite slugs; empty means label-only and never matched by card. */
   readonly cards: readonly string[];
   /** Window label, e.g. `TEF-30C`. */
   readonly window: string;

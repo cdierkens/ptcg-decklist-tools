@@ -37,8 +37,12 @@ A window whose base could scope a deck. Fitting returns candidates; it never cho
 _Avoid_: inferred format, guessed window
 
 **Archetype alias**:
-A community label for a deck concept, together with the one or two Pokémon Limitless uses as its icons.
+A window-scoped community label for a deck concept, together with the zero, one, or two Pokémon Limitless uses as its icons.
 _Avoid_: archetype, deck name
+
+**Species slug**:
+Limitless's sprite vocabulary for a Pokémon (`dragapult`, `ogerpon-wellspring`). The catalog maps printings to it; it is not a card name.
+_Avoid_: Pokémon name, dex id
 
 **Unresolved**:
 An entry the catalog cannot identify. It still parses and hashes, under a provisional key.

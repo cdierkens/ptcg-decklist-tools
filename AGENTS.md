@@ -15,6 +15,10 @@ Public API and provenance: `README.md`. Design:
 - `pnpm run catalog` — rebuild the shipped JSON from the pinned public TCGdex
   dump. It fails if a frozen fingerprint would change; accept one only with a
   deliberate `hashVersion` bump (`pnpm run catalog:accept`).
+- `pnpm run archetypes` — fetch the configured Limitless windows and rewrite
+  `src/data/archetypes.json` (network; cache in `.cache/archetypes`, `--refresh`
+  to refetch). It fails if an alias icon has no shipped species; run it after
+  changing `species.json` or rebuilding the catalog.
 - `pnpm run harvest:limitless -- --list=30537 --out=.cache/limitless` — fetch
   public Limitless decklists and emit fixture-shaped text (network; never run in
   tests). The default validates every ref against `src/data/cards.json` and
