@@ -10,19 +10,21 @@
  * `catalogVersion`; pass its catalog when restoring a custom catalog.
  */
 
-import { catalogContext, type CatalogContext } from "./catalog.js";
+import { catalogContext, type SetContext } from "./catalog.js";
+import { CatalogContextError } from "./errors.js";
 import { foldName } from "./fold.js";
 import { printableRef } from "./refs.js";
 import { shippedSetContext } from "./shipped.js";
 import type {
   Catalog,
-  DeckSection,
   DecklistWarning,
+  DeckSection,
+  DeckView,
   NormalizedDeck,
   NormalizedEntry,
 } from "./types.js";
 
-const deckContexts = new WeakMap<NormalizedDeck, CatalogContext>();
+const deckContexts = new WeakMap<NormalizedDeck, SetContext>();
 
 export interface SectionGroup {
   readonly count: number;
@@ -51,11 +53,12 @@ function compareEntries(left: NormalizedEntry, right: NormalizedEntry): number {
 export function createNormalizedDeck(
   entries: readonly NormalizedEntry[],
   warnings: readonly DecklistWarning[],
-  context: CatalogContext,
+  context: SetContext,
 ): NormalizedDeck {
   const sorted = [...entries].sort((left, right) => compareKeys(left.key, right.key));
   const deck: NormalizedDeck = {
-    catalogVersion: context.catalog.catalogVersion,
+    catalogContextId: context.id,
+    catalogVersion: context.catalogVersion,
     entries: sorted,
     total: sorted.reduce((sum, entry) => sum + entry.count, 0),
     warnings: [...warnings],
@@ -65,13 +68,45 @@ export function createNormalizedDeck(
 }
 
 /**
- * The catalog context for a live deck. An explicit catalog wins; otherwise the
- * context attached at normalisation is reused. A restored deck with no context
- * falls back to the shipped set index.
+ * The set context for a deck. An explicit catalog must match the deck's context
+ * fingerprint; otherwise the context attached at normalisation is reused. A
+ * restored deck uses the shipped context only when its fingerprint (or, for
+ * decks stored before 0.2, its version) matches.
  */
-export function contextForDeck(deck: NormalizedDeck, catalog?: Catalog): CatalogContext {
-  if (catalog !== undefined) return catalogContext(catalog);
-  return deckContexts.get(deck) ?? shippedSetContext();
+export function contextForDeck(deck: NormalizedDeck, catalog?: Catalog): SetContext {
+  const expected = deck.catalogContextId;
+
+  if (catalog !== undefined) {
+    const context = catalogContext(catalog);
+    const matches = expected === undefined
+      ? context.catalogVersion === deck.catalogVersion
+      : context.id === expected;
+    if (!matches) {
+      throw new CatalogContextError(
+        "context-mismatch",
+        deck.catalogVersion,
+        context.catalogVersion,
+        `Catalog context ${context.id} does not match deck context ${expected ?? deck.catalogVersion}.`,
+      );
+    }
+    return context;
+  }
+
+  const attached = deckContexts.get(deck);
+  if (attached !== undefined) return attached;
+
+  const shipped = shippedSetContext();
+  const matchesShipped = expected === undefined
+    ? deck.catalogVersion === shipped.catalogVersion
+    : expected === shipped.id;
+  if (matchesShipped) return shipped;
+
+  throw new CatalogContextError(
+    "missing-context",
+    deck.catalogVersion,
+    null,
+    `Deck ${deck.catalogVersion} needs its catalog context; pass the catalog used to normalise it.`,
+  );
 }
 
 /** Every printing that can scope an entry, including its representative card. */
@@ -192,4 +227,23 @@ export function countByName(deck: NormalizedDeck): { name: string; count: number
   return [...groups.entries()]
     .sort(([left], [right]) => compareKeys(left, right))
     .map(([, group]) => ({ count: group.count, name: group.name }));
+}
+
+/** A read-only view of the deck projections consumers use to render or count. */
+export function deckView(deck: NormalizedDeck): DeckView {
+  const functional = [...functionalCounts(deck).entries()]
+    .sort(([left], [right]) => compareKeys(left, right))
+    .map(([key, count]) => ({ count, key }));
+
+  const list = listCounts(deck).sort((left, right) => {
+    const key = compareKeys(left.key, right.key);
+    return key === 0 ? compareKeys(left.ref, right.ref) : key;
+  });
+
+  return {
+    functional,
+    list,
+    names: countByName(deck),
+    sections: sectionGroups(deck),
+  };
 }

@@ -15,7 +15,7 @@ describe("normalizeDecklist", () => {
 
     expect(deck.catalogVersion).toBe(catalogVersion);
     expect(deck.total).toBe(4);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries).toEqual([
       {
         card: expect.objectContaining({ ref: "TEF-1", name: "Scyther", category: "pokemon" }),
@@ -41,7 +41,7 @@ describe("normalizeDecklist", () => {
       expect.objectContaining({ ref: "POR-81", name: "Poké Pad", category: "trainer" }),
     );
     expect(entry?.printings).toEqual([{ count: 2, ref: "POR-81" }]);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
   });
 
   it("resolves a unique ref-less name even when it has several printings", () => {
@@ -56,7 +56,7 @@ describe("normalizeDecklist", () => {
       expect.objectContaining({ name: "Acerola's Mischief", category: "trainer" }),
     );
     expect(entry?.printings).toEqual([]);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
   });
 
   it("keeps an ambiguous ref-less name unresolved and warns", () => {
@@ -69,7 +69,7 @@ describe("normalizeDecklist", () => {
     expect(entry?.card).toBeNull();
     expect(entry?.section).toBe("unknown");
     expect(entry?.printings).toEqual([]);
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "ambiguous-name",
         line: 1,
@@ -91,7 +91,7 @@ describe("normalizeDecklist", () => {
       [{ count: 4, ref: "SVI-9999" }],
       [{ count: 4, ref: "XXX-196" }],
     ]);
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "unknown-set",
         line: 1,
@@ -111,7 +111,7 @@ describe("normalizeDecklist", () => {
     expect(deck.entries[0]?.key).toBe("?Not A Real Card");
     expect(deck.entries[0]?.name).toBe("Not A Real Card");
     expect(deck.entries[0]?.card).toBeNull();
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "unknown-card",
         line: 1,
@@ -120,22 +120,33 @@ describe("normalizeDecklist", () => {
     ]);
   });
 
+  it("exposes structured normalisation details", () => {
+    const deck = normalize("4 Ultra Ball XXX 196");
+
+    expect(deck.warnings[0]?.details).toEqual({
+      ref: "XXX-196",
+      setCode: "XXX",
+    });
+  });
+
   it("lets the catalog win a section conflict", () => {
     const deck = normalize("Pokémon: 4\n4 Acerola's Mischief MEG 113");
 
     expect(deck.entries[0]?.section).toBe("trainer");
-    expect(deck.warnings).toContainEqual({
-      code: "section-mismatch",
-      line: 2,
-      message: 'Catalog says "Acerola\'s Mischief" is a trainer card; the list put it under pokemon.',
-    });
+    expect(deck.warnings).toMatchObject([
+      {
+        code: "section-mismatch",
+        line: 2,
+        message: 'Catalog says "Acerola\'s Mischief" is a trainer card; the list put it under pokemon.',
+      },
+    ]);
   });
 
   it("infers the section when the list has no header", () => {
     const deck = normalize("4 Acerola's Mischief MEG 113");
 
     expect(deck.entries[0]?.section).toBe("trainer");
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
   });
 
   it("merges printings and picks the most-copied form", () => {
@@ -180,11 +191,13 @@ describe("normalizeDecklist", () => {
   it("carries parse warnings forward", () => {
     const deck = normalize("4 Ultra Ball SVI 196\nTotal Cards: 5");
 
-    expect(deck.warnings).toContainEqual({
-      code: "total-mismatch",
-      line: 2,
-      message: "Total header declares 5, parsed 4.",
-    });
+    expect(deck.warnings).toMatchObject([
+      {
+        code: "total-mismatch",
+        line: 2,
+        message: "Total header declares 5, parsed 4.",
+      },
+    ]);
   });
 
   it("returns a missing-catalog error instead of throwing", () => {

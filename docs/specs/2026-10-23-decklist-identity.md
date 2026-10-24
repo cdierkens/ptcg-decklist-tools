@@ -191,6 +191,17 @@ Rules:
 - A `count` of 0 or > 60 is a diagnostic.
 - Duplicate lines are legal; they merge during normalisation.
 
+Warnings carry structured facts beside their English message:
+
+```ts
+interface DecklistWarning {
+  code: DecklistWarningCode;
+  details: DecklistWarningDetails; // declared/actual counts, ref, set, section, text
+  line: number | null;
+  message: string;
+}
+```
+
 ## 3. Normalisation
 
 `normalizeDecklist(parsed, { catalog })` →
@@ -201,6 +212,7 @@ interface NormalizedDeck {
   total: number;
   warnings: DecklistWarning[];
   catalogVersion: string;
+  catalogContextId?: string;  // fingerprint of the set facts used to build it
 }
 
 interface NormalizedEntry {
@@ -416,8 +428,14 @@ interface ArchetypeSuggestion {
   cards: string[];      // 0–2 sprite slugs for an alias
   confidence: number;   // 0–1
   basis: "alias" | "lines";
+  evidence: ArchetypeEvidence; // matched species/windows, or line/copies/traits
   reasons: string[];    // shown to the player
 }
+
+type ArchetypeEvidence =
+  | { kind: "alias"; matched: { slug: string; name: string; count: number }[];
+      windows: string[]; specificity: number; competitors: string[] }
+  | { kind: "line"; line: string; copies: number; stages: number; traits: string[] };
 
 suggestArchetype(deck, { window?, archetypes?, catalog? }) → ArchetypeSuggestion[]
 ```
@@ -466,6 +484,7 @@ renderDecklist(normalized, style, opts?): string // "ptcgl" | "list" | "print" |
 deckId(normalized): Promise<DeckHash>        // { value, hashVersion, catalogVersion }
 listId(normalized): Promise<DeckHash>
 countByName(normalized): { name: string; count: number }[]
+deckView(normalized): DeckView
 parseFormatLabel(label, catalog?): Result<FormatWindow, FormatError>
 validateDeck(deck, window, catalog?): FormatReport
 fittingWindows(deck, { era, catalog? }): FormatWindow[]
@@ -476,9 +495,15 @@ unwrap(result)
 
 A live `NormalizedDeck` carries the catalog context it was built with, so
 `validateDeck`, `fittingWindows`, and `suggestArchetype` reuse the same set
-order without another argument. A deck restored from storage carries only
-`catalogVersion`; pass the catalog to those functions when it is not the shipped
-one.
+order without another argument. A deck restored from storage carries
+`catalogVersion` and, for decks normalised from 0.2, `catalogContextId`; pass
+the catalog to those functions when it is not the shipped one. Decks stored
+before 0.2 fall back by `catalogVersion`. A missing or mismatched context throws
+`CatalogContextError` rather than silently validating against shipped sets.
+
+`deckView(normalized)` exposes read-only section groups, functional counts, list
+counts, and name counts. `DecklistWarning.details` and
+`ArchetypeSuggestion.evidence` carry structured facts beside the existing prose.
 
 - `ptcgl` — section headers plus `Total Cards`, ready to paste back into Live.
 - `list` — `count name SET NUM` lines, the Limitless paste shape.

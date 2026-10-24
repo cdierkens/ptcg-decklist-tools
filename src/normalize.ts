@@ -25,6 +25,7 @@ import type {
   CatalogCard,
   DecklistWarning,
   DecklistWarningCode,
+  DecklistWarningDetails,
   DeckSection,
   NormalizedDeck,
   NormalizedEntry,
@@ -56,8 +57,9 @@ function warn(
   code: DecklistWarningCode,
   line: number | null,
   message: string,
+  details: DecklistWarningDetails = {},
 ): void {
-  warnings.push({ code, line, message });
+  warnings.push({ code, details, line, message });
 }
 
 /** The catalog is authoritative for a resolved card's section. */
@@ -73,6 +75,7 @@ function sectionFor(
       "section-mismatch",
       entry.line,
       `Catalog says "${card.name}" is a ${card.category} card; the list put it under ${entry.section}.`,
+      { actualSection: card.category, declaredSection: entry.section, name: card.name },
     );
   }
   return card.category;
@@ -103,6 +106,7 @@ function resolveEntry(
       resolved.kind === "unknown-set"
         ? `Unknown set "${resolved.setCode}" for ref "${resolved.ref}".`
         : `Unknown card "${resolved.ref}".`,
+      { ref: resolved.ref, setCode: resolved.setCode },
     );
     return {
       card: null,
@@ -133,6 +137,7 @@ function resolveEntry(
     resolved.kind === "ambiguous"
       ? `Name "${entry.name}" matches more than one card; keeping it unresolved.`
       : `Name "${entry.name}" is not in the catalog.`,
+    { name: entry.name },
   );
   return {
     card: null,

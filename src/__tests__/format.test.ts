@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { catalog } from "../data.js";
 import {
+  CatalogContextError,
   FormatError,
   fittingWindows,
+  isCatalogContextError,
   isErr,
   isFormatError,
   normalizeDecklist,
@@ -181,12 +183,17 @@ describe("validateDeck", () => {
     expect(report.ok).toBe(false);
   });
 
-  it("uses an injected catalog", () => {
+  it("uses an injected catalog that matches the deck context", () => {
     const custom = {
       ...catalog,
       sets: catalog.sets.filter((set) => set.liveCode === "TEF" || set.liveCode === "30C"),
     };
-    const report = validateDeck(normalize("4 Ultra Ball SVI 196"), window, custom);
+    const deck = unwrapOrThrow(
+      normalizeDecklist(unwrapOrThrow(parseDecklist("4 Ultra Ball SVI 196")), {
+        catalog: custom,
+      }),
+    );
+    const report = validateDeck(deck, window, custom);
 
     expect(report.unknownSets).toEqual(["SVI"]);
     expect(report.ok).toBe(false);
@@ -207,6 +214,58 @@ describe("validateDeck", () => {
 
     expect(report.unknownSets).toEqual(["SVI"]);
     expect(report.ok).toBe(false);
+  });
+
+  it("refuses a restored custom deck without its catalog", () => {
+    const custom = {
+      ...catalog,
+      sets: catalog.sets.filter((set) => set.liveCode === "TEF" || set.liveCode === "30C"),
+    };
+    const deck = unwrapOrThrow(
+      normalizeDecklist(unwrapOrThrow(parseDecklist("4 Ultra Ball SVI 196")), {
+        catalog: custom,
+      }),
+    );
+    const restored = JSON.parse(JSON.stringify(deck)) as typeof deck;
+
+    let thrown: unknown;
+    try {
+      validateDeck(restored, window);
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(CatalogContextError);
+    expect(isCatalogContextError(thrown) && thrown.code).toBe("missing-context");
+  });
+
+  it("refuses an explicit catalog with a different version", () => {
+    const deck = normalize("4 Ultra Ball SVI 196");
+    const mismatched = { ...catalog, catalogVersion: "1999-01-01" };
+
+    let thrown: unknown;
+    try {
+      validateDeck(deck, window, mismatched);
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(CatalogContextError);
+    expect(isCatalogContextError(thrown) && thrown.code).toBe("context-mismatch");
+  });
+
+  it("uses the shipped context for a restored shipped deck", () => {
+    const deck = normalize("4 Ultra Ball SVI 196");
+    const restored = JSON.parse(JSON.stringify(deck)) as typeof deck;
+
+    expect(validateDeck(restored, window).unknownSets).toEqual([]);
+  });
+
+  it("falls back by version for a legacy deck without a context fingerprint", () => {
+    const deck = normalize("4 Ultra Ball SVI 196");
+    const { catalogContextId: _ignored, ...legacy } = deck;
+
+    expect(validateDeck(legacy, window).unknownSets).toEqual([]);
   });
 });
 
@@ -266,14 +325,19 @@ describe("fittingWindows", () => {
     expect(bases).toContain("30C");
   });
 
-  it("uses an injected catalog for the set order", () => {
+  it("uses an injected catalog that matches the deck context", () => {
     const custom = {
       ...catalog,
       sets: catalog.sets.filter(
         (set) => set.liveCode === "SVI" || set.liveCode === "TEF",
       ),
     };
-    const windows = fittingWindows(normalize("4 Scyther TEF 1"), {
+    const deck = unwrapOrThrow(
+      normalizeDecklist(unwrapOrThrow(parseDecklist("4 Scyther TEF 1")), {
+        catalog: custom,
+      }),
+    );
+    const windows = fittingWindows(deck, {
       catalog: custom,
       era: "sv",
     });

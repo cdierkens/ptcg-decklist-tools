@@ -28,6 +28,10 @@ _Avoid_: card identity, oracle card
 The derived view of a catalog that resolves printings and names: set order, live-code addressability, and the card indexes. It travels with a live normalized deck.
 _Avoid_: catalog index, registry
 
+**Context fingerprint**:
+The stable value that identifies the set facts a deck was normalised with, so a restored deck can tell whether the shipped context still applies.
+_Avoid_: catalog version, deck hash
+
 **Deck identity**:
 What makes two decklists the same deck, independent of printing, source, and language.
 _Avoid_: deck hash, fingerprint

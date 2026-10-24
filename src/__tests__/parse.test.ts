@@ -26,7 +26,7 @@ describe("parseDecklist", () => {
     const deck = parseFixture("Dragapult-Dusknoir-30537.ptcgl.txt");
 
     expect(deck.total).toBe(60);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries).toHaveLength(27);
     expect(deck.entries[0]).toEqual({
       count: 4,
@@ -94,7 +94,7 @@ describe("parseDecklist", () => {
     const deck = parseFixture("Dragapult-Dusknoir-30537.paste.txt");
 
     expect(deck.total).toBeNull();
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries).toHaveLength(27);
     expect(new Set(deck.entries.map((entry) => entry.section))).toEqual(new Set(["unknown"]));
   });
@@ -112,7 +112,7 @@ describe("parseDecklist", () => {
     const deck = parseFixture("Dragapult-Dusknoir-30537.de.ptcgl.txt");
 
     expect(deck.total).toBe(60);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries).toHaveLength(27);
     expect(deck.entries[0]?.name).toBe("Grolldra");
     expect(deck.entries[0]?.ref).toEqual({ number: "128", setCode: "TWM" });
@@ -124,7 +124,7 @@ describe("parseDecklist", () => {
     const deck = parseFixture("ptcgl-de-headers-synthetic.txt");
 
     expect(deck.total).toBe(16);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries.filter((entry) => entry.section === "energy")).toHaveLength(1);
     expect(deck.entries.at(-1)?.section).toBe("energy");
   });
@@ -137,7 +137,7 @@ describe("parseDecklist", () => {
   ])("maps %s section and total headers", (_language, text) => {
     const deck = unwrapOrThrow(parseDecklist(text));
 
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.total).toBe(3);
     expect(deck.entries.map((entry) => entry.section)).toEqual(["pokemon", "trainer", "energy"]);
   });
@@ -149,7 +149,7 @@ describe("parseDecklist", () => {
 
     expect(deck.entries).toHaveLength(1);
     expect(deck.entries[0]?.section).toBe("unknown");
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "unrecognised-line",
         line: 1,
@@ -162,7 +162,7 @@ describe("parseDecklist", () => {
     const deck = unwrapOrThrow(parseDecklist("4 Ultra Ball SVI 196\nthis is not a card"));
 
     expect(deck.entries).toHaveLength(1);
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       { code: "unrecognised-line", line: 2, message: 'Unrecognised line: "this is not a card".' },
     ]);
   });
@@ -178,7 +178,7 @@ describe("parseDecklist", () => {
     const deck = unwrapOrThrow(parseDecklist("4 Ultra Ball SVI 196\nTotal Cards: 60"));
 
     expect(deck.total).toBe(60);
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       { code: "total-mismatch", line: 2, message: "Total header declares 60, parsed 4." },
     ]);
   });
@@ -186,9 +186,19 @@ describe("parseDecklist", () => {
   it("warns when a section header disagrees with its entries", () => {
     const deck = unwrapOrThrow(parseDecklist("Pokémon: 2\n4 Ultra Ball SVI 196"));
 
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       { code: "section-mismatch", line: 1, message: "pokemon header declares 2, parsed 4." },
     ]);
+  });
+
+  it("exposes structured warning details", () => {
+    const deck = unwrapOrThrow(parseDecklist("Pokémon: 2\n4 Ultra Ball SVI 196"));
+
+    expect(deck.warnings[0]?.details).toEqual({
+      actual: 4,
+      declared: 2,
+      declaredSection: "pokemon",
+    });
   });
 
   it("handles a BOM and CRLF line endings", () => {
@@ -197,7 +207,7 @@ describe("parseDecklist", () => {
     );
 
     expect(deck.total).toBe(4);
-    expect(deck.warnings).toEqual([]);
+    expect(deck.warnings).toMatchObject([]);
     expect(deck.entries[0]?.line).toBe(2);
   });
 
@@ -265,7 +275,7 @@ describe("parseDecklist", () => {
     );
 
     expect(deck.entries).toHaveLength(1);
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "invalid-count",
         line: 1,
@@ -291,7 +301,7 @@ describe("parseDecklist", () => {
     );
 
     expect(deck.total).toBeNull();
-    expect(deck.warnings).toEqual([
+    expect(deck.warnings).toMatchObject([
       {
         code: "invalid-count",
         line: 1,

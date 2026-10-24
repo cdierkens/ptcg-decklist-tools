@@ -49,12 +49,13 @@ import { ok, unwrapOrThrow } from "@dierkens.dev/ptcg-decklist-tools";
 unwrapOrThrow(ok(42)); // 42
 ```
 
-The decklist API is the 0.1.0 target:
+The decklist API:
 
 ```ts
 import {
   canonicalText,
   deckId,
+  deckView,
   diffDecklists,
   fittingWindows,
   listId,
@@ -74,6 +75,7 @@ const deck = unwrapOrThrow(normalizeDecklist(parsed, { catalog }));
 const id = await deckId(deck);
 const exact = await listId(deck);
 const preImage = canonicalText(deck); // debug and goldens
+const view = deckView(deck);          // read-only sections, counts, names
 
 const window = unwrapOrThrow(parseFormatLabel("tef-30c"));
 const report = validateDeck(deck, window); // advisory outside/unknown/four-copy
@@ -95,6 +97,7 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 | `renderDecklist(deck, style, opts?)` | `ptcgl`, `list`, `print`, or `plain` |
 | `deckId(deck)` / `listId(deck)` | Functional identity / exact-printing identity |
 | `canonicalText(deck)` | The `deckId` pre-image, for debugging and goldens |
+| `deckView(deck)` | Read-only sections, functional/list counts, and name counts |
 | `countByName(deck)` | The four-copy rule, kept separate from identity |
 | `parseFormatLabel(label)` | `TEF-30C` windows, case-insensitive and catalog-checked |
 | `validateDeck(deck, window)` | Advisory outside sets, unknown sets, four-copy counts |
@@ -104,9 +107,11 @@ const suggestions = suggestArchetype(deck); // confirm, never auto-commit
 
 Types are exported for storage and adapters: `Catalog`, `NormalizeOptions`,
 `CatalogSet`, `CatalogCard`, `CatalogArchetype`, `NormalizedDeck`, `DeckHash`,
-`FormatWindow`, `FormatReport`, `FittingWindowsOptions`, `DeckDiff`,
-`DiffDecklistsOptions`, `RenderStyle`, `RenderDecklistOptions`,
-`ArchetypeSuggestion`, `SuggestArchetypeOptions`, and the rest.
+`DeckView`, `DeckSectionView`, `DeckFunctionalCount`, `DeckListCount`,
+`DecklistWarningDetails`, `ArchetypeEvidence`, `AliasEvidenceMatch`, `FormatWindow`, `FormatReport`,
+`FittingWindowsOptions`, `DeckDiff`, `DiffDecklistsOptions`, `RenderStyle`,
+`RenderDecklistOptions`, `ArchetypeSuggestion`, `SuggestArchetypeOptions`,
+`CatalogContextError`, and the rest.
 
 ### Identity
 
@@ -122,6 +127,22 @@ uses WebCrypto, so there is no dependency and no runtime network call.
 `countByName` is the four-copy check, not identity. Two Pikachu functions are
 different decks but the same name, so the counts add up for legality.
 
+### Deck view
+
+`deckView` exposes the read-only projections the built-in renderer uses:
+section groups, functional counts, list counts, and name counts. The list view
+includes an empty-ref row for copies without a printing. Hash pre-images stay
+in `canonicalText`/`listId`; the view is for custom sheets, counts, and display.
+
+### Warnings and evidence
+
+A `DecklistWarning` carries `{ code, details, line, message }`. `details` holds
+the structured facts (for example declared and actual section counts) while
+`message` remains the English presentation. `ArchetypeSuggestion` carries
+`evidence` beside its `reasons`; alias evidence lists matched species and
+windows, line evidence lists the line, copies, stages, and traits. Consumers can
+localise or render their own explanation without parsing prose.
+
 ### Format windows
 
 `parseFormatLabel` resolves both ends against the shipped set order, so
@@ -134,6 +155,13 @@ printing outside the window; `unknownSets` lists set codes the catalog does not
 know; `fourCopy` lists names over four copies, excluding basic Energy. Real
 Standard legality is a regulation-mark rule, and promos sit outside the set order
 in places, so `ok` means "nothing this checker can see", not an official ruling.
+
+A live deck carries the catalog context fingerprint it was normalised with.
+`validateDeck`, `fittingWindows`, and `suggestArchetype` reuse it. A newly
+normalised deck carries `catalogContextId` when restored; pass the catalog to
+those functions when it is not the shipped one. Decks stored before 0.2 fall
+back by `catalogVersion`. A missing or mismatched context throws
+`CatalogContextError` rather than silently validating against shipped sets.
 
 `fittingWindows` answers "which bases could scope this deck?" It tries every
 live-addressable set at or before the deck's oldest card as a candidate base,
@@ -191,9 +219,10 @@ Without `window`, every shipped window is tried and the reasons say which one
 matched. Pass `{ window: "TEF-30C" }` (or a `FormatWindow`) to scope matching;
 the label is case-insensitive. If no alias matches, the fallback groups Pokémon
 by evolution line, favours Stage 2, ex, Mega, and VSTAR attackers, and returns a
-line suggestion with `basis: "lines"` and confidence at 0.5 or below. Nothing is
-written or auto-committed: store the chosen `{ id, label, cards }` after the
-player confirms.
+line suggestion with `basis: "lines"` and confidence at 0.5 or below. Each
+suggestion also carries structured `evidence` beside its prose `reasons`.
+Nothing is written or auto-committed: store the chosen `{ id, label, cards }`
+after the player confirms.
 
 ### Data
 

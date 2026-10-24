@@ -27,6 +27,37 @@ export function isDecklistError(value: unknown): value is DecklistError {
   return value instanceof DecklistError;
 }
 
+export type CatalogContextErrorCode = "missing-context" | "context-mismatch";
+
+/**
+ * A downstream operation could not obtain the catalog context a deck was
+ * normalised with. This is a programmer error, not a bad decklist: pass the
+ * catalog when restoring a custom catalog, or use the shipped catalog.
+ */
+export class CatalogContextError extends Error {
+  readonly _tag = "CatalogContextError" as const;
+  readonly code: CatalogContextErrorCode;
+  readonly deckCatalogVersion: string;
+  readonly catalogVersion: string | null;
+
+  constructor(
+    code: CatalogContextErrorCode,
+    deckCatalogVersion: string,
+    catalogVersion: string | null,
+    message: string,
+  ) {
+    super(message);
+    this.name = "CatalogContextError";
+    this.code = code;
+    this.deckCatalogVersion = deckCatalogVersion;
+    this.catalogVersion = catalogVersion;
+  }
+}
+
+export function isCatalogContextError(value: unknown): value is CatalogContextError {
+  return value instanceof CatalogContextError;
+}
+
 export type FormatErrorCode = "invalid-label" | "unknown-set";
 
 /** A window label could not be resolved against the catalog. */

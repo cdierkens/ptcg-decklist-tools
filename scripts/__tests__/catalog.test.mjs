@@ -27,6 +27,7 @@ describe("liveNumber", () => {
     expect(liveNumber("001")).toBe("1");
     expect(liveNumber("0001")).toBe("1");
     expect(liveNumber("TG01")).toBe("TG01");
+    expect(liveNumber("103a")).toBe("103A");
   });
 });
 
